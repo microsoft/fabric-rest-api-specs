@@ -1,0 +1,70 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "GraphQLApi data types",
+        "version": "v1"
+    },
+    "paths": {},
+    "definitions": {
+        "GraphQLApi": {
+            "description": "An API for GraphQL item.",
+            "type": "object",
+            "required": ["type"],
+            "allOf": [
+                {
+                    "$ref": "../common/definitions.json#/definitions/Item"
+                }
+            ]
+        },
+        "GraphQLApis": {
+            "description": "A list of API for GraphQL items.",
+            "required": ["value"],
+            "type": "object",
+            "properties": {
+              "value": {
+                "description": "A list of API for GraphQL items.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/GraphQLApi"
+                }
+              }
+            },
+            "allOf": [
+                {
+                    "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+                }
+            ]
+        },
+        "CreateGraphQLApiRequest": {
+            "description": "Create API for GraphQL request payload.",
+            "required": ["displayName"],
+            "properties": {
+                "displayName": {
+                    "description": "The API for GraphQL display name. The display name must follow naming rules according to item type.",
+                    "type": "string",
+                    "readOnly": false
+                },
+              "description": {
+                "description": "The API for GraphQL description. Maximum length is 256 characters.",
+                "type": "string",
+                "readOnly": false
+              }
+            }
+        },
+        "UpdateGraphQLApiRequest": {
+          "description": "Update API for GraphQL request.",
+          "properties": {
+            "displayName": {
+              "description": "The API for GraphQL display name. The display name must follow naming rules according to item type.",
+              "type": "string",
+              "readOnly": false
+            },
+            "description": {
+              "description": "The API for GraphQL description. Maximum length is 256 characters.",
+              "type": "string",
+              "readOnly": false
+            }
+          }
+        }
+    }
+}
