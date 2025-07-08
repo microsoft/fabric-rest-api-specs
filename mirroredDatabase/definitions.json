@@ -80,6 +80,12 @@
                     "type": "string",
                     "readOnly": false
                 },
+                "folderId": {
+                    "description": "The folder ID. If not specified or null, the mirrored database is created with the workspace as its folder.",
+                    "type": "string",
+                    "format": "uuid",
+                    "readOnly": false
+                },
                 "definition": {
                     "description": "The mirrored database public definition.",
                     "$ref": "#/definitions/MirroredDatabaseDefinition",
@@ -241,8 +247,12 @@
         "TableMirroringStatusResponse": {
             "description": "Table mirroring status response.",
             "type": "object",
-            "required": ["status"],
+            "required": ["status", "sourceObjectType"],
             "properties": {
+                "sourceObjectType": {
+                    "description": "Source object type.",
+                    "$ref": "#/definitions/TableSourceObjectType"
+                },
                 "sourceSchemaName": {
                     "type": "string",
                     "description": "Source table schema name."
@@ -263,6 +273,28 @@
                     "description": "Table level error is set if error happens in mirroring for this table",
                     "$ref": "../common/definitions.json#/definitions/ErrorResponse"
                 }
+            }
+        },
+        "TableSourceObjectType": {
+            "type": "string",
+            "description": "The table source object type. Additional `TableSourceObjectType` types may be added over time.",
+            "enum": [
+                "Table",
+                "View"
+            ],
+            "x-ms-enum": {
+                "name": "TableSourceObjectType",
+                "modelAsString": true,
+                "values": [
+                    {
+                        "value": "Table",
+                        "description": "Table type"
+                    },
+                    {
+                        "value": "View",
+                        "description": "View type"
+                    }
+                ]
             }
         },
         "TableMirroringStatus": {

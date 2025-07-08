@@ -49,6 +49,12 @@
                   "type": "string",
                   "readOnly": false
               },
+              "folderId": {
+                  "description": "The folder ID. If not specified or null, the semantic model is created with the workspace as its folder.",
+                  "type": "string",
+                  "format": "uuid",
+                  "readOnly": false
+              },
               "definition": {
                   "description": "The semantic model public definition.",
                   "$ref": "#/definitions/SemanticModelDefinition",

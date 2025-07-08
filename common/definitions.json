@@ -176,7 +176,7 @@
                         "parentPrincipal": {
                             "description": "The service principal profile's parent principal.",
                             "$ref": "#/definitions/Principal",
-                            "readOnly": false, 
+                            "readOnly": false,
                             "type": "object"
                         }
                     },
@@ -188,7 +188,7 @@
       "ItemType": {
         "description": "The type of the item. Additional item types may be added over time.",
         "type": "string",
-        "enum": [ "Dashboard", "Report", "SemanticModel", "PaginatedReport", "Datamart", "Lakehouse", "Eventhouse", "Environment", "KQLDatabase", "KQLQueryset", "KQLDashboard", "DataPipeline", "Notebook", "SparkJobDefinition", "MLExperiment", "MLModel", "Warehouse", "Eventstream", "SQLEndpoint", "MirroredWarehouse", "MirroredDatabase", "Reflex", "GraphQLApi", "MountedDataFactory", "SQLDatabase", "CopyJob" ],
+        "enum": [ "Dashboard", "Report", "SemanticModel", "PaginatedReport", "Datamart", "Lakehouse", "Eventhouse", "Environment", "KQLDatabase", "KQLQueryset", "KQLDashboard", "DataPipeline", "Notebook", "SparkJobDefinition", "MLExperiment", "MLModel", "Warehouse", "Eventstream", "SQLEndpoint", "MirroredWarehouse", "MirroredDatabase", "Reflex", "GraphQLApi", "MountedDataFactory", "SQLDatabase", "CopyJob", "VariableLibrary", "Dataflow", "ApacheAirflowJob", "WarehouseSnapshot", "DigitalTwinBuilder", "DigitalTwinBuilderFlow", "MirroredAzureDatabricksCatalog" ],
         "x-ms-enum": {
           "name": "ItemType",
           "modelAsString": true,
@@ -284,11 +284,14 @@
             {
               "value": "GraphQLApi",
               "description": "An API for GraphQL item."
-
             },
             {
               "value": "MountedDataFactory",
               "description": "A MountedDataFactory."
+            },
+            {
+              "value": "ApacheAirflowJob",
+              "description": "An ApacheAirflowJob."
             },
             {
               "value": "SQLDatabase",
@@ -297,6 +300,30 @@
             {
               "value": "CopyJob",
               "description": "A Copy job."
+            },
+            {
+              "value": "VariableLibrary",
+              "description": "A VariableLibrary."
+            },
+            {
+              "value": "MirroredAzureDatabricksCatalog",
+              "description": "A mirrored azure databricks catalog."
+            },
+            {
+                "value": "Dataflow",
+                "description": "A Dataflow."
+            },
+            {
+              "value": "WarehouseSnapshot",
+              "description": "A Warehouse snapshot."
+            },
+            {
+              "value": "DigitalTwinBuilder",
+              "description": "A DigitalTwinBuilder."
+            },
+            {
+                "value": "DigitalTwinBuilderFlow",
+                "description": "A Digital Twin Builder Flow."
             }
           ]
         },
@@ -357,7 +384,7 @@
             "type": "string",
             "description": "Item permissions. Additional item permissions may be added over time.",
             "enum": ["Read", "Write", "Reshare", "Explore", "Execute"],
-            "x-ms-enum": {     
+            "x-ms-enum": {
                 "name": "ItemPermissions",
                 "modelAsString": true,
                 "values": [
@@ -448,6 +475,15 @@
                     "description": "The folder ID.",
                     "type": "string",
                     "format": "uuid",
+                    "readOnly": true
+                },
+                "tags": {
+                    "description": "List of applied tags.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ItemTag"
+
+                    },
                     "readOnly": true
                 }
             }
@@ -603,6 +639,66 @@
                 }
             ]
         },
+        "Tag": {
+            "type": "object",
+            "description": "Represents a tag.",
+            "required": [
+                "id",
+                "displayName"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The tag object ID.",
+                    "format": "uuid"
+                },
+                "displayName": {
+                    "type": "string",
+                    "description": "The name of the tag."
+                }
+            }
+        },
+        "Tags": {
+            "type": "object",
+            "description": "A response wrapper for a list of tags.",
+            "required": [
+                "value"
+            ],
+            "properties": {
+                "value": {
+                    "type": "array",
+                    "description": "An array of tags",
+                    "items": {
+                        "$ref": "#/definitions/Tag"
+                    }
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/PaginatedResponse"
+                }
+            ]
+        },
+        "ItemTag": {
+            "type": "object",
+            "description": "Represents a tag applied on an item.",
+            "required": [
+                "id",
+                "displayName"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The tag ID.",
+                    "format": "uuid"
+                },
+                "displayName": {
+                    "type": "string",
+                    "description": "The name of the tag."
+                }
+            }
+        },
+
         "ItemReference": {
             "description": "An item reference object.",
             "type": "object",
@@ -618,20 +714,20 @@
         "ItemReferenceType": {
             "type": "string",
             "description": "The Item reference type. Additional `ItemReferenceType` types may be added over time.",
-            "enum": ["WithWorkspaceById"],
+            "enum": ["ById"],
             "x-ms-enum": {
                 "name": "ItemReferenceType",
                 "modelAsString": true,
                 "values": [
                     {
-                        "value": "WithWorkspaceById",
-                        "description": "The item is referenced by its ID with the ID of the item's workspace."
+                        "value": "ById",
+                        "description": "The item is referenced by its ID."
                     }
                 ]
             }
         },
-        "ItemReferenceWithWorkspaceById": {
-            "description": "The item is referenced by its ID with the ID of the item's workspace.",
+        "ItemReferenceById": {
+            "description": "An item reference by ID object.",
             "type": "object",
             "required": [
                 "itemId",
@@ -654,7 +750,7 @@
                     "$ref": "#/definitions/ItemReference"
                 }
             ],
-            "x-ms-discriminator-value": "WithWorkspaceById"
+            "x-ms-discriminator-value": "ById"
         },
         "Duration": {
             "description": "A duration.",
@@ -699,4 +795,5 @@
         }
     }
 }
+
 

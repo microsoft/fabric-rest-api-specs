@@ -27,7 +27,7 @@
                         "expirationTimeUtc": "2024-12-13T00:00:00.000Z",
                         "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
                         "itemId": "5b218778-e7a5-4d73-8187-f10824047715",
-                        "invitationUrl": "https://app.fabric.microsoft.com/externaldatasharing/accept?si=VyT5NJ3%2bNkySqEmf368Pjw-dccc162f-7a41-4720-83c3-5c7e81187959"
+                        "invitationUrl": "https://app.fabric.microsoft.com/externaldatasharing/accept?providerTenantId=34f92457-fe9d-4c36-92a8-499fdfaf0f8f&shareId=dccc162f-7a41-4720-83c3-5c7e81187959"
                     },
                     {
                         "id": "96c21561-65b8-4b23-bb9a-ee8cef945c45",
@@ -49,7 +49,7 @@
                         "expirationTimeUtc": "2024-08-31T00:00:00.000Z",
                         "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
                         "itemId": "5b218778-e7a5-4d73-8187-f10824047715",
-                        "invitationUrl": "https://app.fabric.microsoft.com/externaldatasharing/accept?si=VyT5NJ3%2bNkySqEmf368Pjw-96c21561-65b8-4b23-bb9a-ee8cef945c45",
+                        "invitationUrl": "https://app.fabric.microsoft.com/externaldatasharing/accept?providerTenantId=34f92457-fe9d-4c36-92a8-499fdfaf0f8f&shareId=96c21561-65b8-4b23-bb9a-ee8cef945c45",
                         "acceptedByTenantId": "c51dc03f-268a-4da0-a879-25f24947ab8b"
                     },
                     {
@@ -72,7 +72,7 @@
                         "expirationTimeUtc": "2024-01-01T00:00:00.000Z",
                         "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
                         "itemId": "5b218778-e7a5-4d73-8187-f10824047715",
-                        "invitationUrl": "https://app.fabric.microsoft.com/externaldatasharing/accept?si=VyT5NJ3%2bNkySqEmf368Pjw-0f40aeca-8f78-4a6f-a552-e5c45faadc60"
+                        "invitationUrl": "https://app.fabric.microsoft.com/externaldatasharing/accept?providerTenantId=34f92457-fe9d-4c36-92a8-499fdfaf0f8f&shareId=0f40aeca-8f78-4a6f-a552-e5c45faadc60"
                     },
                     {
                         "id": "89e82a82-0140-4837-8eee-9c919e3e5952",
@@ -94,7 +94,7 @@
                         "expirationTimeUtc": "2024-12-01T00:00:00.000Z",
                         "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
                         "itemId": "5b218778-e7a5-4d73-8187-f10824047715",
-                        "invitationUrl": "https://app.fabric.microsoft.com/externaldatasharing/accept?si=VyT5NJ3%2bNkySqEmf368Pjw-89e82a82-0140-4837-8eee-9c919e3e5952",
+                        "invitationUrl": "https://app.fabric.microsoft.com/externaldatasharing/accept?providerTenantId=34f92457-fe9d-4c36-92a8-499fdfaf0f8f&shareId=89e82a82-0140-4837-8eee-9c919e3e5952",
                         "acceptedByTenantId": "c51dc03f-268a-4da0-a879-25f24947ab8b"
                     }
                 ]

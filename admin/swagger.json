@@ -1543,6 +1543,190 @@
         }
       }
     },
+    "/tags":{
+        "get": {
+            "summary": "> [!NOTE]\n> This API is in preview.\n\nReturns a list of all the tenant's tags.",
+            "description": "## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All\n\n## Limitations\n\nMaximum 25 requests per one minute per principal. \n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+            "tags": [
+                "Tags"
+            ],
+            "operationId": "Tags_ListTags",
+            "x-ms-pageable": {
+                "nextLinkName": "continuationUri"
+            },
+            "produces": [
+                "application/json"
+            ],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "continuationToken",
+                    "description": "A token for retrieving the next page of results.",
+                    "type": "string",
+                    "required": false
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "The request was successful.",
+                    "schema": {
+                        "$ref": "./definitions/tags.json#/definitions/AdminTagsInfo"
+                    }
+                },
+                "default": {
+                    "description": "Common error codes:\n\n* UnknownError - An error occurred",
+                    "schema": {
+                        "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+                    }
+                }
+            },
+            "x-ms-examples": {
+                "List of all tenant's tags example": {
+                    "$ref": "./examples/AdminListTags.json"
+                },
+                "List of all tenant's tags with continuation example": {
+                    "$ref": "./examples/AdminListTagsWithContinuation.json"
+                }
+            }
+        }
+    },
+    "/tags/bulkCreateTags": {
+      "post": {
+        "summary": "> [!NOTE]\n> This API is in preview.\n\nCreate new tags.",
+        "description": "## Permissions\n\nThe caller must have administrator rights such as Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal. \n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Tags"
+        ],
+        "operationId": "Tags_BulkCreateTags",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "createTagsRequest",
+            "description": "The request payload for creating tags.",
+            "schema": {
+              "$ref": "./definitions/tags.json#/definitions/CreateTagsRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Tags created successfully.",
+            "schema": {
+              "$ref": "./definitions/tags.json#/definitions/CreateTagsResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred \n\n* InvalidInputs - Invalid input was provided \n\n* EntityConflict - Tag display name already exists",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create tags in bulk example": {
+            "$ref": "./examples/Tags/CreateTags.json"
+          }
+        }
+      }
+    },
+    "/tags/{tagId}": {
+      "delete": {
+        "summary": "> [!NOTE]\n> This API is in preview.\n\nDelete the specified tag.",
+        "description": "## Permissions\n\nThe caller must have administrator rights such as Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 10 requests per one minute per principal. \n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Tags"
+        ],
+        "operationId": "Tags_DeleteTag",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tagId",
+            "description": "The tag ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tag was deleted successfully."
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred \n\n* EntityNotFound - Tag ID does not exist",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a tag example": {
+            "$ref": "./examples/tags/DeleteTag.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "> [!NOTE]\n> This API is in preview.\n\nUpdates the specified tag.",
+        "description": "## Permissions\n\nThe caller must have administrator rights such as Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Tags"
+        ],
+        "operationId": "Tags_UpdateTag",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tagId",
+            "description": "The tag ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateTagRequest",
+            "description": "The request payload for updating the tag.",
+            "schema": {
+              "$ref": "./definitions/tags.json#/definitions/UpdateTagRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tag was updated successfully.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/Tag"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred\n\n* EntityNotFound - Tag ID does not exist \n\n* EntityConflict - Tag display name already exist\n\n * InvalidInput - Invalid tag display name",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update a tag example": {
+            "$ref": "./examples/tags/UpdateTag.json"
+          }
+        }
+      }
+    },
     "/items/bulkRemoveLabels": {
       "post": {
         "summary": "Remove sensitivity labels from Fabric items (such as lakehouses and reports) by item ID. The sensitivity labels of the autogenerated items linked to the items in the call, are removed and their IDs aren't returned. Items with linked autogenerated items that are supported are: Lakehouse, Warehouse, Datamart, SQLDatabase, MirroredDatabase.",
@@ -1638,11 +1822,11 @@
     "/items/externalDataShares": {
       "get": {
         "summary": "Lists the external data shares in the tenant.",
-        "description": "\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must be a Fabric administrator or authenticate using a service principal.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the 'External data sharing' admin switch for the calling principal.\n\n## Limitations\n\nMaximum 10 requests per minute.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must be a Fabric administrator or authenticate using a service principal.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Limitations\n\nMaximum 10 requests per minute.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
-          "ExternalDataShares"
+          "ExternalDataSharesProvider"
         ],
-        "operationId": "ExternalDataShares_ListExternalDataShares",
+        "operationId": "ExternalDataSharesProvider_ListExternalDataShares",
         "x-ms-pageable": {
           "nextLinkName": "continuationUri",
           "itemName": "value"
@@ -1683,11 +1867,11 @@
     "/workspaces/{workspaceId}/items/{itemId}/externalDataShares/{externalDataShareId}/revoke": {
       "post": {
         "summary": "Revokes the specified external data share. This action cannot be undone.",
-        "description": "## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the 'External data sharing' admin switch for the calling principal.\n\n## Limitations\n\nMaximum 10 requests per minute.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Limitations\n\nMaximum 10 requests per minute.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
-          "ExternalDataShares"
+          "ExternalDataSharesProvider"
         ],
-        "operationId": "ExternalDataShares_RevokeExternalDataShare",
+        "operationId": "ExternalDataSharesProvider_RevokeExternalDataShare",
         "produces": [
           "application/json"
         ],
@@ -1731,6 +1915,123 @@
         "x-ms-examples": {
           "Revoke external data share example": {
             "$ref": "./examples/externaldatasharing/RevokeExternalDataShare.json"
+          }
+        }
+      }
+    },
+    "/items/removeAllSharingLinks": {
+      "post": {
+        "summary": "> [!NOTE]\n> This API is in preview.\n\nDeletes all organization sharing links for all Fabric items in the tenant. This action cannot be undone.",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nUse [LinksSharedToWholeOrganization](https://learn.microsoft.com/en-us/rest/api/power-bi/admin) PowerBI Admin REST API to get Power BI Reports shared via organizational sharing links.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All\n\n## Limitations\n\n- Maximum 10 requests per minute.\n- Only Power BI Reports are supported.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "SharingLinks"
+        ],
+        "operationId": "SharingLinks_RemoveAllSharingLinks",
+        "produces": ["application/json"],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "name": "removeAllSharingLinksRequest",
+            "description": "Type of sharing links to be removed.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "./definitions/sharinglinks.json#/definitions/RemoveAllSharingLinksRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. Retrieving the definition is in progress.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* Forbidden - The caller doesn't have permissions to call the API.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Remove all sharing links example": {
+            "$ref": "./examples/sharinglinks/RemoveAllSharingLinks.json"
+          }
+        }
+      }
+    },
+    "/items/bulkRemoveSharingLinks": {
+      "post": {
+        "summary": "> [!NOTE]\n> This API is in preview.\n\nDeletes all organization sharing links for the specified Fabric items. This action cannot be undone.",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nUse [LinksSharedToWholeOrganization](https://learn.microsoft.com/en-us/rest/api/power-bi/admin) PowerBI Admin REST API to get Power BI Reports shared via organizational sharing links.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All\n\n## Limitations\n\n- Maximum 10 requests per minute.\n- Each request can delete organization sharing links for up to 500 Fabric items.\n- Only Power BI Reports are supported.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "SharingLinks"
+        ],
+        "operationId": "SharingLinks_BulkRemoveSharingLinks",
+        "produces": ["application/json"],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "name": "bulkRemoveSharingLinksRequest",
+            "description": "A list of items.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "./definitions/sharinglinks.json#/definitions/BulkRemoveSharingLinksRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/sharinglinks.json#/definitions/BulkRemoveSharingLinksResponse"
+            }
+          },
+          "202": {
+            "description": "Request accepted. Retrieving the definition is in progress.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* Forbidden - The caller doesn't have permissions to call the API.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Remove sharing links for specific items example": {
+            "$ref": "./examples/sharinglinks/BulkRemoveSharingLinksForItems.json"
           }
         }
       }

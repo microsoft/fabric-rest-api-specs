@@ -61,6 +61,12 @@
                     "type": "string",
                     "readOnly": false
                 },
+                "folderId": {
+                    "description": "The folder ID. If not specified or null, the KQL database is created with the workspace as its folder.",
+                    "type": "string",
+                    "format": "uuid",
+                    "readOnly": false
+                },
                 "creationPayload": {
                     "description": "The KQL database creation payload. Use `definition` or `creationPayload`. You can't use both at the same time.",
                     "$ref": "#/definitions/KQLDatabaseCreationPayload",

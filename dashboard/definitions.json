@@ -49,6 +49,12 @@
                   "type": "string",
                   "readOnly": false
               },
+              "folderId": {
+                  "description": "The folder ID. If not specified or null, the dashboard is created with the workspace as its folder.",
+                  "type": "string",
+                  "format": "uuid",
+                  "readOnly": false
+              },
               "definition": {
                   "description": "The dashboard public definition.",
                   "$ref": "#/definitions/DashboardDefinition",

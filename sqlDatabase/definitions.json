@@ -14,7 +14,13 @@
                 {
                     "$ref": "../common/definitions.json#/definitions/Item"
                 }
-            ]
+            ],
+            "properties": {
+                "properties": {
+                    "description": "The SQLDatabase properties.",
+                    "$ref": "#/definitions/SQLDatabaseProperties"
+                }
+            }
         },
         "SQLDatabases": {
             "description": "A list of SQL databases.",
@@ -35,6 +41,25 @@
                 }
             ]
         },
+        "SQLDatabaseProperties": {
+            "required": ["connectionString", "databaseName", "serverFqdn"],
+            "description": "The SQL database properties.",
+            "type": "object",
+            "properties": {
+                "connectionString": {
+                    "description": "The connection string of the database.",
+                    "type": "string"
+                },
+                "databaseName": {
+                    "description": "The database name.",
+                    "type": "string"
+                },
+                "serverFqdn": {
+                    "description": "The server fully qualified domain name (FQDN).",
+                    "type": "string"
+                }
+            }
+        },
         "CreateSQLDatabaseRequest": {
             "description": "Create SQL database request payload.",
             "required": ["displayName"],
@@ -47,6 +72,12 @@
                 "description": {
                     "description": "The SQL database description. Maximum length is 256 characters.",
                     "type": "string",
+                    "readOnly": false
+                },
+                "folderId": {
+                    "description": "The folder ID. If not specified or null, the SQL database is created with the workspace as its folder.",
+                    "type": "string",
+                    "format": "uuid",
                     "readOnly": false
                 }
             }

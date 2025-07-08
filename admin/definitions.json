@@ -141,6 +141,12 @@
             "format": "uuid",
             "readOnly": true,
             "description": "The capacity ID of the workspace."
+          },
+          "folderId": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true,
+            "description": "The folder ID of the item."
           }
         }
       },

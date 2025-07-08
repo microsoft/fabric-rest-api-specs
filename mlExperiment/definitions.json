@@ -33,7 +33,25 @@
             {
                 "$ref": "../common/definitions.json#/definitions/Item"
             }
-          ]
+          ],
+          "properties": {
+               "properties": {
+                    "description": "The machine learning experiment properties.",
+                    "$ref": "#/definitions/MLExperimentProperties"
+                }
+           }
+      },
+      "MLExperimentProperties": {
+            "description": "The machine learning experiment properties.",
+            "type": "object",
+            "properties": {
+                "mlFlowExperimentId": {
+                    "description": "The internal machine learning flow experiment ID.",
+                    "type": "string",
+                    "format": "uuid",
+                    "readOnly": true
+                }
+            }
       },
       "CreateMLExperimentRequest": {
           "description": "Create machine learning experiment request payload.",
@@ -47,6 +65,12 @@
               "description": {
                   "description": "The machine learning experiment description. Maximum length is 256 characters.",
                   "type": "string",
+                  "readOnly": false
+              },
+              "folderId": {
+                  "description": "The folder ID. If not specified or null, the machine learning experiment is created with the workspace as its folder.",
+                  "type": "string",
+                  "format": "uuid",
                   "readOnly": false
               }
           }

@@ -202,6 +202,12 @@
                     "description": "The environment description. Maximum length is 256 characters.",
                     "type": "string",
                     "readOnly": false
+                },
+                "folderId": {
+                    "description": "The folder ID. If not specified or null, the environment is created with the workspace as its folder.",
+                    "type": "string",
+                    "format": "uuid",
+                    "readOnly": false
                 }
             }
         },

@@ -8,6 +8,7 @@
             "compatibilityLevel": "1.0",
             "sources": [
                 {
+                    "id": "514d0e11-cf65-44fb-a292-fc88a2a78618",
                     "name": "AzureEventHubSource",
                     "type": "AzureEventHub",
                     "properties": {
@@ -41,6 +42,7 @@
                     "error": null
                 },
                 {
+                    "id": "0d9bf4db-bc7f-4854-8579-6fdf244ed503",
                     "name": "CustomEndpointSource",
                     "type": "CustomEndpoint",
                     "properties": {},
@@ -48,6 +50,7 @@
                     "error": null
                 },
                 {
+                    "id": "19258e62-4de9-4c52-b45e-71502dc2ddea",
                     "name": "SampleDataSource",
                     "type": "SimpleData",
                     "properties": {
@@ -57,6 +60,7 @@
                     "error": null
                 },
                 {
+                    "id": "7afaa265-1d67-416f-8183-e6e1b1ebb4ea",
                     "name": "AmazonKinesisSource",
                     "type": "AmazonKinesis",
                     "properties": {
@@ -67,6 +71,7 @@
                     "error": null
                 },
                 {
+                    "id": "d020dd19-e84c-42e1-b4be-87e58145e1b5",
                     "name": "AmazonMSKKafkaSource",
                     "type": "AmazonMSKKafka",
                     "properties": {
@@ -81,6 +86,7 @@
                     "error": null
                 },
                 {
+                    "id": "03a6dd4a-4627-422f-a287-2ccd7daf903d",
                     "name": "ApacheKafkaSource",
                     "type": "ApacheKafka",
                     "properties": {
@@ -95,6 +101,7 @@
                     "error": null
                 },
                 {
+                    "id": "6f493321-6c12-40c6-9980-c2aa38804829",
                     "name": "ConfluentCloudSource",
                     "type": "ConfluentCloud",
                     "properties": {
@@ -107,6 +114,7 @@
                     "error": null
                 },
                 {
+                    "id": "e7f88779-0349-47e3-bead-85afc9d3c9a4",
                     "name": "AzureCosmosDBCDCSource",
                     "type": "AzureCosmosDBCDC",
                     "properties": {
@@ -119,6 +127,7 @@
                     "error": null
                 },
                 {
+                    "id": "da5ed80d-c672-4809-a7ac-6224aa2ab2c7",
                     "name": "AzureSQLDBCDCSource",
                     "type": "AzureSQLDBCDC",
                     "properties": {
@@ -129,6 +138,7 @@
                     "error": null
                 },
                 {
+                    "id": "745e401f-aac6-463f-b107-c336a2440abe",
                     "name": "AzureSQLMIDBCDCSource",
                     "type": "AzureSQLMIDBCDC",
                     "properties": {
@@ -139,6 +149,7 @@
                     "error": null
                 },
                 {
+                    "id": "759842ab-a968-498d-9f37-f46297da8b07",
                     "name": "SQLServerOnVMDBCDCSource",
                     "type": "SQLServerOnVMDBCDC",
                     "properties": {
@@ -149,6 +160,7 @@
                     "error": null
                 },
                 {
+                    "id": "9791cd2a-19fb-4991-b878-2b061420a460",
                     "name": "MySQLCDCSource",
                     "type": "MySQLCDC",
                     "properties": {
@@ -161,6 +173,7 @@
                     "error": null
                 },
                 {
+                    "id": "57b3394b-bcf3-479a-952b-22a815e1d684",
                     "name": "PostgreSQLCDCSource",
                     "type": "PostgreSQLCDC",
                     "properties": {
@@ -173,6 +186,7 @@
                     "error": null
                 },
                 {
+                    "id": "d5f702ca-8b2b-4ac5-88e7-50697cb1b207",
                     "name": "GooglePubSubSource",
                     "type": "GooglePubSub",
                     "properties": {
@@ -184,6 +198,7 @@
             ],
             "destinations": [
                 {
+                    "id": "4642073b-c216-4675-a17c-ed2e75756330",
                     "name": "CustomEndpointDestination",
                     "type": "CustomEndpoint",
                     "properties": {},
@@ -196,6 +211,7 @@
                     "error": null
                 },
                 {
+                    "id": "e1e2d0cc-87e5-46d9-977d-2a8eede7bef0",
                     "name": "LakehouseDestination",
                     "type": "Lakehouse",
                     "properties": {
@@ -221,6 +237,7 @@
                     "error": null
                 },
                 {
+                    "id": "49b5d6ec-f8af-4ae9-a4d6-5e94645efe1f",
                     "name": "EventhouseProcessedIngestionModeDestination",
                     "type": "Eventhouse",
                     "properties": {
@@ -245,6 +262,7 @@
                     "error": null
                 },
                 {
+                    "id": "c0ca1c2a-b8c5-482c-98da-40088f988e9c",
                     "name": "EventhouseDirectIngestionModeDestination",
                     "type": "Eventhouse",
                     "properties": {
@@ -265,6 +283,18 @@
             ],
             "streams": [
                 {
+                    "id": "8eff3cbe-f452-4d7f-bc2d-f35b4359c917",
+                    "name": "Eventstream-stream",
+                    "type": "DefaultStream",
+                    "properties": {},
+                    "inputNodes": [
+                        {
+                            "name": "AzureEventHubSource"
+                        }
+                    ]
+                },
+                {
+                    "id": "0f6f0dd8-9de2-48e2-92e7-e15b755b22a6",
                     "name": "DerivedStreamName",
                     "type": "DerivedStream",
                     "properties": {

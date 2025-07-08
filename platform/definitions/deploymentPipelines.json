@@ -83,6 +83,25 @@
                 }
             }
         },
+        "DeploymentPipelineExtendedInfo": {
+            "description": "A Fabric deployment pipeline.",
+            "required": ["id", "displayName", "stages"],
+            "properties": {
+                "stages": {
+                    "type": "array",
+                    "description": "The collection of deployment pipeline stages.",
+                    "items": {
+                        "$ref": "#/definitions/DeploymentPipelineStage"
+                    },
+                    "readOnly": false
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/DeploymentPipeline"
+                }
+            ]
+        },
         "DeploymentPipelines": {
             "description": "A collection of Fabric deployment pipelines.",
             "properties": {
@@ -102,13 +121,55 @@
             ]
         },
         "CreateDeploymentPipelineRequest": {
-            "required": ["displayName"],
+            "required": ["displayName", "stages"],
             "description": "A request to create a new deployment pipeline.",
-            "allOf": [
-                {
-                    "$ref": "#/definitions/DeploymentPipelineRequestBase"
+            "properties": {
+                "displayName": {
+                    "type": "string",
+                    "description": "The display name for the deployment pipeline.<br>The display name cannot contain more than 256 characters.",
+                    "maxLength": 256,
+                    "readOnly": false
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description for the deployment pipeline.<br>The description cannot contain more than 1024 characters.",
+                    "maxLength": 1024,
+                    "readOnly": false
+                },
+                "stages": {
+                    "type": "array",
+                    "description": "The collection of deployment pipeline stages.",
+                    "items": {
+                        "$ref": "#/definitions/DeploymentPipelineStageRequest"
+                    },
+                    "readOnly": false
                 }
-            ]
+            },
+            "readOnly": false
+        },
+        "DeploymentPipelineStageRequest": {
+            "type": "object",
+            "required": ["displayName"],
+            "description": "A Fabric deployment pipeline stage.",
+            "properties": {
+                "displayName": {
+                    "type": "string",
+                    "description": "The deployment pipeline stage display name.<br>The display name cannot contain more than 256 characters.",
+                    "maxLength": 256,
+                    "readOnly": false
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The deployment pipeline stage description.<br>The description cannot contain more than 1024 characters.",
+                    "maxLength": 1024,
+                    "readOnly": false
+                },
+                "isPublic": {
+                    "type": "boolean",
+                    "description": "Whether the deployment pipeline stage is public.",
+                    "readOnly": false
+                }
+            }
         },
         "UpdateDeploymentPipelineRequest": {
             "description": "A request to update an existing deployment pipeline. An updated display name and/or a description is required.",
@@ -119,17 +180,18 @@
             ]
         },
         "DeploymentPipelineRequestBase" : {
+            "type": "object",
             "description": "A request to update an existing deployment pipeline or creating a new one. A display name and/or a description is required.",
             "properties": {
                 "displayName": {
                     "type": "string",
-                    "description": "The display name for the deployment pipeline.",
+                    "description": "The display name for the deployment pipeline.<br>The display name cannot contain more than 256 characters.",
                     "maxLength": 256,
                     "readOnly": false
                 },
                 "description": {
                     "type": "string",
-                    "description": "The description for the deployment pipeline.",
+                    "description": "The description for the deployment pipeline.<br>The description cannot contain more than 1024 characters.",
                     "maxLength": 1024,
                     "readOnly": false
                 }
@@ -142,7 +204,7 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "The name of the new workspace.",
+                    "description": "The name of the new workspace.<br>The display name cannot contain more than 256 characters.",
                     "maxLength": 256,
                     "readOnly": false
                 },
@@ -162,6 +224,11 @@
                 "content": {
                     "type": "string",
                     "description": "Text describing the deployment.",
+                    "readOnly": false
+                },
+                "isTruncated": {
+                    "type": "boolean",
+                    "description": "Indicates whether the note content is truncated. True - the note content is truncated, False - the note content isn't truncated. Default value is false.",
                     "readOnly": false
                 }
             },
@@ -322,7 +389,7 @@
             },
             "readOnly": true
         },
-        "DeploymentPipelineOperationBase": {
+        "DeploymentPipelineOperation": {
             "required": ["id", "type", "status", "lastUpdatedTime"],
             "description": "A Fabric deployment pipeline operation.",
             "properties": {
@@ -413,23 +480,23 @@
                 "preDeploymentDiffInformation": {
                     "description": "The number of deployed items in the source stage, that are new, identical or different to items in the target stage, before deployment.",
                     "$ref": "#/definitions/PreDeploymentDiffInformation"
+                },
+                "note": {
+                    "description": "A note representing a description of the operation.",
+                    "$ref": "#/definitions/DeploymentPipelineOperationNote"
                 }
             }
         },
-        "DeploymentPipelineOperation": {
+        "DeploymentPipelineOperationExtendedInfo": {
             "type": "object",
             "required": ["id", "type", "status", "lastUpdatedTime"],
             "description": "A Fabric deployment pipeline operation.",
             "allOf": [
                 {
-                    "$ref": "#/definitions/DeploymentPipelineOperationBase"
+                    "$ref": "#/definitions/DeploymentPipelineOperation"
                 }
             ],
             "properties": {
-                "note": {
-                    "description": "A note representing a description of the operation.",
-                    "$ref": "#/definitions/DeploymentPipelineOperationNote"
-                },
                 "executionPlan": {
                     "description": "The deployment execution plan.",
                     "$ref": "#/definitions/DeploymentExecutionPlan"
@@ -511,7 +578,12 @@
                     },
                     "readOnly": false
                 }
-            }
+            },
+            "allOf": [
+                {
+                    "$ref": "../../common/definitions.json#/definitions/PaginatedResponse"
+                }
+            ]
         },
         "DeploymentPipelineStageItems": {
             "description": "Supported items from a workspace that's assigned to a deployment pipeline stage.",
@@ -531,22 +603,42 @@
                 }
             ]
         },
-        "DeploymentPipelineRoleAssignment": {
+        "AddDeploymentPipelineRoleAssignmentRequest": {
+            "type": "object",
+            "description": "Add deployment pipeline role assignment request payload.",
             "required": ["principal", "role"],
-            "description": "A Fabric principal role assignment for a deployment pipeline.",
             "properties": {
                 "principal": {
                     "description": "The principal.",
+                    "$ref": "../../common/definitions.json#/definitions/Principal"
+                },
+                "role": {
+                    "description": "The deployment pipeline role of the principal.",
+                    "$ref": "#/definitions/DeploymentPipelineRole"
+                }
+            }
+        },
+        "DeploymentPipelineRoleAssignment": {
+            "required": ["id", "principal", "role"],
+            "description": "A Fabric principal role assignment for a deployment pipeline.",
+            "properties": {
+                "id": {
+                    "description": "The deployment pipeline role assignment ID.",
+                    "type": "string",
+                    "format": "uuid",
+                    "readOnly": true
+                },
+                "principal": {
+                    "description": "The principal.",
                     "$ref": "../../common/definitions.json#/definitions/Principal",
-                    "readOnly": false
+                    "readOnly": true
                 },
                 "role": {
                     "description": "The deployment pipeline role of the principal.",
                     "$ref": "#/definitions/DeploymentPipelineRole",
-                    "readOnly": false
+                    "readOnly": true
                 }
-            },
-            "readOnly": false
+            }
         },
         "DeploymentPipelineRole":{
             "type": "string",
@@ -565,18 +657,22 @@
             "readOnly": false
         },
         "DeploymentPipelineRoleAssignments": {
-            "description": "A collection of Fabric deployment pipeline role assignments.",
+            "required": ["value"],
+            "type": "object",
             "properties": {
-                "principalAccess": {
+                "value": {
                     "type": "array",
-                    "description": "The collection of deployment pipeline role assignments.",
                     "items": {
+                        "description": "A list of deployment pipeline role assignments.",
                         "$ref": "#/definitions/DeploymentPipelineRoleAssignment"
-                    },
-                    "readOnly": false
+                    }
                 }
             },
-            "readOnly": false
+            "allOf": [
+                {
+                    "$ref": "../../common/definitions.json#/definitions/PaginatedResponse"
+                }
+            ]
         },
         "ItemDeploymentRequest": {
             "required": [

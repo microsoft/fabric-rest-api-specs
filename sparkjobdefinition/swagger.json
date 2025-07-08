@@ -13,7 +13,7 @@
     "/workspaces/{workspaceId}/sparkJobDefinitions": {
       "get": {
         "summary": "Returns a list of spark job definitions from the specified workspace.",
-        "description": "This API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must have a *viewer* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -63,7 +63,7 @@
       },
       "post": {
         "summary": "Creates a spark job definition in the specified workspace.",
-        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n To create spark job definition with a public definition, refer to [Spark job definition](/rest/api/fabric/articles/item-management/definitions/spark-job-definition) article. \n\n ## Permissions \n The caller must have *contributor* or higher workspace role. \n\n## Required Delegated Scopes\n\n SparkJobDefinition.ReadWrite.All or Item.ReadWrite.All \n\n## Limitations \n- To create a spark job definition the workspace must be on a supported Fabric capacity. For more information see: [Microsoft Fabric license types](/fabric/enterprise/licenses#microsoft-fabric-license-types).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n To create spark job definition with a public definition, refer to [Spark job definition](/rest/api/fabric/articles/item-management/definitions/spark-job-definition) article. \n\n## Permissions\n\nThe caller must have a *contributor* workspace role.\n\n## Required Delegated Scopes\n\n SparkJobDefinition.ReadWrite.All or Item.ReadWrite.All \n\n## Limitations \n- To create a spark job definition the workspace must be on a supported Fabric capacity. For more information see: [Microsoft Fabric license types](/fabric/enterprise/licenses#microsoft-fabric-license-types).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -139,7 +139,7 @@
     "/workspaces/{workspaceId}/sparkJobDefinitions/{sparkJobDefinitionId}": {
       "get": {
         "summary": "Returns properties of the specified spark job definition.",
-        "description": "## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\n SparkJobDefinition.Read.All or SparkJobDefinition.ReadWrite.All or Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "## Permissions\n\n The caller must have *read* permissions for the spark job definition.\n\n## Required Delegated Scopes\n\n SparkJobDefinition.Read.All or SparkJobDefinition.ReadWrite.All or Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -187,7 +187,7 @@
       },
       "patch": {
         "summary": "Updates the properties of the specified spark job definition.",
-        "description": "## Permissions\n\n The caller must have *contributor* or higher workspace role.\n\n## Required Delegated Scopes\n\n SparkJobDefinition.ReadWrite.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "## Permissions\n\nThe caller must have *read and write* permissions for the spark job definition.\n\n## Required Delegated Scopes\n\n SparkJobDefinition.ReadWrite.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -247,7 +247,7 @@
       },
       "delete": {
         "summary": "Deletes the specified spark job definition.",
-        "description": "## Permissions\n\n The caller must have *contributor* or higher workspace role. \n\n## Required Delegated Scopes\n\n SparkJobDefinition.ReadWrite.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "## Permissions\n\nThe caller must have *write* permissions for the spark job definition.\n\n## Required Delegated Scopes\n\n SparkJobDefinition.ReadWrite.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -294,7 +294,7 @@
     "/workspaces/{workspaceId}/sparkJobDefinitions/{sparkJobDefinitionId}/getDefinition": {
       "post": {
         "summary": "Returns the specified spark job definition public definition.",
-        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nWhen you get a spark job definition's public definition, the sensitivity label is not a part of the definition.\n\n## Permissions\n\n The caller must have *contributor* or higher workspace role. \n\n## Required Delegated Scopes\n\n SparkJobDefinition.ReadWrite.All or Item.ReadWrite.All \n\n## Limitations\n\n This API is blocked for a spark job definition with an encrypted sensitivity label.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nWhen you get a spark job definition's public definition, the sensitivity label is not a part of the definition.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the spark job definition.\n\n## Required Delegated Scopes\n\n SparkJobDefinition.ReadWrite.All or Item.ReadWrite.All \n\n## Limitations\n\n This API is blocked for a spark job definition with an encrypted sensitivity label.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -370,7 +370,7 @@
     "/workspaces/{workspaceId}/sparkJobDefinitions/{sparkJobDefinitionId}/updateDefinition": {
       "post": {
         "summary": "Overrides the definition for the specified spark job definition.",
-        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n \nUpdating the spark job definition's definition, does not affect its sensitivity label. \n\n## Permissions\n\n The API caller must have *contributor* or higher workspace role. \n## Required Delegated Scopes\n\n SparkJobDefinition.ReadWrite.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n \nUpdating the spark job definition's definition, does not affect its sensitivity label. \n\n## Permissions\n\nThe caller must have *read and write* permissions for the spark job definition.\n\n## Required Delegated Scopes\n\n SparkJobDefinition.ReadWrite.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -521,6 +521,121 @@
           },
           "Run SparkJobDefinition with request body.": {
             "$ref": "./examples/RunOnDemandSparkJobDefinitionWithBody.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/sparkJobDefinitions/{sparkJobDefinitionId}/livySessions": {
+      "get": {
+        "tags": [
+          "LivySessions"
+        ],
+        "summary": "Returns a list of livy sessions from the specified item identifier.",
+          "description": "This API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes \n\n SparkJobDefinition.Read.All or SparkJobDefinition.ReadWrite.All or Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "operationId": "LivySessions_ListLivySessions",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "sparkJobDefinitionId",
+            "description": "The sparkJobDefinition ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "Token to retrieve the next page of results, if available.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returns a list of all livy sessions associated to an itemId.",
+            "schema": {
+              "$ref": "../common/spark_definitions.json#/definitions/LivySessions"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* SparkCoreItemNotFound - SparkJobDefinition identifier does not exist\n\n* SparkCoreUnexpectedException - Unhandled exception ocurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List all livy sessions example": {
+            "$ref": "./examples/ListSessionsInItemId.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/sparkJobDefinitions/{sparkJobDefinitionId}/livySessions/{livyId}": {
+      "get": {
+        "tags": [
+          "LivySessions"
+        ],
+        "operationId": "LivySessions_GetLivySession",
+        "summary": "Returns properties of the specified livy session.",
+          "description": "## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes \n\n SparkJobDefinition.Read.All or SparkJobDefinition.ReadWrite.All or Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "sparkJobDefinitionId",
+            "description": "The sparkJobDefinition ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "livyId",
+            "description": "The session identifier.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Returns a livy session by its id.",
+            "schema": {
+              "$ref": "../common/spark_definitions.json#/definitions/LivySession"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* SparkCoreSessionNotFound - Livy identifier does not exist\n\n* SparkCoreUnexpectedException - Unhandled exception ocurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a livy session example": {
+            "$ref": "./examples/GetSessionInItemId.json"
           }
         }
       }

@@ -13,6 +13,11 @@
                         "payloadType": "InlineBase64"
                     },
                     {
+                        "path": "eventstreamProperties.json",
+                        "payload": "ewogICJyZXRlbnRpb25UaW1l..V2ZWwiOiAiTG93Igp9",
+                        "payloadType": "InlineBase64"
+                    },
+                    {
                         "path": ".platform",
                         "payload": "ZG90UGxhdGZvcm1CYXNlNjRTdHJpbmc=",
                         "payloadType": "InlineBase64"
