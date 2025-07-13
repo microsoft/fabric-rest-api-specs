@@ -13,6 +13,7 @@ The Fabric APIs SDK utilizes the [Autorest client library generator](https://git
 ## API Documentation
 
 For detailed information on utilizing the Fabric APIs, please refer to the official documentation available at [Microsoft Fabric REST API documentation](https://learn.microsoft.com/en-us/rest/api/fabric).
+Some swagger specification contain the `x-ms-fabric-sdk-long-running-operation` tag. This tag is used to denote long running operations in Fabirc APIs. More information regarding this tag is available in: [Long running operations](https://learn.microsoft.com/en-us/rest/api/fabric/articles/long-running-operation)
 
 ## License
 
