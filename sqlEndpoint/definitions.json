@@ -46,9 +46,16 @@
     },
     "TableSyncStatuses": {
       "description": "A list of table synchronization statuses.",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/TableSyncStatus"
+      "required": ["value"],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "A list of table synchronization statuses.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TableSyncStatus"
+          }
+        }
       }
     },
     "TableSyncStatus": {

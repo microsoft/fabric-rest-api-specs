@@ -15,8 +15,8 @@
         "tags": [
           "SparkCompute"
         ],
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nGet environment staging spark compute.",
-        "description": "## Permissions\n\nRead permission to the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.Read.All or Environment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Get environment staging spark compute.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nTRead permission to the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.Read.All or Environment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "operationId": "SparkCompute_GetStagingSettings",
         "produces": [
           "application/json"
@@ -63,8 +63,8 @@
         "tags": [
           "SparkCompute"
         ],
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nUpdate environment staging spark compute. If you want to delete a spark property, set its value as null.",
-        "description": "## Permissions\n\nWrite permission to the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Update environment staging spark compute. If you want to delete a spark property, set its value as null.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nTWrite permission to the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "operationId": "SparkCompute_UpdateStagingSettings",
         "consumes": [
           "application/json"
@@ -125,8 +125,8 @@
         "tags": [
           "SparkCompute"
         ],
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nGet environment spark compute.",
-        "description": "## Permissions\n\nRead permission to the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.Read.All or Environment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Get environment spark compute.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nTRead permission to the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.Read.All or Environment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "operationId": "SparkCompute_GetPublishedSettings",
         "produces": [
           "application/json"
@@ -450,8 +450,8 @@
     },
     "/workspaces/{workspaceId}/environments/{environmentId}/staging/libraries": {
       "get": {
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nGet a list of libraries staged into environment.",
-        "description": "## Permissions\n\nRead permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.Read.All or Environment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Get a list of libraries staged into environment.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nTRead permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.Read.All or Environment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "SparkLibraries"
         ],
@@ -498,8 +498,8 @@
         }
       },
       "post": {
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nUpload spark library into environment.",
-        "description": "This API allows one file upload at a time. The supported file formats are .jar, .py, .whl, .tar.gz, or environment.yml. \n\n## Limitations\n\nThe maximum request size allowed is 100MB.\n\nNetwork issues may impact the upload size and may result in timeouts.\n\n## Permissions\n\nWrite permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Upload spark library into environment.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nThis API allows one file upload at a time. The supported file formats are .jar, .py, .whl, .tar.gz, or environment.yml. \n\n## Limitations\n\nThe maximum request size allowed is 100MB.\n\nNetwork issues may impact the upload size and may result in timeouts.\n\n## Permissions\n\nWrite permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "SparkLibraries"
         ],
@@ -546,8 +546,8 @@
         }
       },
       "delete": {
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nDeletes a library from environment. It supports deleting one file at a time.",
-        "description": "## Permissions\n\nWrite permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Deletes a library from environment. It supports deleting one file at a time.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nTWrite permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "SparkLibraries"
         ],
@@ -600,8 +600,8 @@
     },
     "/workspaces/{workspaceId}/environments/{environmentId}/libraries": {
       "get": {
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nGet environment published libraries.",
-        "description": "## Permissions\n\nRead permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.Read.All or Environment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Get environment published libraries.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nTRead permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.Read.All or Environment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "SparkLibraries"
         ],
@@ -650,8 +650,8 @@
     },
     "/workspaces/{workspaceId}/environments/{environmentId}/staging/publish": {
       "post": {
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nTrigger an environment publish operation.",
-        "description": "## Permissions\n\nWrite permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Trigger an environment publish operation.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nTWrite permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "SparkLibraries"
         ],
@@ -712,8 +712,8 @@
     },
     "/workspaces/{workspaceId}/environments/{environmentId}/staging/cancelPublish": {
       "post": {
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nTrigger an environment publish cancellation.",
-        "description": "## Permissions\n\nWrite permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Trigger an environment publish cancellation.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nTWrite permission for the environment item. \n\n## Required Delegated Scopes\n\nEnvironment.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "SparkLibraries"
         ],

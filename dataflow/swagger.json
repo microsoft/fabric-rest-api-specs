@@ -444,8 +444,8 @@
     },
     "/workspaces/{workspaceId}/dataflows/{dataflowId}/jobs/Execute/schedules": {
       "post": {
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nCreate a new execute schedule for a dataflow. A dataflow can create maximum 20 schedulers.",
-        "description": "## Required Delegated Scopes: \n\nDataflow.Execute.All and Dataflow.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "summary": "Create a new execute schedule for a dataflow. A dataflow can create maximum 20 schedulers.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Required Delegated Scopes: \n\nDataflow.Execute.All and Dataflow.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
         "tags": [
           "BackgroundJobs"
         ],
@@ -509,8 +509,8 @@
     },
     "/workspaces/{workspaceId}/dataflows/{dataflowId}/jobs/ApplyChanges/schedules": {
       "post": {
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nCreate a new apply changes schedule for a dataflow. A dataflow can create maximum 20 schedulers.",
-        "description": "## Required Delegated Scopes: \n\nDataflow.Execute.All and Dataflow.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "summary": "Create a new apply changes schedule for a dataflow. A dataflow can create maximum 20 schedulers.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Required Delegated Scopes: \n\nDataflow.Execute.All and Dataflow.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
         "tags": [
           "BackgroundJobs"
         ],
@@ -574,8 +574,8 @@
     },
     "/workspaces/{workspaceId}/dataflows/{dataflowId}/jobs/instances?jobType=Execute": {
       "post": {
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nRun on-demand execute job instance.",
-        "description": "## Required Delegated Scopes\n\n For dataflows APIs use these scope types: \n- Specific scope: Dataflow.Execute.All \n\n for more information about scopes, see: [scopes article](/rest/api/fabric/articles/scopes).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "summary": "Run on-demand execute job instance.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Required Delegated Scopes\n\n For dataflows APIs use these scope types: \n- Specific scope: Dataflow.Execute.All \n\n for more information about scopes, see: [scopes article](/rest/api/fabric/articles/scopes).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
         "tags": [
           "BackgroundJobs"
         ],
@@ -650,8 +650,8 @@
     },
     "/workspaces/{workspaceId}/dataflows/{dataflowId}/jobs/instances?jobType=ApplyChanges": {
       "post": {
-        "summary": "> [!NOTE]\n> This API is in preview.\n\nRun on-demand apply changes job instance.",
-        "description": "## Required Delegated Scopes\n\n For dataflows APIs use these scope types: \n- Specific scope: Dataflow.Execute.All \n\n for more information about scopes, see: [scopes article](/rest/api/fabric/articles/scopes).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "summary": "Run on-demand apply changes job instance.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Required Delegated Scopes\n\n For dataflows APIs use these scope types: \n- Specific scope: Dataflow.Execute.All \n\n for more information about scopes, see: [scopes article](/rest/api/fabric/articles/scopes).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
         "tags": [
           "BackgroundJobs"
         ],
