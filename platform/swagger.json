@@ -2376,56 +2376,66 @@
         ],
         "x-ms-fabric-sdk-long-running-operation": true,
         "parameters": [
-          {
-            "in": "path",
-            "name": "workspaceId",
-            "description": "The ID of the workspace.",
-            "type": "string",
-            "format": "uuid",
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "itemId",
-            "description": "The ID of the data item.",
-            "type": "string",
-            "format": "uuid",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "shortcutConflictPolicy",
-            "description": "When provided, it defines the action to take when a shortcut with the same name and path already exists. The default action is 'Abort'. Additional ShortcutConflictPolicy types may be added over time.",
-            "type": "string",
-            "enum": [
-              "Abort",
-              "GenerateUniqueName"
-            ],
-            "x-ms-enum": {
-              "name": "ShortcutConflictPolicy",
-              "modelAsString": true,
-              "values": [
-                {
-                  "value": "Abort",
-                  "description": "When a shortcut with the same name and path already exists the shortcut creation is cancelled."
+            {
+                "in": "path",
+                "name": "workspaceId",
+                "description": "The ID of the workspace.",
+                "type": "string",
+                "format": "uuid",
+                "required": true
+            },
+            {
+                "in": "path",
+                "name": "itemId",
+                "description": "The ID of the data item.",
+                "type": "string",
+                "format": "uuid",
+                "required": true
+            },
+            {
+                "in": "query",
+                "name": "shortcutConflictPolicy",
+                "description": "When provided, it defines the action to take when a shortcut with the same name and path already exists. The default action is 'Abort'. Additional ShortcutConflictPolicy types may be added over time.",
+                "type": "string",
+                "enum": [
+                    "Abort",
+                    "GenerateUniqueName",
+                    "CreateOrOverwrite",
+                    "OverwriteOnly"
+                ],
+                "x-ms-enum": {
+                    "name": "ShortcutConflictPolicy",
+                    "modelAsString": true,
+                    "values": [
+                        {
+                            "value": "Abort",
+                            "description": "When a shortcut with the same name and path already exists the shortcut creation will be cancelled."
+                        },
+                        {
+                            "value": "GenerateUniqueName",
+                            "description": "When a shortcut with the same name and path already exists the shortcut creation will continue with a new unique shortcut name."
+                        },
+                        {
+                            "value": "CreateOrOverwrite",
+                            "description": "When a shortcut with the same name and path already exists the shortcut creation will overwrite the existing shortcut. Create shortcut if it does not exist."
+                        },
+                        {
+                            "value": "OverwriteOnly",
+                            "description": "When a shortcut with the same name and path already exists the shortcut creation will overwrite the existing shortcut."
+                        }
+                    ]
                 },
-                {
-                  "value": "GenerateUniqueName",
-                  "description": "When a shortcut with the same name and path already exists, the shortcut is created with a new unique name."
-                }
-              ]
+                "required": false
             },
-            "required": false
-          },
-          {
-            "in": "body",
-            "name": "bulkCreateShortcutsRequest",
-            "description": "A shortcut bulk create request includes an array of shortcut objects, each representing a reference pointing to internal or external storage locations within OneLake.",
-            "schema": {
-              "$ref": "./definitions/platform.json#/definitions/BulkCreateShortcutsRequest"
-            },
-            "required": true
-          }
+            {
+                "in": "body",
+                "name": "bulkCreateShortcutsRequest",
+                "description": "A shortcut bulk create request includes an array of shortcut objects, each representing a reference pointing to internal or external storage locations within OneLake.",
+                "schema": {
+                    "$ref": "./definitions/platform.json#/definitions/BulkCreateShortcutsRequest"
+                },
+                "required": true
+            }
         ],
         "responses": {
           "202": {

@@ -199,6 +199,17 @@
           "readOnly": false
         }
       }
+    },
+    "ConnectionStringResponse": {
+      "description": "The SQL connection string for the workspace containing this warehouse.",
+      "type": "object",
+      "properties": {
+        "connectionString": {
+          "description": "The SQL connection string for the workspace containing this warehouse.",
+          "type": "string",
+          "readOnly": false
+        }
+      }
     }
   }
 }

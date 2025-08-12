@@ -124,6 +124,17 @@
           }
         ]
       }
+    },
+    "ConnectionStringResponse": {
+      "description": "The SQL connection string for the workspace containing this SQL endpoint.",
+      "type": "object",
+      "properties": {
+        "connectionString": {
+          "description": "The SQL connection string for the workspace containing this SQL endpoint.",
+          "type": "string",
+          "readOnly": false
+        }
+      }
     }
   }
 }
