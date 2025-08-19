@@ -88,6 +88,13 @@
             "description": "A token for retrieving the next page of results.",
             "type": "string",
             "required": false
+          },
+          {
+            "in": "query",
+            "name": "preferWorkspaceSpecificEndpoints",
+            "description": "A setting that controls whether to include the workspace-specific API endpoint per workspace. True - Include the workspace-specific API endpoint, False - Do not include the workspace-specific API endpoint.",
+            "type": "boolean",
+            "required": false
           }
         ],
         "responses": {
@@ -113,6 +120,9 @@
           },
           "List workspaces with continuation example": {
             "$ref": "./examples/platform/ListWorkspacesWithContinuation.json"
+          },
+          "List workspaces with preferWorkspaceSpecificEndpoints example": {
+            "$ref": "./examples/platform/ListWorkspacesWithPreferWorkspaceSpecificEndpoints.json"
           }
         }
       }
@@ -136,6 +146,13 @@
             "type": "string",
             "format": "uuid",
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "preferWorkspaceSpecificEndpoints",
+            "description": "A setting that controls whether to include workspace-specific or general public endpoints for API and OneLake access. True - Include workspace-specific endpoints for API and OneLake access, False - Include general public endpoints for OneLake access.",
+            "type": "boolean",
+            "required": false
           }
         ],
         "responses": {
@@ -155,6 +172,9 @@
         "x-ms-examples": {
           "Get a workspace example": {
             "$ref": "./examples/platform/GetWorkspace.json"
+          },
+          "Get a workspace with preferWorkspaceSpecificEndpoints example": {
+            "$ref": "./examples/platform/GetWorkspaceWithPreferWorkspaceSpecificEndpoints.json"
           }
         }
       },
@@ -6458,6 +6478,111 @@
         "x-ms-examples": {
           "Delete connection role assignment example": {
             "$ref": "./examples/connections/DeleteConnectionRoleAssignment.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/networking/communicationPolicy": {
+      "get": {
+        "summary": "Returns networking communication policy for the specified workspace. This feature is currently in preview.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_GetNetworkCommunicationPolicy",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/workspaceNetworkingPolicy.json#/definitions/WorkspaceNetworkingCommunicationPolicy"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get workspace networking communication policy example": {
+            "$ref": "./examples/platform/GetWorkspaceNetworkingCommunicationPolicy.json"
+          }
+        }
+      },
+      "put": {
+        "summary": "Sets networking communication policy for the specified workspace. This API uses the PUT method and will overwrite all settings. Remaining policy will be set to default value if only partial policy is provided in the request body. Always run Get Network Communication Policy first and provide full policy in the request body. This feature is currently in preview.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_SetNetworkCommunicationPolicy",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "SetWorkspaceNetworkingCommunicationPolicy",
+            "description": "Set workspace networking communication policy request payload.",
+            "schema": {
+              "$ref": "./definitions/workspaceNetworkingPolicy.json#/definitions/WorkspaceNetworkingCommunicationPolicy"
+            },
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "description": "An ETag value. The ETag must be specified in quotes. If provided, the call will succeed only if the resource's ETag matches the provided ETag.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Set workspace networking communication policy example": {
+            "$ref": "./examples/platform/SetWorkspaceNetworkingCommunicationPolicy.json"
           }
         }
       }

@@ -55,6 +55,12 @@
           "type": "string",
           "format": "uuid",
           "readOnly": true
+        },
+        "apiEndpoint": {
+            "description": "HTTP URL that represents the API endpoint specific to the workspace. This endpoint value is returned when the user enables preferWorkspaceSpecificEndpoints. It allows for API access over private links.",
+            "type": "string",
+            "format": "uri",
+            "readOnly": true
         }
       },
       "readOnly": true
@@ -388,12 +394,12 @@
       "type": "object",
       "properties": {
         "blobEndpoint": {
-          "description": "The OneLake API endpoint available for Blob API operations. This is a region specific endpoint, unless the tenant has Private Link enabled and public access disabled, in which case the global endpoint is provided.",
+          "description": "The OneLake API endpoint available for Blob API operations. By default, this is a region specific endpoint. If the user enables preferWorkspaceSpecificEndpoints or the workspace has public access disabled, the workspace-specific endpoint is provided to allow for access over private links.",
           "type": "string",
           "readOnly": true
         },
         "dfsEndpoint": {
-          "description": "The OneLake API endpoint available for Distributed File System (DFS) or ADLSgen2 filesystem API operations. This is a region specific endpoint, unless the tenant has Private Link enabled and public access disabled, in which case the global endpoint is provided.",
+          "description": "The OneLake API endpoint available for Distributed File System (DFS) or ADLSgen2 filesystem API operations. By default, this is a region specific endpoint. If the user enables preferWorkspaceSpecificEndpoints or the workspace has public access disabled, the workspace-specific endpoint is provided to allow for access over private links.",
           "type": "string",
           "readOnly": true
         }
