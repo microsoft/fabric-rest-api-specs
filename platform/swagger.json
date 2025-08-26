@@ -271,7 +271,7 @@
     "/workspaces/{workspaceId}/roleAssignments": {
       "post": {
         "summary": "Adds a workspace role assignment.",
-        "description": "To get the principal user object ID required for request body, see [Find the user object ID](/partner-center/find-ids-and-domain-names#find-the-user-object-id).\n\n## Permissions\n\n- The caller must have *member* or higher workspace role. \n- Members can add members or others with lower permissions. For more information see: [workspace roles](/power-bi/collaborate-share/service-roles-new-workspaces#workspace-roles).\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "To get the principal user object ID required for request body, see [Find the user object ID](/partner-center/find-ids-and-domain-names#find-the-user-object-id).\n\n## Permissions\n\n- The caller must have *member* or higher workspace role. \n- Members can add members or others with lower permissions. For more information see: [workspace roles](/power-bi/collaborate-share/service-roles-new-workspaces#workspace-roles).\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Limitations\n\n- Each workspace is limited to a maximum of 1,000 users or groups in workspace roles (Admin, Member, Contributor, Viewer). The number of users within a group is not limited. The limitation also covers external guests.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Workspaces"
         ],
@@ -1744,7 +1744,7 @@
     "/workspaces/{workspaceId}/git/connect": {
       "post": {
         "summary": "Connect a specific workspace to a git repository and branch.",
-        "description": "This operation does not sync between the workspace and the connected branch. To complete the sync, use the [Initialize Connection](/rest/api/fabric/core/git/initialize-connection) operation and follow with either the [Commit To Git](/rest/api/fabric/core/git/commit-to-git) or the [Update From Git](/rest/api/fabric/core/git/update-from-git) operation.\n\nTo get started with GitHub, see: [Get started with Git integration](/fabric/cicd/git-integration/git-get-started?tabs=github).\n\nTo get the connection ID, see [Automate Git integration](/fabric/cicd/git-integration/git-automation#get-or-create-git-provider-credentials-connection).\n\n## Permissions\n\nThe caller must have an *admin* role for the workspace.\n\nFor configured connection Git credentials, the caller must have permission for the connection.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Not supported when the Git provider is AzureDevOps and credentials are Automatic |\n\n## Interface",
+        "description": "This operation does not sync between the workspace and the connected branch. To complete the sync, use the [Initialize Connection](/rest/api/fabric/core/git/initialize-connection) operation and follow with either the [Commit To Git](/rest/api/fabric/core/git/commit-to-git) or the [Update From Git](/rest/api/fabric/core/git/update-from-git) operation.\n\nTo get started with GitHub, see: [Get started with Git integration](/fabric/cicd/git-integration/git-get-started?tabs=github).\n\nTo get the connection ID, see [Automate Git integration](/fabric/cicd/git-integration/git-automation#get-or-create-git-provider-credentials-connection).\n\n## Permissions\n\nThe caller must have an *admin* role for the workspace.\n\nFor configured connection Git credentials, the caller must have permission for the connection.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Limitations \n When using Automatic credentials source, this API is blocked for GitHub provider and for Service Principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Supported only when myGitCredentials.source is ConfiguredConnection |\n\n## Interface",
         "tags": [
           "Git"
         ],
@@ -2171,7 +2171,7 @@
       },
       "patch": {
         "summary": "Updates the user's Git credentials configuration details.",
-        "description": "Each user in the workspace has their own configured Git credentials. You can use [Get My Git Credentials](/rest/api/fabric/core/git/get-my-git-credentials) API to get the Git credentials configuration.\n\nTo get the connection ID, see [Automate Git integration](/fabric/cicd/git-integration/git-automation#get-or-create-git-provider-credentials-connection).\n\n## Permissions\n\nThe caller must have a *contributor* or higher workspace role.\n\nFor configured connection Git credentials, the caller must have permission for the connection.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Not supported when the Git provider is AzureDevOps and credentials are Automatic |\n\n## Interface",
+        "description": "Each user in the workspace has their own configured Git credentials. You can use [Get My Git Credentials](/rest/api/fabric/core/git/get-my-git-credentials) API to get the Git credentials configuration.\n\nTo get the connection ID, see [Automate Git integration](/fabric/cicd/git-integration/git-automation#get-or-create-git-provider-credentials-connection).\n\n## Permissions\n\nThe caller must have a *contributor* or higher workspace role.\n\nFor configured connection Git credentials, the caller must have permission for the connection.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Limitations \n When using Automatic credentials source, this API is blocked for GitHub provider and for Service Principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Supported only when source is ConfiguredConnection or None |\n\n## Interface",
         "tags": [
           "Git"
         ],
@@ -5061,6 +5061,128 @@
           },
           "Move a folder with the workspace as the destination example": {
             "$ref": "./examples/platform/MoveFolderWithWorkspaceAsDestination.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/items/bulkMove": {
+      "post": {
+        "summary": "Move multiple items to a folder. Children items are moved with their parent items. You can't move children items without their parent items.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\n The caller must have *contributor* or higher role on the workspace.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Limitations\n\n A single request can't contain more than 50 items.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_BulkMoveItems",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "bulkMoveItemsRequest",
+            "description": "Bulk move items request payload.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/BulkMoveItemsRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully and all the items are moved.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/MovedItems"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.\n\n* FolderNotFound - Could not find the requested folder.\n\n* CannotMoveChildOnly - Child item can't be moved without its parent item.\n\n If request failed, no items are moved.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Bulk move items into folder example": {
+            "$ref": "./examples/platform/BulkMoveItemsIntoFolder.json"
+          },
+          "Bulk move items with the workspace as the destination example": {
+            "$ref": "./examples/platform/BulkMoveItemsWithWorkspaceAsDestination.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/items/{itemId}/move": {
+      "post": {
+        "summary": "Move the specified item to a folder within the same workspace. Child items are moved with their parent item. You can't move a child item without its parent item.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\n The caller must have *contributor* or higher role on the workspace.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_MoveItem",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "description": "The item ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "moveItemRequest",
+            "description": "Move item request payload.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/MoveItemRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/MovedItems"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.\n\n* FolderNotFound - Could not find the requested folder.\n\n* CannotMoveChildOnly - Child item can't be moved without its parent item.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Move an item into folder example": {
+            "$ref": "./examples/platform/MoveItemIntoFolder.json"
+          },
+          "Move an item with the workspace as the destination example": {
+            "$ref": "./examples/platform/MoveItemWithWorkspaceAsDestination.json"
           }
         }
       }

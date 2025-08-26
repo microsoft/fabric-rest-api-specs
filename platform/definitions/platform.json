@@ -2050,6 +2050,51 @@
           "readOnly": false
         }
       }
+    },
+    "MoveItemRequest": {
+      "description": "Move item request.",
+      "properties": {
+        "targetFolderId": {
+          "description": "The destination folder ID. If not provided, the workspace is used as the destination folder.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        }
+      }
+    },
+    "MovedItems": {
+      "required": [ "value" ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "A list of items.",
+          "type": "array",
+          "items": {
+            "$ref": "../../common/definitions.json#/definitions/Item"
+          }
+        }
+      }
+    },
+    "BulkMoveItemsRequest": {
+      "description": "Bulk move items request.",
+      "required": [ "items" ],
+      "properties": {
+        "targetFolderId": {
+          "description": "The destination folder ID. If not provided, the workspace is used as the destination folder.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        },
+        "items": {
+          "description": "The IDs of requested items to move.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "readOnly": false
+        }
+      }
     }
   }
 }
