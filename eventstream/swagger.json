@@ -720,8 +720,8 @@
     },
     "/workspaces/{workspaceId}/eventstreams/{eventstreamId}/sources/{sourceId}/connection": {
       "get": {
-        "summary": "Returns the connection information of specified source of the eventstream. Only custom endpoints sources are supported.",
-        "description": "## Permissions\n\n The caller must have *contributor* or higher workspace role. \n\n## Required Delegated Scopes \n\n Eventstream.ReadWrite.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Returns the connection information of specified source of the eventstream.",
+        "description": "## Permissions\n\n The caller must have *contributor* or higher workspace role. \n\n## Required Delegated Scopes \n\n Eventstream.ReadWrite.All or Item.ReadWrite.All\n\n## Limitations\n\n Only custom endpoints sources are supported.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Topology"
         ],
@@ -778,8 +778,8 @@
     },
     "/workspaces/{workspaceId}/eventstreams/{eventstreamId}/destinations/{destinationId}/connection": {
       "get": {
-        "summary": "Returns the connection information of a specified destination of the eventstream. Only custom endpoints destinations are supported.",
-        "description": "## Permissions\n\n The caller must have *contributor* or higher workspace role. \n\n## Required Delegated Scopes \n\n Eventstream.ReadWrite.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Returns the connection information of a specified destination of the eventstream.",
+        "description": "## Permissions\n\n The caller must have *contributor* or higher workspace role. \n\n## Required Delegated Scopes \n\n Eventstream.ReadWrite.All or Item.ReadWrite.All\n\n## Limitations\n\n Only custom endpoints destinations are supported.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Topology"
         ],

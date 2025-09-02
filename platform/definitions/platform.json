@@ -1949,6 +1949,7 @@
     },
     "UpdateScheduleRequest": {
       "description": "Update item schedule plan request payload.",
+      "type": "object",
       "required": [ "enabled", "configuration" ],
       "properties": {
         "enabled": {

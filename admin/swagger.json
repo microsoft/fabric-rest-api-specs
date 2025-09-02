@@ -1623,15 +1623,21 @@
             }
           },
           "default": {
-            "description": "Common error codes:\n\n* UnknownError - An error occurred \n\n* InvalidInputs - Invalid input was provided \n\n* EntityConflict - Tag display name already exists",
+            "description": "Common error codes:\n\n* UnknownError - An error occurred \n\n* InvalidInputs - Invalid input was provided \n\n* EntityConflict - Tag display name already exists \n\n* EntityNotFound - Domain ID does not exist",
             "schema": {
               "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
           }
         },
         "x-ms-examples": {
-          "Create tags in bulk example": {
-            "$ref": "./examples/Tags/CreateTags.json"
+          "Create tenant tags in bulk example": {
+            "$ref": "./examples/Tags/CreateTenantTags.json"
+          },
+          "Create tenant tags in bulk example with explicit scope": {
+            "$ref": "./examples/Tags/CreateTenantTagsExplicit.json"
+          },
+          "Create domain tags in bulk example": {
+            "$ref": "./examples/Tags/CreateDomainTags.json"
           }
         }
       }

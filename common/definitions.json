@@ -644,7 +644,8 @@
             "description": "Represents a tag.",
             "required": [
                 "id",
-                "displayName"
+                "displayName",
+                "scope"
             ],
             "properties": {
                 "id": {
@@ -655,6 +656,10 @@
                 "displayName": {
                     "type": "string",
                     "description": "The name of the tag."
+                },
+                "scope": {
+                    "$ref": "#/definitions/TagScope",
+                    "description": "The scope of the tag."
                 }
             }
         },
@@ -698,7 +703,66 @@
                 }
             }
         },
-
+        "TagScope": {
+            "type": "object",
+            "description": "Represents a tag scope",
+            "discriminator": "type",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "type":{
+                    "description": "Denotes tag scope. Additional tag scopes may be added over time.",
+                    "type": "string",
+                    "enum": ["Tenant", "Domain"],
+                    "x-ms-enum": {
+                        "name": "TagScopeType",
+                        "modelAsString": true,
+                        "values": [
+                            {
+                                "value": "Tenant",
+                                "description": "Tag is a tenant level tag."
+                            },
+                            {
+                                "value": "Domain",
+                                "description": "Tag is a domain level tag."
+                            }
+                        ]
+                    },
+                    "readOnly": false
+                }
+            }
+        },
+        "TenantTagScope": {
+            "type": "object",
+            "description": "Represents tenant tag scope.",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/TagScope"
+                }
+            ],
+            "x-ms-discriminator-value": "Tenant"
+        },
+        "DomainTagScope": {
+            "type": "object",
+            "description": "Represents domain tag scope.",
+            "required": [
+                "domainId"
+            ],
+            "properties": {
+                "domainId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Domain object ID"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/TagScope"
+                }
+            ],
+            "x-ms-discriminator-value": "Domain"
+        },
         "ItemReference": {
             "description": "An item reference object.",
             "type": "object",
