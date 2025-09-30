@@ -61,6 +61,12 @@
             "type": "string",
             "format": "uri",
             "readOnly": true
+        },
+        "domainId": {
+          "description": "The ID of the domain the workspace is assigned to.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
         }
       },
       "readOnly": true
@@ -424,6 +430,12 @@
           "type": "string",
           "format": "uuid",
           "readOnly": false
+        },
+        "domainId": {
+          "description": "The ID of the domain to assign the workspace to.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
         }
       }
     },
@@ -633,6 +645,18 @@
         }
       },
       "readOnly": true
+    },
+    "AssignWorkspaceToDomainRequest": {
+      "type": "object",
+      "description": "A domain assignment request.",
+      "required": ["domainId"],
+      "properties": {
+        "domainId": {
+          "description": "The ID of the domain the workspace should be assigned to.",
+          "type": "string",
+          "format": "uuid"
+        }
+      }
     },
     "Items": {
       "required": [ "value" ],
@@ -853,6 +877,26 @@
           },
           "minItems": 2,
           "maxItems": 2
+        },
+        "constraints": {
+          "description": "Any constraints such as row or column level security that are applied to tables as part of this role. If not included, no constraints apply to any tables in the role. ",
+          "type": "object" ,
+          "properties": {
+            "columns": {
+              "description": "The array of column constraints applied to one or more tables in the data access role.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ColumnConstraint"
+              }
+            },
+            "rows": {
+              "description": "The array of row constraints applied to one or more tables in the data access role.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RowConstraint"
+              }
+            }
+          }
         }
       }
     },
@@ -888,6 +932,72 @@
           }
         }
       }
+    },
+    "ColumnConstraint": {
+      "description": "ColumnConstraint indicates a constraint that determines the permissions and visibility a user has on columns within a table.",
+      "type": "object",
+      "required": ["tablePath", "columnNames", "columnAction", "columnEffect"],
+      "properties": {
+        "tablePath": {
+          "description": "A relative file path specifying which table the column constraint applies to. This should be in the form of `/Tables/{optionalSchema}/{tableName}`. Only one value can be given here and the tableName must be a table included in the PermissionScope.",
+          "type": "string"
+        },
+        "columnNames": {
+          "description": "An array of case sensitive column names. Each value is a column name from the table specified in `tablePath`. Use these columns with `columnEffect` and `columnAction`. Columns that aren't listed get the default value null. Use `*` to indicate all columns in the table.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "columnEffect": {
+          "description": "The effect given to the columnNames. The only allowed value is *Permit*. Additional columnEffect types may be added over time.",
+            "type": "string",
+            "enum": [ "Permit" ],
+            "x-ms-enum": {
+              "name": "ColumnEffect",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "Permit",
+                  "description": "The ColumnEffect type Permit"
+                }
+              ]
+            }
+        },
+        "columnAction": {
+          "description": "The array of actions applied to the columnNames. This determines which actions a user will be able to perform on columns. The allowed values are: *Read*. Additional columnAction types may be added over time.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Read"],
+            "x-ms-enum": {
+              "name": "ColumnAction",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "Read",
+                  "description": "The ColumnAction value Read"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "RowConstraint": {
+      "description": "RowConstraint indicates a constraint that determines the rows in a table that users can see. Roles defined with RowConstraints use T-SQL to define a predicate that filters data in a table. Rows that do not meet the predicate’s conditions are filtered out, leaving a subset of the original rows. RowConstraints can also be used to specify dynamic and multi-table flavors of RLS using T-SQL.",
+      "type": "object",
+      "required": ["tablePath", "value"],
+        "properties": {
+          "tablePath": {
+            "description": "A relative file path specifying which table the row constraint applies to. This should be in the form of `/Tables/{optionalSchema}/{tableName}`. Only one value can be given here and the tableName must be a table included in the PermissionScope.",
+            "type": "string"
+          },
+          "value": {
+            "description": "A T-SQL expression that is used to evaluate which rows the role members can see. Only a subset of T-SQL can be used as a predicate.",
+            "type": "string"
+          }
+        }
     },
     "Members": {
       "description": "The members object which contains the members of the role as arrays of different member types.",
@@ -1750,6 +1860,45 @@
         }
       }
     },
+    "DayOfWeek": {
+      "description": "Days of the week",
+      "type": "string",
+      "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "x-ms-enum": {
+        "name": "DayOfWeek",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Monday",
+            "description": "Monday"
+          },
+          {
+            "value": "Tuesday",
+            "description": "Tuesday"
+          },
+          {
+            "value": "Wednesday",
+            "description": "Wednesday"
+          },
+          {
+            "value": "Thursday",
+            "description": "Thursday"
+          },
+          {
+            "value": "Friday",
+            "description": "Friday"
+          },
+          {
+            "value": "Saturday",
+            "description": "Saturday"
+          },
+          {
+            "value": "Sunday",
+            "description": "Sunday"
+          }
+        ]
+      }
+    },
     "ScheduleConfig": {
       "description": "Item schedule plan detail settings.",
       "type": "object",
@@ -1757,24 +1906,28 @@
       "required": [ "type", "startDateTime", "endDateTime", "localTimeZoneId" ],
       "properties": {
         "type": {
-          "description": "A string represents the type of the plan. Additional planType types may be added over time.",
+          "description": "The type of schedule configuration. Additional types may be added over time.",
           "type": "string",
-          "enum": [ "Cron", "Daily", "Weekly" ],
+          "enum": [ "Cron", "Daily", "Weekly", "Monthly" ],
           "x-ms-enum": {
             "name": "ScheduleType",
             "modelAsString": true,
             "values": [
               {
                 "value": "Cron",
-                "description": "A type of schedule triggers jobs periodically."
+                "description": "Triggers a job periodically."
               },
               {
                 "value": "Daily",
-                "description": "A type of schedule triggers jobs daily."
+                "description": "Triggers a job daily."
               },
               {
                 "value": "Weekly",
-                "description": "A type of schedule triggers jobs by the week."
+                "description": "Triggers a job weekly."
+              },
+              {
+                "value": "Monthly",
+                "description": "Triggers a job monthly."
               }
             ]
           }
@@ -1825,10 +1978,10 @@
       "required": [ "times" ],
       "properties": {
         "times": {
-          "description": "A list of time slots in hh:mm format, at most 100 elements are allowed.",
+          "description": "A list of time slots in the hh:mm format. The maximum time slots you can use is 100.",
           "type": "array",
           "items": {
-            "description": "Time slots in hh:mm format.",
+            "description": "Time slots in the hh:mm format.",
             "type": "string"
           },
           "minItems": 1,
@@ -1847,10 +2000,10 @@
       "required": [ "times", "weekdays" ],
       "properties": {
         "times": {
-          "description": "A list of time slots in hh:mm format, at most 100 elements are allowed.",
+          "description": "A list of time slots in the hh:mm format. The maximum time slots you can use is 100.",
           "type": "array",
           "items": {
-            "description": "Time slots in hh:mm format.",
+            "description": "Time slots in the hh:mm format.",
             "type": "string"
           },
           "minItems": 1,
@@ -1862,44 +2015,140 @@
           "items": {
             "description": "Days of the week",
             "type": "string",
-            "enum": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ],
-            "x-ms-enum": {
-              "name": "DayOfWeek",
-              "modelAsString": true,
-              "values": [
-                {
-                  "value": "Monday",
-                  "description": "Monday"
-                },
-                {
-                  "value": "Tuesday",
-                  "description": "Tuesday"
-                },
-                {
-                  "value": "Wednesday",
-                  "description": "Wednesday"
-                },
-                {
-                  "value": "Thursday",
-                  "description": "Thursday"
-                },
-                {
-                  "value": "Friday",
-                  "description": "Friday"
-                },
-                {
-                  "value": "Saturday",
-                  "description": "Saturday"
-                },
-                {
-                  "value": "Sunday",
-                  "description": "Sunday"
-                }
-              ]
-            }
+            "$ref": "#/definitions/DayOfWeek"
           },
           "minItems": 1,
           "maxItems": 7
+        }
+      }
+    },
+    "MonthlyOccurrence": {
+      "type": "object",
+      "description": "Specifies the day for triggering jobs",
+      "discriminator": "occurrenceType",
+      "required": ["occurrenceType"],
+      "properties": {
+        "occurrenceType": {
+          "description": "An enumerator that lists the day for triggering jobs. Additional types may be added over time.",
+          "type": "string",
+          "enum": ["DayOfMonth", "OrdinalWeekday"],
+          "x-ms-enum": {
+            "name": "OccurrenceType",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "DayOfMonth",
+                "description": "A date."
+              },
+              {
+                "value": "OrdinalWeekday",
+                "description": "A day."
+              }
+            ]
+          }
+        }
+      }
+    },
+    "DayOfMonth": {
+      "description": "Specifies a date to trigger the job. The value must be a valid date. Otherwise, it will be skipped.",
+      "type": "object",
+      "x-ms-discriminator-value": "DayOfMonth",
+      "allOf": [
+        {
+          "$ref": "#/definitions/MonthlyOccurrence"
+        }
+      ],
+      "required": ["dayOfMonth"],
+      "properties": {
+        "dayOfMonth": {
+          "description": "Specifies a date to trigger the job, using a value between 1 and 31. For example, 2 means the second day of the month. The date must be valid. If an invalid date is provided, such as February 31st, it will automatically skip to the month that includes the 31st day.",
+          "type":"integer",
+          "format": "int32",
+          "minimum": 1,
+          "maximum": 31
+        }
+      }
+    },
+    "OrdinalWeekday": {
+      "description": "Specifies the ordinal week and weekday to trigger the job. The value must be a valid date. Otherwise, it will be skipped.",
+      "type": "object",
+      "x-ms-discriminator-value": "OrdinalWeekday",
+      "allOf": [
+        {
+          "$ref": "#/definitions/MonthlyOccurrence"
+        }
+      ],
+      "required": ["weekIndex", "weekday"],
+      "properties": {
+        "weekIndex": {
+            "description": "The week of the month.",
+            "type": "string",
+            "enum": ["First", "Second", "Third", "Fourth", "Fifth"],
+            "x-ms-enum": {
+                "name": "WeekIndex",
+                "modelAsString": true,
+                "values": [
+                  {
+                    "value": "First",
+                    "description": "First."
+                  },
+                  {
+                    "value": "Second",
+                    "description": "Second."
+                  },
+                  {
+                    "value": "Third",
+                    "description": "Third."
+                  },
+                  {
+                    "value": "Fourth",
+                    "description": "Fourth."
+                  },
+                  {
+                    "value": "Fifth",
+                    "description": "Fifth."
+                  }
+                ]
+            }
+        },
+        "weekday": {
+          "description": "Week day for triggering jobs.",
+          "type": "string",
+          "$ref": "#/definitions/DayOfWeek"
+        }
+      }
+    },
+    "MonthlyScheduleConfig": {
+      "type": "object",
+      "x-ms-discriminator-value": "Monthly",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ScheduleConfig"
+        }
+      ],
+      "required": ["recurrence", "occurrence", "times"],
+      "properties": {
+        "recurrence": {
+          "description": "Specifies the monthly job repeat interval. For example, when set to 1 the job is triggered every month.",
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "occurrence": {
+          "description": "A date for triggering the job.",
+          "type":"object",
+          "$ref": "#/definitions/MonthlyOccurrence"
+        },
+        "times": {
+          "description": "A list of time slots in the hh:mm format. The maximum time slots you can use is 100.",
+          "type": "array",
+          "items": {
+            "description": "Time slots in the hh:mm format.",
+            "type": "string"
+          },
+          "minItems": 1,
+          "maxItems": 100
         }
       }
     },
@@ -2096,6 +2345,50 @@
           "readOnly": false
         }
       }
+    },
+    "Domain": {
+      "type": "object",
+      "description": "Represents a domain.",
+      "required": ["id", "displayName", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The domain ID.",
+          "format": "uuid"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The name of the domain."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the domain."
+        },
+        "parentDomainId": {
+          "type": "string",
+          "description": "The parent domain ID, for a subdomain.",
+          "format": "uuid"
+        }
+      }
+    },
+    "Domains": {
+      "type": "object",
+      "description": "A response wrapper for a list of domains.",
+      "required": ["value"],
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "An array of domains",
+          "items": {
+            "$ref": "#/definitions/Domain"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
     }
   }
 }

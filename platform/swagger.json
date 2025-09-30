@@ -49,7 +49,7 @@
             }
           },
           "default": {
-            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "description": "Common error codes:\n\n* DomainNotFound - The provided domain was not found\n\n* InsufficientPermissionsToDomain - User permission to the domain is not sufficient to perform the operation\n\n* UnknownError - An error occurred.",
             "schema": {
               "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
@@ -1696,6 +1696,96 @@
         }
       }
     },
+    "/workspaces/{workspaceId}/assignToDomain": {
+      "post": {
+        "summary": "Assigns the specified workspace to the specified domain.",
+        "description": "## Permissions\n\n- The caller must have contributor permissions or be a domain Admin. \n- The caller must have workspace admin role.\n\n## Required Scope\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_AssignToDomain",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "assignWorkspaceToDomainRequest",
+            "description": "Assign to domain parameters",
+            "required": true,
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/AssignWorkspaceToDomainRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "default": {
+            "description": "Common error codes:\n\n* DomainNotFound - The provided domain was not found\n\n* WorkspaceNotFound - The provided workspace was not found\n\n* InsufficientPermissionsToDomain - Caller doesn't have enough permissions to the domain to perform the operation\n\n* InsufficientWorkspaceRole - Caller doesn't have enough permissions to the workspace to perform the operation\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Assign a workspace to a domain example": {
+            "$ref": "./examples/platform/AssignWorkspaceToDomain.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/unassignFromDomain": {
+      "post": {
+        "summary": "Unassigns the specified workspace from domain.",
+        "description": "## Permissions\n\n The caller must have workspace admin role. \n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_UnassignFromDomain",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "default": {
+            "description": "Common error codes:\n\n* WorkspaceNotFound - The provided workspace was not found\n\n* InsufficientWorkspaceRole - Caller doesn't have enough permissions to the workspace to perform the operation\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Unassign a workspace from a domain example": {
+            "$ref": "./examples/platform/UnassignWorkspaceFromDomain.json"
+          }
+        }
+      }
+    },
     "/workspaces/{workspaceId}/git/connection": {
       "get": {
         "summary": "Returns git connection details for the specified workspace.",
@@ -2888,6 +2978,95 @@
         }
       }
     },
+    "/domains":{
+      "get": {
+        "summary": "Returns a list of all the tenant's domains.",
+        "description": "## Required Delegated Scopes\n\nDomain.Read.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Domains"
+        ],
+        "operationId": "Domains_ListDomains",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request was successful.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/Domains"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List of all tenant's domains example": {
+            "$ref": "./examples/domains/ListDomains.json"
+          },
+          "List of all tenant's domains with continuation example": {
+            "$ref": "./examples/domains/ListDomainsWithContinuation.json"
+          }
+        }
+      }
+    },
+    "/domains/{domainId}":{
+      "get": {
+        "summary": "Returns specified domain information.",
+        "description": "## Required Delegated Scopes\n\nDomain.Read.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Domains"
+        ],
+        "operationId": "Domains_GetDomain",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "domainId",
+            "description": "The domain ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request was successful.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/Domain"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* DomainNotFound - The provided domain was not found\n\n* UnknownError - An error occurred",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get domain example": {
+            "$ref": "./examples/domains/GetDomain.json"
+          }
+        }
+      }
+    },
     "/workspaces/{workspaceId}/onelake/resetShortcutCache": {
       "post": {
         "summary": "Deletes any cached files that were stored while reading from shortcuts.",
@@ -3925,6 +4104,9 @@
           },
           "List data access roles single page example": {
             "$ref": "./examples/platform/ListDataAccessRolesSinglePageExample.json"
+          },
+          "List data access roles with constraints example": {
+            "$ref": "./examples/platform/ListDefaultDataAccessRolesWithConstraints.json"
           }
         }
       },
@@ -4011,6 +4193,9 @@
           },
           "Create or update data access roles with tables path example": {
             "$ref": "./examples/platform/CreateOrUpdateDataAccessRolesWithTablesPathExample.json"
+          },
+          "Create or update data access roles with constraints example": {
+            "$ref": "./examples/platform/CreateOrUpdateDataAccessRolesWithConstraints.json"
           }
         }
       }

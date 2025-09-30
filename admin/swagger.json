@@ -916,10 +916,109 @@
         }
       }
     },
-    "/domains": {
+    "/domains?preview=true": {
+      "get": {
+        "summary": "Returns info for all domains (preview).",
+        "description": "> [!NOTE]\n> This preview API will be deprecated on March 31, 2026, and replaced by a stable version, available [here](/rest/api/fabric/admin/domains/list-domains).\nThe new version introduces breaking changes and is not backward compatible. **When calling this API, callers must specify `true` as the value for the query parameter `preview`.**\n\n## Deprecation Notice\n\nA new query parameter `preview` has been introduced to facilitate this transition:\n*   The `preview` query parameter currently defaults to `true`. \n*   Set the value of the `preview` query parameter to `false` to use the Release version of this API.\n*   Starting March 31, 2026, the default value for `preview` will change to `false`.\n\nIt is recommended to migrate your integration to use the Release version as soon as possible by specifying `false` for the `preview` query parameter (**the default value for the `preview` query parameter will be set to `false` on API's deprecation date**).\n\nThe following incompatible changes were introduced in the Release version:\n*   Response property `contributorsScope` was removed.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Domains"
+        ],
+        "operationId": "Domains_List_Domains_(preview)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "nonEmptyOnly",
+            "description": "When true, only return domains that have at least one workspace containing an item. Default: false.",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "name": "preview",
+            "in": "query",
+            "description": "This parameter specifies which version of the API to use. Set to `true` to use the preview version described on this page, or to `false` to use the Release version detailed [here](/rest/api/fabric/admin/domains/list-domains).\nStarting March 31, 2026, the default value for `preview` will change to `false`.",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/domains.json#/definitions/DomainsResponsePreview"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get info for all domains example": {
+            "$ref": "./examples/domains/ListDomainsPreview.json"
+          },
+          "Get all non-empty domains example": {
+            "$ref": "./examples/domains/ListNonEmptyDomainsPreview.json"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a new domain (preview).",
+        "description": "> [!NOTE]\n> This preview API will be deprecated on March 31, 2026, and replaced by a stable version, available [here](/rest/api/fabric/admin/domains/create-domain). The new version introduces breaking changes and is not backward compatible. **When calling this API, callers must specify `true` as the value for the query parameter `preview`.**\n\n## Deprecation Notice\n\nA new query parameter `preview` has been introduced to facilitate this transition:\n*   The `preview` query parameter currently defaults to `true`.\n*   Set the value of the `preview` query parameter to `false` to use the Release version of this API.\n*   Starting March 31, 2026, the default value for `preview` will change to `false`.\n\nIt is recommended to migrate your integration to use the Release version as soon as possible by specifying `false` for the `preview` query parameter (**the default value for the `preview` query parameter will be set to `false` on API's deprecation date**).\n\nThe following incompatible changes were introduced in the Release version:\n*   Response property `contributorsScope` was removed.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Domains"
+        ],
+        "operationId": "Domains_Create_Domain_(preview)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "createDomainRequest",
+            "description": "The request payload for creating the domain.",
+            "schema": {
+              "$ref": "./definitions/domains.json#/definitions/CreateDomainRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "preview",
+            "in": "query",
+            "description": "This parameter specifies which version of the API to use. Set to `true` to use the preview version described on this page, or to `false` to use the Release version detailed [here](/rest/api/fabric/admin/domains/create-domain).\nStarting March 31, 2026, the default value for `preview` will change to `false`.",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Domain created successfully.",
+            "schema": {
+              "$ref": "./definitions/domains.json#/definitions/DomainPreview"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* EntityNotFound - Create domain failed because parent domain ID not found.\n\n* EntityConflict - Create domain failed because domain display name already exists.\n\n* InvalidInput - Invalid parent domain ID.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create a domain example": {
+            "$ref": "./examples/domains/CreateDomainPreview.json"
+          }
+        }
+      }
+    },
+    "/domains?preview=false": {
       "get": {
         "summary": "Returns info for all domains.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "> [!NOTE]\n> This API is a release version of a preview version due to be deprecated on March 31, 2026.\n**When calling this API - callers must set the query parameter `preview` to the value `false`**\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -934,6 +1033,13 @@
             "description": "When true, only return domains that have at least one workspace containing an item. Default: false.",
             "type": "boolean",
             "required": false
+          },
+          {
+            "name": "preview",
+            "in": "query",
+            "description": "This parameter specifies which version of the API to use. Set to `false` to use the release version.",
+            "required": true,
+            "type": "boolean"
           }
         ],
         "responses": {
@@ -961,7 +1067,7 @@
       },
       "post": {
         "summary": "Creates a new domain.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "> [!NOTE]\n> This API is a release version of a preview version due to be deprecated on March 31, 2026.\n**When calling this API - callers must set the query parameter `preview` to the value `false`**\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -978,6 +1084,13 @@
               "$ref": "./definitions/domains.json#/definitions/CreateDomainRequest"
             },
             "required": true
+          },
+          {
+            "name": "preview",
+            "in": "query",
+            "description": "This parameter specifies which version of the API to use. Set to `false` to use the release version.",
+            "required": true,
+            "type": "boolean"
           }
         ],
         "responses": {
@@ -1001,14 +1114,14 @@
         }
       }
     },
-    "/domains/{domainId}": {
+    "/domains/{domainId}?preview=true": {
       "get": {
-        "summary": "Returns the specified domain info.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Returns the specified domain info (preview).",
+        "description": "> [!NOTE]\n> This preview API will be deprecated on March 31, 2026, and replaced by a stable version, available [here](/rest/api/fabric/admin/domains/get-domain). The new version introduces breaking changes and is not backward compatible. **When calling this API, callers must specify `true` as the value for the query parameter `preview`.**\n\n## Deprecation Notice\n\nA new query parameter `preview` has been introduced to facilitate this transition:\n*   The `preview` query parameter currently defaults to `true`.\n*   Set the value of the `preview` query parameter to `false` to use the Release version of this API.\n*   Starting March 31, 2026, the default value for `preview` will change to `false`.\n\nIt is recommended to migrate your integration to use the Release version as soon as possible by specifying `false` for the `preview` query parameter (**the default value for the `preview` query parameter will be set to `false` on API's deprecation date**).\n\nThe following incompatible changes were introduced in the Release version:\n*   Response property `contributorsScope` was removed.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
-        "operationId": "Domains_GetDomain",
+        "operationId": "Domains_Get_Domain_(preview)",
         "produces": [
           "application/json"
         ],
@@ -1020,13 +1133,20 @@
             "type": "string",
             "format": "uuid",
             "required": true
+          },
+          {
+            "name": "preview",
+            "in": "query",
+            "description": "This parameter specifies which version of the API to use. Set to `true` to use the preview version described on this page, or to `false` to use the Release version detailed [here](/rest/api/fabric/admin/domains/get-domain).\nStarting March 31, 2026, the default value for `preview` will change to `false`.",
+            "required": true,
+            "type": "boolean"
           }
         ],
         "responses": {
           "200": {
             "description": "Request completed successfully.",
             "schema": {
-              "$ref": "./definitions/domains.json#/definitions/Domain"
+              "$ref": "./definitions/domains.json#/definitions/DomainPreview"
             }
           },
           "default": {
@@ -1038,13 +1158,71 @@
         },
         "x-ms-examples": {
           "Get a domain example": {
-            "$ref": "./examples/domains/GetDomainById.json"
+            "$ref": "./examples/domains/GetDomainByIdPreview.json"
           }
         }
       },
+      "patch": {
+        "summary": "Updates the specified domain info (preview).",
+        "description": "> [!NOTE]\n> This preview API will be deprecated on March 31, 2026, and replaced by a stable version, available [here](/rest/api/fabric/admin/domains/update-domain). The new version introduces breaking changes and is not backward compatible. **When calling this API, callers must specify `true` as the value for the query parameter `preview`.**\n\n## Deprecation Notice\n\nA new query parameter `preview` has been introduced to facilitate this transition:\n*   The `preview` query parameter currently defaults to `true`.\n*   Set the value of the `preview` query parameter to `false` to use the Release version of this API.\n*   Starting March 31, 2026, the default value for `preview` will change to `false`.\n\nIt is recommended to migrate your integration to use the Release version as soon as possible by specifying `false` for the `preview` query parameter (**the default value for the `preview` query parameter will be set to `false` on API's deprecation date**).\n\nThe following incompatible changes were introduced in the Release version:\n*   Request property `contributorsScope` was removed.\n*   Response property `contributorsScope` was removed.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Domains"
+        ],
+        "operationId": "Domains_Update_Domain_(preview)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "domainId",
+            "description": "The domain ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateDomainRequest",
+            "description": "The request payload for updating the domain.",
+            "schema": {
+              "$ref": "./definitions/domains.json#/definitions/UpdateDomainRequestPreview"
+            },
+            "required": true
+          },
+          {
+            "name": "preview",
+            "in": "query",
+            "description": "This parameter specifies which version of the API to use. Set to `true` to use the preview version described on this page, or to `false` to use the Release version detailed [here](/rest/api/fabric/admin/domains/update-domain).\nStarting March 31, 2026, the default value for `preview` will change to `false`.",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/domains.json#/definitions/DomainPreview"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.\n\n* EntityConflict - Update domain failed because domain display name already exists.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update a domain example": {
+            "$ref": "./examples/domains/UpdateDomainPreview.json"
+          }
+        }
+      }
+    },
+    "/domains/{domainId}": {
       "delete": {
         "summary": "Deletes the specified domain.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -1078,10 +1256,59 @@
             "$ref": "./examples/domains/DeleteDomain.json"
           }
         }
+      }
+    },
+    "/domains/{domainId}?preview=false": {
+      "get": {
+        "summary": "Returns the specified domain info.",
+        "description": "> [!NOTE]\n> This API is a release version of a preview version due to be deprecated on March 31, 2026.\n**When calling this API - callers must set the query parameter `preview` to the value `false`**\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Domains"
+        ],
+        "operationId": "Domains_GetDomain",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "domainId",
+            "description": "The domain ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "name": "preview",
+            "in": "query",
+            "description": "This parameter specifies which version of the API to use. Set to `false` to use the release version.",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/domains.json#/definitions/Domain"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a domain example": {
+            "$ref": "./examples/domains/GetDomainById.json"
+          }
+        }
       },
       "patch": {
         "summary": "Updates the specified domain info.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "> [!NOTE]\n> This API is a release version of a preview version due to be deprecated on March 31, 2026.\n**When calling this API - callers must set the query parameter `preview` to the value `false`**\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -1097,6 +1324,13 @@
             "type": "string",
             "format": "uuid",
             "required": true
+          },
+          {
+            "name": "preview",
+            "in": "query",
+            "description": "This parameter specifies which version of the API to use. Set to `false` to use the release version.",
+            "required": true,
+            "type": "boolean"
           },
           {
             "in": "body",
@@ -1132,7 +1366,7 @@
     "/domains/{domainId}/workspaces": {
       "get": {
         "summary": "Returns a list of the workspaces assigned to the specified domain.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -1182,7 +1416,7 @@
     "/domains/{domainId}/assignWorkspaces": {
       "post": {
         "summary": "Assign workspaces to the specified domain by workspace ID.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nPreexisting domain assignments will be overridden unless bulk reassignment is blocked by domain management tenant settings.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 10 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "Preexisting domain assignments will be overridden unless bulk reassignment is blocked by domain management tenant settings.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 10 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -1230,7 +1464,7 @@
     "/domains/{domainId}/unassignWorkspaces": {
       "post": {
         "summary": "Unassign workspaces from the specified domain by workspace ID.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -1277,7 +1511,7 @@
     "/domains/{domainId}/unassignAllWorkspaces": {
       "post": {
         "summary": "Unassign all workspaces from the specified domain.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 10 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 10 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -1313,10 +1547,62 @@
         }
       }
     },
+    "/domains/{domainId}/roleAssignments": {
+      "get": {
+        "summary": "Returns a list of domain role assignments.",
+        "description": "## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.Read.All or Tenant.ReadWrite.All.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Domains"
+        ],
+        "operationId": "Domains_ListRoleAssignments",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "domainId",
+            "description": "The domain ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/domains.json#/definitions/DomainRoleAssignments"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* DomainNotFound - The provided domain was not found\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List domain role assignments example": {
+            "$ref": "./examples/domains/ListDomainRoleAssignments.json"
+          }
+        }
+      }
+    },
     "/domains/{domainId}/roleAssignments/bulkAssign": {
       "post": {
         "summary": "Assign the specified admins or contributors to the domain.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -1348,7 +1634,7 @@
             "description": "Request completed successfully."
           },
           "default": {
-            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "description": "Common error codes:\n\n* PrincipalWithDomainRoleAssignmentAlreadyExists - The principal is already assigned to the domain with the specified role.\n\n* UnsupportedPrincipalTypeForDomainAdminAssignment - Using unsupported principal type for assigning or unassigning domain admin roles.\n\n* UnknownError - An error occurred.",
             "schema": {
               "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
@@ -1367,7 +1653,7 @@
     "/domains/{domainId}/roleAssignments/bulkUnassign": {
       "post": {
         "summary": "Unassign the specified admins or contributors from the domain.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -1399,7 +1685,7 @@
             "description": "Request completed successfully."
           },
           "default": {
-            "description": "Common error codes:\n\n* DomainSpecificUsersScopeCannotBeEmptyError - Unassigning domain members failed because when the contributors scope is set to 'Specific Users And Groups', the users or groups list can't be empty.",
+            "description": "Common error codes:\n\n* PrincipalWithDomainRoleAssignmentNotFound - The principal is not assigned to the domain with the specified role.\n\n* UnsupportedPrincipalTypeForDomainAdminAssignment - Using unsupported principal type for assigning or unassigning domain admin roles.\n\n* UnknownError - An error occurred.",
             "schema": {
               "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
@@ -1415,10 +1701,58 @@
         }
       }
     },
+    "/domains/{domainId}/roleAssignments/syncToSubdomains": {
+      "post": {
+        "summary": "Sync the role assignments from the specified domain to its subdomains.",
+        "description": "## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Domains"
+        ],
+        "operationId": "Domains_SyncRoleAssignmentsToSubdomains",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "domainId",
+            "description": "The domain ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "syncRoleAssignmentsToSubdomainsRequest",
+            "description": "The request payload for syncing domain members to its subdomains.",
+            "schema": {
+              "$ref": "./definitions/domains.json#/definitions/SyncRoleAssignmentsToSubdomainsRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "default": {
+            "description": "Common error codes:\n\n* SyncingAdminsToSubdomainsIsNotSupported - Syncing admins to subdomains is not supported\n\n* DomainNotFound - The provided domain was not found\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Assign domain contributors to subdomains example": {
+            "$ref": "./examples/domains/SyncRoleAssignmentsToSubdomains.json"
+          }
+        }
+      }
+    },
     "/domains/{domainId}/assignWorkspacesByCapacities": {
       "post": {
         "summary": "Assign all workspaces that reside on the specified capacities to the specified domain.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nPreexisting domain assignments will be overridden unless bulk reassignment is blocked by domain management tenant settings.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 10 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "Preexisting domain assignments will be overridden unless bulk reassignment is blocked by domain management tenant settings.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 10 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
@@ -1482,7 +1816,7 @@
     "/domains/{domainId}/assignWorkspacesByPrincipals": {
       "post": {
         "summary": "Assign workspaces to the specified domain, when one of the specified principals has admin permission in the workspace.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nPreexisting domain assignments will be overridden unless bulk reassignment is blocked by domain management tenant settings.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 10 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "Preexisting domain assignments will be overridden unless bulk reassignment is blocked by domain management tenant settings.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must be a Fabric administrator.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All.\n\n## Limitations\n\nMaximum 10 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Domains"
         ],
