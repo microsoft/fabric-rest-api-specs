@@ -3125,6 +3125,131 @@
         }
       }
     },
+    "/workspaces/{workspaceId}/onelake/settings": {
+      "get": {
+        "summary": "Get workspace OneLake settings.",
+        "description": "## Permissions\n\nThe caller must have an *admin* workspace role.\n\n ## Required Delegated Scopes\n\n OneLake.Read.All or OneLake.ReadWrite.All \n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "OneLakeSettings"
+        ],
+        "operationId": "OneLakeSettings_GetSettings",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": false,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref":  "./definitions/platform.json#/definitions/GetOneLakeSettingsResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred. \n\n* WorkspaceNotFound - Workspace not found. \n\n * UserNotAuthorizedSourceWorkspace - User is not authorized for the workspace.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get OneLake Setting for workspace with diagnostic setting example": {
+            "$ref": "./examples/platform/GetOneLakeDiagnosticSettingWithDiagnosticSetting.json"
+          },
+          "Get OneLake Setting for workspace without diagnostic setting example": {
+            "$ref": "./examples/platform/GetOneLakeDiagnosticSettingWithoutDiagnosticSetting.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/onelake/settings/modifyDiagnostics": {
+      "post": {
+        "summary": "Enables or disables workspace OneLake diagnostic settings.",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation). \n\n ## Permissions\n\n* The caller must have an *admin* workspace role on the source workspace. \n\n * The caller must have *contributor* or above workspace role on the destination workspace. \n\n ## Required Delegated Scopes\n\nOneLake.ReadWrite.All \n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "OneLakeSettings"
+        ],
+        "operationId": "OneLakeSettings_ModifyDiagnostics",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "modifyOneLakeDiagnosticSettingRequest",
+            "description": "The OneLake diagnostic setting object.",
+            "required": false,
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/ModifyOneLakeDiagnosticSettingRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. Modify diagnostic settings is in progress.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status. Can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID. Can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred. \n\n* WorkspaceNotFound - Source Workspace not found. \n\n * UserNotAuthorizedSourceWorkspace - User is not authorized for the source workspace.\n\n * UserNotAuthorizedDestinationItem - User is not authorized for the destination workspace.\n\n * DestinationWorkspaceNotFound - Destination Workspace not found.\n\n * DestinationItemNotFound -Destination item not found.\n\n * WorkspaceNotInSameCapacity - Source and destination workspace not in same capacity.\n\n * SettingsNotAllowedOnWorkspace - Diagnostic setting not allowed on workspace.\n\n * RequiredDestination - Destination is required when enabling diagnostics for first time.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create OneLake Diagnostic Setting for Workspace example": {
+            "$ref": "./examples/platform/ModifyOneLakeDiagnosticSettingCreate.json"
+          },
+          "Disable OneLake Diagnostic Setting for Workspace example": {
+            "$ref": "./examples/platform/ModifyOneLakeDiagnosticSettingDisable.json"
+          },
+          "Replace OneLake Diagnostic Setting Destination for Workspace example": {
+            "$ref": "./examples/platform/ModifyOneLakeDiagnosticSettingReplace.json"
+          },
+          "Remove OneLake Diagnostic Setting Destination for Workspace example": {
+            "$ref": "./examples/platform/ModifyOneLakeDiagnosticSettingRemove.json"
+          }
+        }
+      }
+    },
     "/deploymentPipelines": {
       "get": {
         "summary": "Returns a list of deployment pipelines the user can access.",

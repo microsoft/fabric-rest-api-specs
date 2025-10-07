@@ -2389,6 +2389,74 @@
           "$ref": "../../common/definitions.json#/definitions/PaginatedResponse"
         }
       ]
+    },
+    "GetOneLakeSettingsResponse": {
+      "description": "OneLake settings response.",
+      "type": "object",
+      "required": [ "diagnostics" ],
+      "properties": {
+        "diagnostics": {
+          "$ref": "#/definitions/OneLakeDiagnosticSettings"
+        }
+      }
+    },
+    "ModifyOneLakeDiagnosticSettingRequest": {
+      "description": "Modify OneLake diagnostic settings request.",
+      "$ref": "#/definitions/OneLakeDiagnosticSettings"
+    },
+    "OneLakeDiagnosticSettings": {
+      "description": "OneLake diagnostic settings object.",
+      "type": "object",
+      "required": [ "status" ],
+      "properties": {
+        "status": {
+          "description": "The status of the diagnostics settings.",
+          "Enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "readOnly": false
+        },
+        "destination": {
+          "description": "The destination where OneLake diagnostic logs are stored. If disabling, this is not required.",
+          "$ref": "#/definitions/OneLakeDiagnosticSettingsDestinationInfo",
+          "readOnly": false
+        }
+      }
+    },
+    "OneLakeDiagnosticSettingsDestinationInfo": {
+      "description": "The destination where OneLake diagnostic logs are stored.",
+      "type": "object",
+      "required": [ "type" ],
+      "discriminator": "type",
+      "properties": {
+        "type": {
+          "description": "The item type of the destination.",
+          "type": "string",
+          "Enum": [
+            "Lakehouse"
+          ],
+          "readOnly": false
+        }
+      }
+    },
+    "LakehouseOneLakeDiagnosticSettingsDestination": {
+      "description": "Lakehouse destination for OneLake diagnostic logs.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OneLakeDiagnosticSettingsDestinationInfo"
+        }
+      ],
+      "x-ms-discriminator-value": "Lakehouse",
+      "properties": {
+        "lakehouse": {
+          "description": "Reference to the destination lakehouse.",
+          "$ref": "../../common/definitions.json#/definitions/ItemReference",
+          "readOnly": false
+        }
+      }
     }
   }
 }

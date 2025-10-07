@@ -2,7 +2,27 @@
     "parameters": {
         "workspaceId": "f089354e-8366-4e18-aea3-4cb4a3a50b48",
         "environmentId": "707cfd07-cbf1-41da-aad7-dd157ddb8c11",
-        "preview": "false"
+        "preview": true,
+        "updateEnvironmentSparkComputeRequest": {
+            "instancePool": {
+                "name": "MyWorkspacePool",
+                "type": "Workspace"
+            },
+            "driverCores": 4,
+            "driverMemory": "56g",
+            "executorCores": 4,
+            "executorMemory": "56g",
+            "dynamicExecutorAllocation": {
+                "enabled": false,
+                "minExecutors": 1,
+                "maxExecutors": 1
+            },
+            "sparkProperties": {
+                "spark.acls.enable": "false",
+                "spark.admin.acls": null
+            },
+            "runtimeVersion": "1.2"
+        }
     },
     "responses": {
         "200": {
@@ -21,12 +41,9 @@
                     "minExecutors": 1,
                     "maxExecutors": 1
                 },
-                "sparkProperties": [
-                    {
-                        "key": "spark.acls.enable",
-                        "value": "false"
-                    }
-                ],
+                "sparkProperties": {
+                    "spark.acls.enable": "false"
+                },
                 "runtimeVersion": "1.2"
             }
         }
