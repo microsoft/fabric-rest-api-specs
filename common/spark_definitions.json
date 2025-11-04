@@ -220,7 +220,7 @@
                 "Notebook"
             ],
             "x-ms-enum": {
-                "name": "ItemType",
+                "name": "LivySessionItemType",
                 "modelAsString": true,
                 "values": [
                     {
