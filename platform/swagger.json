@@ -3025,7 +3025,7 @@
         }
       }
     },
-    "/domains/{domainId}":{
+    "/domains/{domainId}": {
       "get": {
         "summary": "Returns specified domain information.",
         "description": "## Required Delegated Scopes\n\nDomain.Read.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
@@ -7015,6 +7015,202 @@
         "x-ms-examples": {
           "Set workspace networking communication policy example": {
             "$ref": "./examples/platform/SetWorkspaceNetworkingCommunicationPolicy.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/networking/communicationPolicy/outbound/connections": {
+      "get": {
+        "summary": "Returns the cloud connection rules for the workspace enabled with Outbound Access Protection (OAP). This API is designed to help workspace administrators view the effective outbound network communication policies that are enforced for cloud connections. Outbound access protection cloud connection rules are only returned and applied if the workspace’s network communication policy has `outbound.publicAccessRules.defaultAction` set to Deny. If OAP is not enabled on workspace, API fails as outbound connections are not being restricted. This feature is currently in preview.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use. \n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_GetOutboundCloudConnectionRules",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "Unique identifier of the workspace whose outbound rules are being queried.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/workspaceNetworkingPolicy.json#/definitions/WorkspaceOutboundConnections"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get workspace outbound access protection cloud connection rule for example": {
+            "$ref": "./examples/platform/GetWorkspaceOutboundConnections.json"
+          }
+        }
+      },
+      "put": {
+        "summary": "Sets the outbound access protection cloud connection rules for the workspace. This API enables workspace administrators to set of outbound network communication rules that control which cloud connection types and their external endpoints/workspaces where ever applicable are to be allowed from the workspace. This feature is currently in preview.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use. \n\n> [!NOTE]\n> Outbound access protection rules are only enforced if the workspace’s network communication policy has outbound.publicAccessRules.defaultAction set to Deny. If OAP is not enabled on workspace, API fails as outbound connections are not being restricted. \n\n> [!NOTE]\n> This API uses the PUT method and will overwrite all outbound access connections for the workspace. Remaining policy will be set to default value if partial policy is provided in the request body. Always run Get first and provide full policy in the request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_SetOutboundCloudConnectionRules",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "Unique identifier of the workspace to update.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "WorkspaceOutboundConnections",
+            "description": "Set outbound access protection cloud connection rules for the workspace request payload.",
+            "schema": {
+              "$ref": "./definitions/workspaceNetworkingPolicy.json#/definitions/WorkspaceOutboundConnections"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Set workspace outbound access protection cloud connection rule for example": {
+            "$ref": "./examples/platform/SetWorkspaceOutboundConnections.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/networking/communicationPolicy/outbound/gateways": {
+      "get": {
+        "summary": "Returns the gateway rules for the workspace enabled with Outbound Access Protection (OAP). This API is designed to help workspace administrators view the effective outbound network communication policies that are enforced for On-prem and Vnet Data gateways. Outbound access protection gateway rules are only returned and applied if the workspace’s network communication policy has outbound.publicAccessRules.defaultAction set to Deny. If OAP is not enabled on workspace, API fails as outbound connections are not being restricted. This feature is currently in preview.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use. \n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_GetOutboundGatewayRules",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "Unique identifier of the workspace whose outbound rules are being queried.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/workspaceNetworkingPolicy.json#/definitions/WorkspaceOutboundGateways"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get workspace outbound access protection gateway rule for example": {
+            "$ref": "./examples/platform/GetWorkspaceOutboundGateways.json"
+          }
+        }
+      },
+      "put": {
+        "summary": "Sets the gateway rules for the workspace enabled with Outbound Access Protection (OAP). This API enables workspace administrators to define, replace, or override the set of outbound network communication policies that control which on-prem /Vnet Data Gateways are to be allowed from current workspace.  This feature is currently in preview.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use. \n\n> [!NOTE]\n> Outbound access protection rules are only enforced if the workspace’s network communication policy has outbound.publicAccessRules.defaultAction set to Deny. If OAP is not enabled on workspace, API fails as outbound connections are not being restricted. \n\n> [!NOTE]\n>This API uses the PUT method and will overwrite all outbound access gateways for the workspace. Remaining policy will be set to default value if partial policy is provided in the request body. Always run Get first and provide full policy in the request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_SetOutboundGatewayRules",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "Unique identifier of the workspace to update.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "WorkspaceOutboundGateways",
+            "description": "Set outbound access protection gateway rules for the workspace request payload.",
+            "schema": {
+              "$ref": "./definitions/workspaceNetworkingPolicy.json#/definitions/WorkspaceOutboundGateways"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Set workspace outbound access protection gateway rule for example": {
+            "$ref": "./examples/platform/SetWorkspaceOutboundGateways.json"
           }
         }
       }
