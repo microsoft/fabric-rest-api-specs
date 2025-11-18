@@ -16,26 +16,7 @@
                 {
                     "$ref": "../common/definitions.json#/definitions/Item"
                 }
-            ],
-            "properties": {
-                "properties": {
-                    "description": "The GraphModel properties.",
-                    "$ref": "#/definitions/GraphModelProperties"
-                }
-            }
-        },
-        "GraphModelProperties": {
-            "description": "The GraphModel properties.",
-            "type": "object",
-            "required": [
-                "oneLakeRootPath"
-            ],
-            "properties": {
-                "oneLakeRootPath": {
-                    "description": "OneLake path to the GraphModel root directory.",
-                    "type": "string"
-                }
-            }
+            ]
         },
         "GraphModels": {
             "description": "A list of Public Facing Collection Names.",
