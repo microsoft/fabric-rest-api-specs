@@ -63,7 +63,7 @@
       },
       "post": {
         "summary": "Creates a GraphModel in the specified workspace.",
-        "description": "> [!NOTE]\n> GraphModel item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n To create GraphModel with a public definition, refer to [GraphModel](/rest/api/fabric/articles/item-management/definitions/graph-model) article. \n\n ## Permissions \n The caller must have a *contributor* workspace role. \n\n## Required Delegated Scopes\n\n Item.ReadWrite.All \n\n## Limitations \n- To create a GraphModel the workspace must be on a supported Fabric capacity. For more information see: [Microsoft Fabric license types](/fabric/enterprise/licenses#microsoft-fabric-license-types).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "description": "> [!NOTE]\n> GraphModel item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n To create GraphModel with a public definition, refer to [GraphModel](/rest/api/fabric/articles/item-management/definitions/graph-model-definition) article. \n\n ## Permissions \n The caller must have a *contributor* workspace role. \n\n## Required Delegated Scopes\n\n Item.ReadWrite.All \n\n## Limitations \n- To create a GraphModel the workspace must be on a supported Fabric capacity. For more information see: [Microsoft Fabric license types](/fabric/enterprise/licenses#microsoft-fabric-license-types).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -516,7 +516,7 @@
         "tags": [
           "Items"
         ],
-        "operationId": "Items_ExecuteQuery_(preview)",
+        "operationId": "Items_Execute_Query_(preview)",
         "consumes": [
           "application/json"
         ],
@@ -586,7 +586,7 @@
         "tags": [
           "Items"
         ],
-        "operationId": "Items_GetQueryableGraphType_(preview)",
+        "operationId": "Items_Get_Queryable_Graph_Type_(preview)",
         "produces": [
           "application/json"
         ],
