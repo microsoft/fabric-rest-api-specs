@@ -1,7 +1,8 @@
 {
     "parameters": {
         "workspaceId": "f8113ba8-dd81-443e-811a-b385340f3f05",
-        "sparkJobDefinitionId": "8cee7699-2e81-4121-9a53-cc9025046193"
+        "beta": true,
+        "submitter.id": "6f23a8a6-d954-4550-b91a-4df73ccd0311"
     },
     "responses": {
         "200": {
@@ -26,8 +27,8 @@
                             "itemId": "8cee7699-2e81-4121-9a53-cc9025046193",
                             "referenceType": "ById"
                         },
-                        "itemName": "lh_itemName",
-                        "itemType": "SparkJobDefinition",
+                        "itemName": "spark_itemName",
+                        "itemType": "Spark",
                         "jobType": "SparkBatch",
                         "submittedDateTime": "2025-01-31T15:32:03Z",
                         "startDateTime": "2025-01-31T15:34:11Z",
