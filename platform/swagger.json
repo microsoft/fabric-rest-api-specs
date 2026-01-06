@@ -4987,7 +4987,7 @@
     "/workspaces/{workspaceId}/items/{itemId}/applyTags": {
       "post": {
         "summary": "Apply tags on an item.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\n The caller must have *contributor* or higher role on the workspace. \n\n## Required Delegated Scopes\n\n ItemMetadata.ReadWrite.All or these scope types: \n- Generic scope: Item.ReadWrite.All \n- Specific scope: *itemType*.ReadWrite.All (for example: Notebook.ReadWrite.All) \n\n For more information about scopes, see [Scopes article](/rest/api/fabric/articles/scopes).\n\n## Limitations\n\nMaximum 25 requests per hour per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\n The caller must have *contributor* or higher role on the workspace. \n\n## Required Delegated Scopes\n\n ItemMetadata.ReadWrite.All or these scope types: \n- Generic scope: Item.ReadWrite.All \n- Specific scope: *itemType*.ReadWrite.All (for example: Notebook.ReadWrite.All) \n\n For more information about scopes, see [Scopes article](/rest/api/fabric/articles/scopes).\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Tags"
         ],
@@ -5043,7 +5043,7 @@
     "/workspaces/{workspaceId}/items/{itemId}/unapplyTags": {
       "post": {
         "summary": "Unapply tags from an item.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\n The caller must have *contributor* or higher role on the workspace. \n\n## Required Delegated Scopes\n\n ItemMetadata.ReadWrite.All or these scope types: \n- Generic scope: Item.ReadWrite.All \n- Specific scope: *itemType*.ReadWrite.All (for example: Notebook.ReadWrite.All) \n\n For more information about scopes, see [Scopes article](/rest/api/fabric/articles/scopes).\n\n## Limitations\n\nMaximum 25 requests per hour per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\n The caller must have *contributor* or higher role on the workspace. \n\n## Required Delegated Scopes\n\n ItemMetadata.ReadWrite.All or these scope types: \n- Generic scope: Item.ReadWrite.All \n- Specific scope: *itemType*.ReadWrite.All (for example: Notebook.ReadWrite.All) \n\n For more information about scopes, see [Scopes article](/rest/api/fabric/articles/scopes).\n\n## Limitations\n\nMaximum 25 requests per one minute per principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Tags"
         ],
@@ -5867,6 +5867,9 @@
           },
           "Cloud example": {
             "$ref": "./examples/connections/CreateCloudConnection.json"
+          },
+          "Cloud example with KeyPair credentials": {
+            "$ref": "./examples/connections/CreateCloudConnectionWithKeyPair.json"
           }
         }
       }

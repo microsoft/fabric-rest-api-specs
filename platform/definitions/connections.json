@@ -75,7 +75,7 @@
         "CredentialType": {
             "type": "string",
             "description": "The credential type of the connection. Additional credential types may be added over time.",
-            "enum": ["Windows", "Anonymous", "Basic", "Key", "OAuth2", "WindowsWithoutImpersonation", "SharedAccessSignature", "ServicePrincipal", "WorkspaceIdentity"],
+            "enum": ["Windows", "Anonymous", "Basic", "Key", "OAuth2", "WindowsWithoutImpersonation", "SharedAccessSignature", "ServicePrincipal", "WorkspaceIdentity", "KeyPair"],
             "x-ms-enum": {     
                 "name": "CredentialType",
                 "modelAsString": true,
@@ -115,6 +115,10 @@
                     {
                         "value": "WorkspaceIdentity",
                         "description": "Connection uses workspace identity authentication to connect."
+                    },
+                    {
+                        "value": "KeyPair",
+                        "description": "Connection uses key pair authentication to connect."
                     }
                 ]
             }
@@ -616,6 +620,31 @@
                 }
             },
             "x-ms-discriminator-value": "SharedAccessSignature"
+        },
+        "KeyPairCredentials": {
+            "required": ["identifier", "privateKey"],
+            "type": "object",
+            "description": "Credentials for KeyPair CredentialType.",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/Credentials"
+                }
+            ],
+            "properties": {
+                "identifier": {
+                    "type": "string",
+                    "description": "The identifier for the key."
+                },
+                "privateKey": {
+                    "type": "string",
+                    "description": "The private key based on PKCS #8 standard."
+                },
+                "passphrase": {
+                    "type": "string",
+                    "description": "The passphrase for the private key if the private key is encrypted."
+                }
+            },
+            "x-ms-discriminator-value": "KeyPair"
         },
         "CredentialDetails": {
             "type": "object",
