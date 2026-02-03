@@ -63,6 +63,19 @@
               "$ref": "./definitions.json#/definitions/Warehouses"
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* InvalidItemType - Invalid item type.",
             "schema": {
@@ -134,6 +147,19 @@
               }
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* InvalidItemType - Item type is invalid.\n\n* ItemDisplayNameAlreadyInUse - Item display name is already used.\n\n* CorruptedPayload - The provided payload is corrupted.\n\n* WorkspaceItemsLimitExceeded - Workspace item limit exceeded.",
             "schema": {
@@ -185,6 +211,19 @@
             "description": "Request completed successfully.",
             "schema": {
               "$ref": "./definitions.json#/definitions/Warehouse"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
           },
           "default": {
@@ -247,6 +286,19 @@
               "$ref": "./definitions.json#/definitions/Warehouse"
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found. \n\n* InvalidRequest - Invalid update request.",
             "schema": {
@@ -291,6 +343,19 @@
         "responses": {
           "200": {
             "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
           },
           "default": {
             "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
@@ -375,6 +440,19 @@
               "$ref": "./definitions.json#/definitions/ConnectionStringResponse"
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found. \n\n* InvalidGuestTenantId - The provided guest tenant ID does not exist.",
             "schema": {
@@ -396,7 +474,7 @@
         "tags": [
           "SQLAuditSettings"
         ],
-        "operationId": "UpdateSQLAuditSettings",
+        "operationId": "SQLAuditSettings_UpdateSQLAuditSettings",
         "parameters": [
           {
             "in": "path",
@@ -437,6 +515,19 @@
               "$ref": "../common/definitions.json#/definitions/SqlAuditSettings"
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
             "schema": {
@@ -456,7 +547,7 @@
         "tags": [
           "SQLAuditSettings"
         ],
-        "operationId": "GetSQLAuditSettings",
+        "operationId": "SQLAuditSettings_GetSQLAuditSettings",
         "produces": [
           "application/json"
         ],
@@ -485,6 +576,19 @@
               "$ref": "../common/definitions.json#/definitions/SqlAuditSettings"
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
             "schema": {
@@ -506,7 +610,7 @@
         "tags": [
           "SQLAuditSettings"
         ],
-        "operationId": "SetAuditActionsAndGroups",
+        "operationId": "SQLAuditSettings_SetAuditActionsAndGroups",
         "consumes": [
           "application/json"
         ],
@@ -551,6 +655,19 @@
         "responses": {
           "200": {
             "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
           },
           "default": {
             "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
@@ -610,6 +727,19 @@
             "description": "Request completed successfully.",
             "schema": {
               "$ref": "./definitions.json#/definitions/RestorePoints"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
           },
           "default": {
@@ -691,6 +821,19 @@
               }
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* RestorePointCreationAlreadyInProgress - A restore point creation is already in-progress.",
             "schema": {
@@ -749,6 +892,19 @@
               "$ref": "./definitions.json#/definitions/RestorePoint"
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* RestorePointNotFound - The requested restore point does not exist, or the caller doesn't have sufficient permissions for this operation.",
             "schema": {
@@ -801,6 +957,19 @@
         "responses": {
           "200": {
             "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
           },
           "default": {
             "description": "Common error codes:\n\n* RestorePointNotFound - The requested restore point does not exist, or the caller doesn't have sufficient permissions for this operation. \n\n* CannotDeleteAutomaticRestorePointException - System generated restore points cannot be deleted.",
@@ -868,6 +1037,19 @@
             "description": "Request completed successfully.",
             "schema": {
               "$ref": "./definitions.json#/definitions/RestorePoint"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
           },
           "default": {
@@ -942,6 +1124,19 @@
                 "type": "integer",
                 "description": "The number of seconds to wait before retrying the request."
               }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
           },
           "default": {

@@ -63,6 +63,19 @@
               "$ref": "./definitions.json#/definitions/SQLEndpoints"
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* InvalidItemType - Invalid item type.",
             "schema": {
@@ -141,6 +154,19 @@
                 "type": "integer",
                 "description": "The number of seconds to wait before retrying the request."
               }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
           },
           "default": {
@@ -226,6 +252,19 @@
               "$ref": "./definitions.json#/definitions/ConnectionStringResponse"
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found. \n\n* InvalidGuestTenantId - The provided ID does not exist.",
             "schema": {
@@ -247,7 +286,7 @@
         "tags": [
           "SQLAuditSettings"
         ],
-        "operationId": "UpdateSQLAuditSettings",
+        "operationId": "SQLAuditSettings_UpdateSQLAuditSettings",
         "consumes": [
           "application/json"
         ],
@@ -288,6 +327,19 @@
 
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
             "schema": {
@@ -307,7 +359,7 @@
         "tags": [
           "SQLAuditSettings"
         ],
-        "operationId": "GetSQLAuditSettings",
+        "operationId": "SQLAuditSettings_GetSQLAuditSettings",
         "produces": ["application/json"],
         "parameters": [
           {
@@ -334,6 +386,19 @@
               "$ref": "../common/definitions.json#/definitions/SqlAuditSettings"
             }
           },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
           "default": {
             "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
             "schema": {
@@ -355,7 +420,7 @@
         "tags": [
           "SQLAuditSettings"
         ],
-        "operationId": "SetAuditActionsAndGroups",
+        "operationId": "SQLAuditSettings_SetAuditActionsAndGroups",
         "parameters": [
           {
             "in": "path",
@@ -400,6 +465,19 @@
         "responses": {
           "200": {
             "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
           },
           "default": {
             "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
