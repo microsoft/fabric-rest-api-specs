@@ -562,6 +562,180 @@
         }
       }
     },
+    "/workspaces/{workspaceId}/apacheAirflowJobs/{apacheAirflowJobId}/environment/start?beta=true": {
+      "post": {
+        "summary": "Starts an Apache Airflow job environment.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\n The caller must have *execute* permissions for the Apache Airflow job. \n\n## Required Delegated Scopes\n\n Airflow.Execute.All or Item.Execute.All\n\nSet the `beta` query parameter to `true` to call this API.\n\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Environment"
+        ],
+        "operationId": "Environment_Start_Apache_Airflow_Job_Environment_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "apacheAirflowJobId",
+            "description": "The Apache Airflow job ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true,
+            "default": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. Starting the environment is in progress.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested Apache Airflow job was not found.\n\n* Forbidden - The caller doesn't have permissions to call the API.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Start Apache Airflow environment example": {
+            "$ref": "./examples/StartApacheAirflowEnvironment.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/apacheAirflowJobs/{apacheAirflowJobId}/environment/stop?beta=true": {
+      "post": {
+        "summary": "Stops an Apache Airflow job environment.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\n The caller must have *execute* permissions for the Apache Airflow job. \n\n## Required Delegated Scopes\n\n Airflow.Execute.All or Item.Execute.All\n\nSet the `beta` query parameter to `true` to call this API.\n\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Environment"
+        ],
+        "operationId": "Environment_Stop_Apache_Airflow_Job_Environment_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "apacheAirflowJobId",
+            "description": "The Apache Airflow job ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true,
+            "default": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. Stopping the environment is in progress.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested Apache Airflow job was not found.\n\n* Forbidden - The caller doesn't have permissions to call the API.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Stop Apache Airflow environment example": {
+            "$ref": "./examples/StopApacheAirflowEnvironment.json"
+          }
+        }
+      }
+    },
     "/workspaces/{workspaceId}/apacheAirflowJobs/{apacheAirflowJobId}/environment?beta=true": {
       "get": {
         "summary": "Gets the Apache Airflow environment for the specified Apache Airflow job.",
@@ -714,6 +888,115 @@
         }
       }
     },
+    "/workspaces/{workspaceId}/apacheAirflowJobs/{apacheAirflowJobId}/environment/deployRequirements?beta=true": {
+      "post": {
+        "summary": "Deploys requirements for an Apache Airflow job environment.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\n The caller must have *write* permissions for the Apache Airflow job. \n\n## Required Delegated Scopes\n\n Airflow.Write.All or Item.Write.All\n\nSet the `beta` query parameter to `true` to call this API.\n\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n**You can deploy requirements by either including the `filePath` query parameter pointing to an existing requirements file, or by providing the requirements file content directly in the request body.**\n\n**When calling this API, the Apache Airflow job must be in 'Started' state.**\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Requirements"
+        ],
+        "operationId": "Requirements_Deploy_Apache_Airflow_Job_Requirements_(beta)",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "apacheAirflowJobId",
+            "description": "The Apache Airflow job ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true,
+            "default": true
+          },
+          {
+            "in": "query",
+            "name": "filePath",
+            "description": "The path to an existing requirements file to deploy. If not provided, the request body should contain the requirements file content.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "body",
+            "name": "requirementsContentRequest",
+            "description": "The requirements file content (UTF-8 encoded text). Required if filePath is not provided.",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. The environment will be updated in the background.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested Apache Airflow job was not found.\n\n* Forbidden - The caller doesn't have permissions to call the API.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Deploy Apache Airflow job requirements with file path example": {
+            "$ref": "./examples/DeployApacheAirflowJobRequirementsQueryParam.json"
+          },
+          "Deploy Apache Airflow job requirements with request body example": {
+            "$ref": "./examples/DeployApacheAirflowJobRequirementsRequestBody.json"
+          }
+        }
+      }
+    },
     "/workspaces/{workspaceId}/apacheAirflowJobs/{apacheAirflowJobId}/environment/settings?beta=true": {
       "get": {
         "summary": "Returns the environment settings for the specified Apache Airflow job.",
@@ -781,6 +1064,105 @@
         "x-ms-examples": {
           "Get Apache Airflow environment settings example": {
             "$ref": "./examples/GetApacheAirflowJobSettings.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/apacheAirflowJobs/{apacheAirflowJobId}/environment/updateSettings?beta=true": {
+      "post": {
+        "summary": "Updates the settings for an Apache Airflow job environment.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\n The caller must have *write* permissions for the Apache Airflow job. \n\n## Required Delegated Scopes\n\n Airflow.Write.All or Item.Write.All\n\nSet the `beta` query parameter to `true` to call this API.\n\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n**When updating list values (environmentVariables, airflowConfigurationOverrides), users must submit the complete set of desired values; existing values will be replaced.**\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Settings"
+        ],
+        "operationId": "Settings_Update_Apache_Airflow_Job_Settings_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "apacheAirflowJobId",
+            "description": "The Apache Airflow job ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true,
+            "default": true
+          },
+          {
+            "in": "body",
+            "name": "airflowEnvironmentSettingsRequest",
+            "description": "Update Apache Airflow environment settings request payload.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/AirflowEnvironmentSettingsRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. The environment will be updated in the background.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested Apache Airflow job was not found.\n\n* Forbidden - The caller doesn't have permissions to call the API.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update Apache Airflow job environment settings example": {
+            "$ref": "./examples/UpdateApacheAirflowJobSettings.json"
           }
         }
       }

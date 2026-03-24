@@ -649,6 +649,9 @@
           },
           "Run table maintenance with optimize Z-Order and vacuum enabled for schema enabled lakehouse.": {
             "$ref": "./examples/RunOnDemandTableMaintenanceForSchemaEnabledLakehouse.json"
+          },
+          "Run table maintenance with deletion vector purge enabled.": {
+            "$ref": "./examples/RunOnDemandTableMaintenance3.json"
           }
         }
       }

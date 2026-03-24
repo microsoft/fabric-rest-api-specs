@@ -5606,9 +5606,9 @@
           {
             "in": "body",
             "name": "createOrUpdateSingleDataAccessRoleRequest",
-            "description": "Wrapper containing exactly one data access role definition (without id).",
+            "description": "A single data access role definition (without id).",
             "schema": {
-              "$ref": "./definitions/platform.json#/definitions/CreateOrUpdateSingleDataAccessRoleRequest"
+              "$ref": "./definitions/platform.json#/definitions/DataAccessRoleBase"
             },
             "required": true
           },
@@ -6687,6 +6687,128 @@
         "x-ms-examples": {
           "Unapply tags example": {
             "$ref": "./examples/platform/UnapplyTags.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/applyTags": {
+      "post": {
+        "summary": "Apply tags to a workspace.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must have admin permissions on the workspace.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_ApplyWorkspaceTags",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "applyTagsRequest",
+            "description": "The request payload for applying tags.",
+            "required": true,
+            "schema": {
+              "$ref": "./definitions/tags.json#/definitions/ApplyWorkspaceTagsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tags were applied successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* WorkspaceNotFound - Indicates that the server cannot find the requested workspace \n\n* EntityNotFound - Tag ID does not exist \n\n* InvalidInputs - Invalid input was provided",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Apply workspace tags example": {
+            "$ref": "./examples/platform/ApplyWorkspaceTags.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/unapplyTags": {
+      "post": {
+        "summary": "Unapply tags from a workspace.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\nThe caller must be a Fabric administrator or authenticate using a service principal.\n\n## Required Delegated Scopes\n\nTenant.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_UnapplyWorkspaceTags",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "unapplyTagsRequest",
+            "description": "The request payload for unapplying tags.",
+            "required": true,
+            "schema": {
+              "$ref": "./definitions/tags.json#/definitions/UnapplyWorkspaceTagsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tags were unapplied successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* WorkspaceNotFound - Indicates that the server cannot find the requested workspace \n\n* EntityNotFound - Tag ID does not exist \n\n* InvalidInputs - Invalid input was provided",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Unapply workspace tags example": {
+            "$ref": "./examples/platform/UnapplyWorkspaceTags.json"
           }
         }
       }

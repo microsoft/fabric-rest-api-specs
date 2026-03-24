@@ -477,6 +477,10 @@
         "vacuumSettings": {
           "$ref": "#/definitions/VacuumSettings",
           "description": "Configures the [vacuum](https://docs.delta.io/latest/delta-utility.html#-delta-vacuum) settings of the maintenance job. To skip table vacuum, leave this parameter empty."
+        },
+        "purgeDeletionVectors": {
+          "type": "boolean",
+          "description": "When true, executes REORG TABLE APPLY (PURGE) to rewrite files with [deletion vectors](https://docs.delta.io/latest/delta-deletion-vectors.html), physically removing deleted rows."
         }
       }
     },

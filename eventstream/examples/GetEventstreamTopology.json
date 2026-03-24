@@ -73,6 +73,18 @@
                         "status": "Running"
                     },
                     {
+                        "id": "9fff8320-3e09-41b1-b417-d0d3879dd6f6",
+                        "name": "AzureServiceBusSource",
+                        "type": "AzureServiceBus",
+                        "properties": {
+                            "dataConnectionId": "765fd5a4-602c-4477-b0d5-918b416f94b4",
+                            "serviceBusType": "Topic",
+                            "topicOrQueueName": "topicName",
+                            "subscriptionName": "subscriptionExample"
+                        },
+                        "status": "Running"
+                    },
+                    {
                         "id": "0d9bf4db-bc7f-4854-8579-6fdf244ed503",
                         "name": "CustomEndpointSource",
                         "type": "CustomEndpoint",

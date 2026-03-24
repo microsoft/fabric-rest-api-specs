@@ -99,7 +99,7 @@
                     "type": "boolean"
                 },
                 "defaultPool": {
-                    "$ref": "#/definitions/InstancePool",
+                    "$ref": "../common/spark_definitions.json#/definitions/InstancePool",
                     "description": "Default pool for workspace. It should be a valid custom pool name. \"Starter Pool\" means use starter pool."
                 },
                 "starterPool": {
@@ -137,43 +137,6 @@
                     "minimum": 1,
                     "maximum": 20160
                 }
-            }
-        },
-        "InstancePool": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "description": "Instance pool name.",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Instance pool type.",
-                    "$ref": "#/definitions/CustomPoolType"
-                },
-                "id": {
-                    "format": "uuid",
-                    "description": "Instance pool ID.",
-                    "type": "string"
-                }
-            }
-        },
-        "CustomPoolType": {
-            "type": "string",
-            "description": "Custom pool type. Additional `CustomPoolType` types may be added over time.",
-            "enum": ["Workspace", "Capacity"],
-            "x-ms-enum": {
-                "name": "CustomPoolType",
-                "modelAsString": true,
-                "values": [
-                    {
-                        "value": "Workspace",
-                        "description": "Workspace level custom pool"
-                    },
-                    {
-                        "value": "Capacity",
-                        "description": "Capacity level custom pool"
-                    }
-                ]
             }
         },
         "StarterPoolProperties": {
@@ -342,7 +305,7 @@
                 },
                 "type": {
                     "description": "Custom pool type.",
-                    "$ref": "#/definitions/CustomPoolType"
+                    "$ref": "../common/spark_definitions.json#/definitions/CustomPoolType"
                 },
                 "nodeFamily": {
                     "description": "Node family.",

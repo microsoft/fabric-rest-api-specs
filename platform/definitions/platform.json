@@ -67,6 +67,14 @@
           "type": "string",
           "format": "uuid",
           "readOnly": true
+        },
+        "tags": {
+          "description": "List of applied tags.",
+          "type": "array",
+          "items": {
+            "$ref": "../../common/definitions.json#/definitions/WorkspaceAppliedTag"
+          },
+          "readOnly": true
         }
       },
       "readOnly": true
@@ -1057,6 +1065,21 @@
           "description": "The name of the Data access role.",
           "type": "string"
         },
+        "kind": {
+          "description": "The kind of the Data access role. Currently, the only supported kind is `Policy`. Additional kind types may be added over time.",
+          "type": "string",
+          "enum": [ "Policy" ],
+          "x-ms-enum": {
+            "name": "DataAccessRoleKind",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "Policy",
+                "description": "Policy-based data access role."
+              }
+            ]
+          }
+        },
         "decisionRules": {
           "description": "The array of permissions that make up the Data access role.",
           "type": "array",
@@ -1088,19 +1111,6 @@
           }
         }
       ]
-    },
-    "CreateOrUpdateSingleDataAccessRoleRequest": {
-      "description": "Wrapper object for creating or updating a single data access role (without id).",
-      "type": "object",
-      "properties": {
-        "value": {
-          "description": "A single data access role definition (id is not included).",
-          "type": "array",
-          "minItems": 1,
-          "maxItems": 1,
-          "items": { "$ref": "#/definitions/DataAccessRoleBase" }
-        }
-      }
     },
     "DecisionRule": {
       "description": "Specifies a rule for matching the requested action. Contains effect (Permit) and Permission which determine whether a user or entity is authorized to perform a specific action (e.g., read) on a resource. Permission is a set of scopes, defined by attributes, that must match the requested action for the rule to apply.",

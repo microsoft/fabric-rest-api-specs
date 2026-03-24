@@ -825,6 +825,32 @@
                 }
             }
         },
+        "AppliedTag": {
+            "type": "object",
+            "description": "Represents an applied tag.",
+            "required": ["id", "displayName"],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The tag ID."
+                },
+                "displayName": {
+                    "type": "string",
+                    "description": "The name of the tag."
+                }
+            }
+        },
+        "WorkspaceAppliedTag": {
+            "type": "object",
+            "description": "Represents an applied tag.",
+            "required": ["id", "displayName"],
+            "allOf": [
+            {
+                "$ref": "#/definitions/AppliedTag"
+            }
+            ]
+        },
         "TagScope": {
             "type": "object",
             "description": "Represents a tag scope",
