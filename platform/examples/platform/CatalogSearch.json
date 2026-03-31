@@ -1,0 +1,32 @@
+{
+    "parameters": {
+        "catalogQueryRequest": {
+            "search": "Sales Revenue",
+            "pageSize": 2,
+            "filter": "Type eq 'Report' or Type eq 'Lakehouse'"
+        }
+    },
+    "responses": {
+        "200": {
+            "body": {
+                "value": [
+                {
+                    "id": "0acd697c-1550-43cd-b998-91bfb12347c6",
+                    "type": "Report",
+                    "catalogEntryType": "FabricItem",
+                    "displayName": "Monthly Sales Revenue",
+                    "description": "Consolidated revenue report for the current fiscal year."
+                },
+                {
+                    "id": "123d697c-7848-77cd-b887-91bfb12347cc",
+                    "type": "Lakehouse",
+                    "catalogEntryType": "FabricItem",
+                    "displayName": "Yeartly Sales Revenue",
+                    "description": "Consolidated revenue report for the current fiscal year."
+                }
+            ],
+                "continuationToken": "lyJ1257lksfdfG=="
+            }
+        }
+    }
+}

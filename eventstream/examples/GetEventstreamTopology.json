@@ -339,6 +339,18 @@
                         "status": "Running"
                     },
                     {
+                        "id": "a3c1d2e4-5f67-4890-abcd-ef1234567890",
+                        "name": "MongoDBCDCSource",
+                        "type": "MongoDBCDC",
+                        "properties": {
+                            "dataConnectionId": "2e4c91e7-0c4a-4cc4-abe3-cc7ba4310a37",
+                            "includedDatabases": "db1,db2",
+                            "includedCollections": "collection1,collection2",
+                            "snapshotMode": "Initial"
+                        },
+                        "status": "Running"
+                    },
+                    {
                         "id": "d5f702ca-8b2b-4ac5-88e7-50697cb1b207",
                         "name": "GooglePubSubSource",
                         "type": "GooglePubSub",

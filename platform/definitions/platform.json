@@ -67,12 +67,13 @@
           "type": "string",
           "format": "uuid",
           "readOnly": true
-        },
+          },
         "tags": {
           "description": "List of applied tags.",
           "type": "array",
-          "items": {
-            "$ref": "../../common/definitions.json#/definitions/WorkspaceAppliedTag"
+          "items": 
+          {
+                  "$ref": "../../common/definitions.json#/definitions/WorkspaceAppliedTag"
           },
           "readOnly": true
         }

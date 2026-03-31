@@ -31,6 +31,7 @@
                 "FabricWorkspaceItemEvents",
                 "GooglePubSub",
                 "Http",
+                "MongoDBCDC",
                 "Mqtt",
                 "MySQLCDC",
                 "PostgreSQLCDC",
@@ -126,6 +127,10 @@
                     {
                         "value": "Http",
                         "description": "The HTTP source type."
+                    },
+                    {
+                        "value": "MongoDBCDC",
+                        "description": "The MongoDB CDC source type."
                     },
                     {
                         "value": "Mqtt",
@@ -578,7 +583,10 @@
                 "properties"
             ],
             "properties": {
-                "properties": {}
+                "properties": {
+                    "description": "The properties of the MySQL CDC source.",
+                    "$ref": "#/definitions/MySQLCDCSourceProperties"
+                }
             },
             "allOf": [
                 {
@@ -662,6 +670,25 @@
                 }
             ],
             "x-ms-discriminator-value": "Http"
+        },
+        "MongoDBCDCSourceResponse": {
+            "type": "object",
+            "description": "MongoDB CDC source response.",
+            "required": [
+                "properties"
+            ],
+            "properties": {
+                "properties": {
+                    "description": "The properties of the MongoDB CDC source.",
+                    "$ref": "#/definitions/MongoDBCDCSourceProperties"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/SourceResponse"
+                }
+            ],
+            "x-ms-discriminator-value": "MongoDBCDC"
         },
         "MqttSourceResponse": {
             "type": "object",
@@ -1820,6 +1847,57 @@
                 "retriableHttpStatusCodes": {
                     "type": "string",
                     "description": "The retriable HTTP status codes as a comma-separated string."
+                }
+            }
+        },
+        "MongoDBCDCSourceProperties": {
+            "type": "object",
+            "description": "MongoDB CDC source properties.",
+            "required": [
+                "dataConnectionId",
+                "includedDatabases",
+                "includedCollections"
+            ],
+            "properties": {
+                "dataConnectionId": {
+                    "type": "string",
+                    "description": "The MongoDB CDC data connection identifier.",
+                    "format": "uuid"
+                },
+                "includedDatabases": {
+                    "type": "string",
+                    "description": "The comma-separated list of regular expressions that match database names to include."
+                },
+                "includedCollections": {
+                    "type": "string",
+                    "description": "The comma-separated list of regular expressions that match collection names to include."
+                },
+                "snapshotMode": {
+                    "type": "string",
+                    "description": "The snapshot mode.",
+                    "enum": [
+                        "Initial",
+                        "InitialOnly",
+                        "NoData"
+                    ],
+                    "x-ms-enum": {
+                        "name": "SnapshotMode",
+                        "modelAsString": true,
+                        "values": [
+                            {
+                                "value": "Initial",
+                                "description": "The snapshot mode is Initial."
+                            },
+                            {
+                                "value": "InitialOnly",
+                                "description": "The snapshot mode is InitialOnly."
+                            },
+                            {
+                                "value": "NoData",
+                                "description": "The snapshot mode is NoData."
+                            }
+                        ]
+                    }
                 }
             }
         },

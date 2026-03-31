@@ -456,6 +456,320 @@
                 }
             ],
             "x-ms-discriminator-value": "DataWarehouse"
+        },
+        "NotebookJobInstance": {
+          "description": "An object representing notebook job instance.",
+          "type": "object",
+          "allOf": [
+              {
+                  "$ref": "../platform/definitions/platform.json#/definitions/ItemJobInstance"
+              }
+          ],
+          "properties": {
+              "properties": {
+                  "description": "Notebook job instance properties.",
+                  "$ref": "#/definitions/NotebookJobInstanceProperties"
+              }
+          }
+        },
+        "NotebookJobInstanceProperties": {
+            "description": "Notebook job instance properties.",
+            "type": "object",
+            "required": [
+                "compute"
+            ],
+            "properties": {
+                "exitValue": {
+                    "description": "User defined exit value in notebook. Refer to this [article](/fabric/data-engineering/notebook-utilities#exit-a-notebook) for more details on how to set the notebook exit value.",
+                    "type": "string"
+                },
+                "compute": {
+                    "description": "The execution engine for the job instance.",
+                    "$ref": "#/definitions/ComputeType"
+                }
+            },
+            "discriminator": "compute"
+        },
+        "SparkNotebookJobInstanceProperties": {
+            "type": "object",
+            "description": "Spark notebook job instance properties.",
+            "required": [
+                "computeDetails"
+            ],
+            "properties": {
+                "computeDetails": {
+                    "description": "The details of spark notebook job instance.",
+                    "$ref": "#/definitions/SparkNotebookComputeDetails"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/NotebookJobInstanceProperties"
+                }
+            ],
+            "x-ms-discriminator-value": "Spark"
+        },
+        "SparkNotebookComputeDetails": {
+            "type": "object",
+            "description": "Spark notebook compute details.",
+            "properties": {
+                "highConcurrencyModeStatus": {
+                    "description": "The high concurrency mode details.",
+                    "$ref": "#/definitions/HighConcurrencyModeStatus"
+                },
+                "livyId": {
+                    "description": "The livy id.",
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "monitoringInfo": {
+                    "description": "The spark notebook monitoring infomation.",
+                    "$ref": "#/definitions/SparkNotebookMonitoringInfo"
+                }
+            }
+        },
+        "HighConcurrencyModeStatus": {
+            "type": "object",
+            "description": "Spark notebook high concurrency mode status.",
+            "properties": {
+                "sessionSource": {
+                    "description": "A new created session or attach to existing sessions.",
+                    "$ref": "#/definitions/SessionSource"
+                },
+                "sessionTag": {
+                    "description": "Session tag value to execute the notebook in a shared Spark session.",
+                    "type": "string"
+                }
+            }
+        },
+        "SessionSource": {
+            "type": "string",
+            "description": "Represents the session source. Additional source types may be added over time.",
+            "enum": [
+                "Created",
+                "Attached"
+            ],
+            "x-ms-enum": {
+                "name": "SessionSource",
+                "modelAsString": true,
+                "values": [
+                    {
+                        "value": "Created",
+                        "description": "The session is created by the current notebook job instance."
+                    },
+                    {
+                        "value": "Attached",
+                        "description": "The current notebook job instance is attached to an existing session."
+                    }
+                ]
+            }
+        },
+        "SparkNotebookMonitoringInfo": {
+            "type": "object",
+            "description": "Spark notebook monitoring information.",
+            "properties": {
+                "activityDetails": {
+                    "description": "Livy session details.",
+                    "$ref": "#/definitions/SparkNotebookActivityDetails"
+                },
+                "sparkUiUrl": {
+                    "description": "Spark UI url.",
+                    "type": "string"
+                },
+                "sparkJobDetailsUrl": {
+                    "description": "Spark job details url.",
+                    "type": "string"
+                },
+                "driverLogUrl": {
+                    "description": "Driver log url.",
+                    "type": "string"
+                },
+                "executionSnapshotUrl": {
+                    "description": "Notebook execution snapshot url.",
+                    "type": "string"
+                }
+            }
+        },
+        "SparkNotebookActivityDetails": {
+            "type": "object",
+            "description": "Spark notebook livy session details.",
+            "properties": {
+                "sparkApplicationId": {
+                    "type": "string",
+                    "description": "A Spark application ID is a unique identifier assigned to each Apache Spark application. It also appears in the Spark UI."
+                },
+                "livyName": {
+                    "type": "string",
+                    "description": "Name of the Livy session."
+                },
+                "creatorItem": {
+                    "description": "ID of the item creator. When `isHighConcurrency` is set to `true` this value might be different than `itemId`.",
+                    "$ref": "../common/definitions.json#/definitions/ItemReferenceById"
+                },
+                "itemName": {
+                    "type": "string",
+                    "description": "Name of the item."
+                },
+                "jobType": {
+                    "description": "Current state of the job.",
+                    "$ref": "#/definitions/LivySessionJobType"
+                },
+                "submittedDateTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp when the job was submitted in UTC, using the YYYY-MM-DDTHH:mm:ssZ format."
+                },
+                "startDateTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp when the job started in UTC, using the YYYY-MM-DDTHH:mm:ssZ format."
+                },
+                "endDateTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp when the job ended in UTC, using the YYYY-MM-DDTHH:mm:ssZ format."
+                },
+                "isHighConcurrency": {
+                    "type": "boolean",
+                    "description": "Flag indicating high concurrency."
+                },
+                "cancellationReason": {
+                    "type": "string",
+                    "description": "Reason for the job cancellation."
+                },
+                "capacityId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "ID of the capacity."
+                },
+                "operationName": {
+                    "type": "string",
+                    "description": "Name of the operation. Possible values include: _Notebook run_, _Notebook HC run_ and _Notebook pipeline run_."
+                },
+                "runtimeVersion": {
+                    "type": "string",
+                    "description": "The fabric runtime version."
+                }
+            }
+        },
+        "LivySessionJobType": {
+            "type": "string",
+            "description": "Type of the job. Values are: `Unknown`, `SparkSession`, `SparkBatch`, `JupyterSession`. Additional `LivySessionJobType` types may be added over time.",
+            "enum": [
+                "Unknown",
+                "SparkSession",
+                "SparkBatch",
+                "JupyterSession"
+            ],
+            "x-ms-enum": {
+                "name": "JobType",
+                "modelAsString": true,
+                "values": [
+                    {
+                        "value": "Unknown",
+                        "description": "Job type is unknown."
+                    },
+                    {
+                        "value": "SparkSession",
+                        "description": "Job type is from a spark session."
+                    },
+                    {
+                        "value": "SparkBatch",
+                        "description": "Job type is from a spark batch."
+                    },
+                    {
+                        "value": "JupyterSession",
+                        "description": "Job type is from jupyter session."
+                    }
+                ]
+            }
+        },
+        "JupyterNotebookJobInstanceProperties": {
+            "type": "object",
+            "description": "Jupyter notebook job instance properties.",
+            "required": [
+                "computeDetails"
+            ],
+            "properties": {
+                "computeDetails": {
+                    "description": "The details of jupyter notebook job instance.",
+                    "$ref": "#/definitions/JupyterNotebookComputeDetails"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/NotebookJobInstanceProperties"
+                }
+            ],
+            "x-ms-discriminator-value": "Jupyter"
+        },
+        "JupyterNotebookComputeDetails": {
+            "type": "object",
+            "description": "Jupyter notebook compute details.",
+            "properties": {
+                "activityId": {
+                    "description": "The jupyter session id.",
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "monitoringInfo": {
+                    "description": "The jupyter notebook monitoring infomation.",
+                    "$ref": "#/definitions/JupyterNotebookMonitoringInfo"
+                }
+            }
+        },
+        "JupyterNotebookMonitoringInfo": {
+            "type": "object",
+            "description": "Jupyter notebook monitoring information.",
+            "properties": {
+                "executionSnapshotUrl": {
+                    "description": "Notebook execution snapshot url.",
+                    "type": "string"
+                }
+            }
+        },
+        "DataWarehouseNotebookJobInstanceProperties": {
+            "type": "object",
+            "description": "Data warehouse notebook job instance properties.",
+            "required": [
+                "computeDetails"
+            ],
+            "properties": {
+                "computeDetails": {
+                    "description": "The details of data warehouse notebook job instance.",
+                    "$ref": "#/definitions/DataWarehouseNotebookComputeDetails"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/NotebookJobInstanceProperties"
+                }
+            ],
+            "x-ms-discriminator-value": "DataWarehouse"
+        },
+        "DataWarehouseNotebookComputeDetails": {
+            "type": "object",
+            "description": "Data warehouse notebook compute details.",
+            "properties": {
+                "primaryWarehouse": {
+                    "description": "The primary warehouse.",
+                    "$ref": "../common/definitions.json#/definitions/ItemReferenceById"
+                },
+                "monitoringInfo": {
+                    "description": "The data warehouse notebook monitoring infomation.",
+                    "$ref": "#/definitions/DataWarehouseNotebookMonitoringInfo"
+                }
+            }
+        },
+        "DataWarehouseNotebookMonitoringInfo": {
+            "type": "object",
+            "description": "Data Warehouse notebook monitoring information.",
+            "properties": {
+                "executionSnapshotUrl": {
+                    "description": "Notebook execution snapshot url.",
+                    "type": "string"
+                }
+            }
         }
     }
 }

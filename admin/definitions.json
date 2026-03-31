@@ -60,6 +60,14 @@
             "format": "uuid",
             "readOnly": true,
             "description": "The domain ID of the workspace."
+          },
+          "tags": {
+            "description": "List of applied tags.",
+            "type": "array",
+            "items": {
+              "$ref": "../common/definitions.json#/definitions/WorkspaceAppliedTag"
+            },
+            "readOnly": true
           }
         }
       },
@@ -159,7 +167,7 @@
               "type": "array",
               "items": {
                   "$ref": "../common/definitions.json#/definitions/ItemTag"
-               },
+              },
               "readOnly": true
           }
         }
