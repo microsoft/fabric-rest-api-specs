@@ -912,7 +912,7 @@
                 },
                 "includedEventTypes": {
                     "type": "array",
-                    "description": "The included event types.",
+                    "description": "The included event types. Additional event types may be added over time.",
                     "items": {
                         "type": "string",
                         "enum": [
@@ -1089,7 +1089,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "description": "The sample data type.",
+                    "description": "The sample data type. Additional sample data types may be added over time.",
                     "enum": [
                         "YellowTaxi",
                         "StockMarket",
@@ -1238,7 +1238,7 @@
                 },
                 "region": {
                     "type": "string",
-                    "description": "The Amazon Kinesis region name.",
+                    "description": "The Amazon Kinesis region name. Additional regions may be added over time.",
                     "enum": [
                         "af-south-1",
                         "ap-east-1",
@@ -1407,6 +1407,37 @@
                             }
                         ]
                     }
+                },
+                "startPosition": {
+                    "type": "string",
+                    "description": "The start position in the stream.",
+                    "enum": [
+                        "Latest",
+                        "TrimHorizon",
+                        "AtTimestamp"
+                    ],
+                    "x-ms-enum": {
+                        "name": "StartPosition",
+                        "modelAsString": true,
+                        "values": [
+                            {
+                                "value": "Latest",
+                                "description": "Start from the latest record."
+                            },
+                            {
+                                "value": "TrimHorizon",
+                                "description": "Start from the last untrimmed record."
+                            },
+                            {
+                                "value": "AtTimestamp",
+                                "description": "Start from a specific timestamp."
+                            }
+                        ]
+                    }
+                },
+                "startTimestamp": {
+                    "type": "string",
+                    "description": "The start timestamp in ISO 8601 format (for example, '2024-01-15T10:30:00Z'). Required when `startPosition` is `AtTimestamp`."
                 }
             }
         },
@@ -1473,7 +1504,7 @@
             "properties": {
                 "saslMechanism": {
                     "type": "string",
-                    "description": "The SASL mechanism.",
+                    "description": "The SASL mechanism. Additional SASL mechanisms may be added over time.",
                     "enum": [
                         "PLAIN",
                         "SCRAM-SHA-256",
@@ -1547,7 +1578,7 @@
             "properties": {
                 "saslMechanism": {
                     "type": "string",
-                    "description": "The SASL mechanism.",
+                    "description": "The SASL mechanism. Additional SASL mechanisms may be added over time.",
                     "enum": [
                         "PLAIN",
                         "SCRAM-SHA-256",
@@ -1698,6 +1729,33 @@
                 "tableName": {
                     "type": "string",
                     "description": "The table name."
+                },
+                "decimalHandlingMode": {
+                    "type": "string",
+                    "description": "Specifies how decimal values are represented by the connector (precise decimal, double, or string).",
+                    "enum": [
+                        "Precise",
+                        "Double",
+                        "String"
+                    ],
+                    "x-ms-enum": {
+                        "name": "DecimalHandlingMode",
+                        "modelAsString": true,
+                        "values": [
+                            {
+                                "value": "Precise",
+                                "description": "The decimal handling mode is Precise."
+                            },
+                            {
+                                "value": "Double",
+                                "description": "The decimal handling mode is Double."
+                            },
+                            {
+                                "value": "String",
+                                "description": "The decimal handling mode is String."
+                            }
+                        ]
+                    }
                 }
             }
         },
@@ -1716,6 +1774,28 @@
                     "type": "integer",
                     "description": "The port number. Default is 3306.",
                     "default": 3306
+                },
+                "snapshotLockingMode": {
+                    "type": "string",
+                    "description": "Specifies the locking strategy used when taking the initial snapshot (for example, minimal locks vs extended locking for stronger consistency).",
+                    "enum": [
+                        "Minimal",
+                        "Extended"
+                    ],
+                    "x-ms-enum": {
+                        "name": "SnapshotLockingMode",
+                        "modelAsString": true,
+                        "values": [
+                            {
+                                "value": "Minimal",
+                                "description": "The snapshot locking mode is Minimal."
+                            },
+                            {
+                                "value": "Extended",
+                                "description": "The snapshot locking mode is Extended."
+                            }
+                        ]
+                    }
                 }
             },
             "allOf": [
@@ -1739,6 +1819,37 @@
                     "type": "integer",
                     "description": "The port number. Default is 5432.",
                     "default": 5432
+                },
+                "publicationName": {
+                    "type": "string",
+                    "description": "The publication name for the CDC connector."
+                },
+                "publicationAutoCreateMode": {
+                    "type": "string",
+                    "description": "The publication auto-create mode.",
+                    "enum": [
+                        "Filtered",
+                        "AllTables",
+                        "Disabled"
+                    ],
+                    "x-ms-enum": {
+                        "name": "PublicationAutoCreateMode",
+                        "modelAsString": true,
+                        "values": [
+                            {
+                                "value": "Filtered",
+                                "description": "The publication auto-create mode is Filtered."
+                            },
+                            {
+                                "value": "AllTables",
+                                "description": "The publication auto-create mode is AllTables."
+                            },
+                            {
+                                "value": "Disabled",
+                                "description": "The publication auto-create mode is Disabled."
+                            }
+                        ]
+                    }
                 }
             },
             "allOf": [

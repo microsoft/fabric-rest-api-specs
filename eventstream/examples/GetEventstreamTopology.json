@@ -228,7 +228,9 @@
                         "type": "AmazonKinesis",
                         "properties": {
                             "dataConnectionId": "2e4c91e7-0c4a-4cc4-abe3-cc7ba4310a37",
-                            "region": "us-east-1"
+                            "region": "us-east-1",
+                            "startPosition": "AtTimestamp",
+                            "startTimestamp": "2024-01-15T10:30:00Z"
                         },
                         "status": "Running"
                     },
@@ -290,7 +292,8 @@
                         "type": "AzureSQLDBCDC",
                         "properties": {
                             "dataConnectionId": "2e4c91e7-0c4a-4cc4-abe3-cc7ba4310a37",
-                            "tableName": "tableName"
+                            "tableName": "tableName",
+                            "decimalHandlingMode": "Precise"
                         },
                         "status": "Running"
                     },
@@ -300,7 +303,8 @@
                         "type": "AzureSQLMIDBCDC",
                         "properties": {
                             "dataConnectionId": "2e4c91e7-0c4a-4cc4-abe3-cc7ba4310a37",
-                            "tableName": "tableName"
+                            "tableName": "tableName",
+                            "decimalHandlingMode": "Double"
                         },
                         "status": "Running"
                     },
@@ -310,7 +314,8 @@
                         "type": "SQLServerOnVMDBCDC",
                         "properties": {
                             "dataConnectionId": "2e4c91e7-0c4a-4cc4-abe3-cc7ba4310a37",
-                            "tableName": "tableName"
+                            "tableName": "tableName",
+                            "decimalHandlingMode": "String"
                         },
                         "status": "Running"
                     },
@@ -322,7 +327,8 @@
                             "dataConnectionId": "2e4c91e7-0c4a-4cc4-abe3-cc7ba4310a37",
                             "tableName": "tableName",
                             "serverId": 9,
-                            "port": 3306
+                            "port": 3306,
+                            "snapshotLockingMode": "Minimal"
                         },
                         "status": "Running"
                     },
@@ -334,7 +340,9 @@
                             "dataConnectionId": "2e4c91e7-0c4a-4cc4-abe3-cc7ba4310a37",
                             "tableName": "tableName",
                             "slotName": "slotName",
-                            "port": 5432
+                            "port": 5432,
+                            "publicationName": "my_publication",
+                            "publicationAutoCreateMode": "Filtered"
                         },
                         "status": "Running"
                     },
@@ -881,7 +889,12 @@
                             }
                         ],
                         "properties": {
-                            "query": "SELECT * INTO [MyStream] FROM [MyNode]"
+                            "query": "SELECT * INTO [MyStream] FROM [MyNode]",
+                            "advancedSettings": {
+                                "eventsOutOfOrderPolicy": "Adjust",
+                                "eventsOutOfOrderMaxDelayInSeconds": 5,
+                                "eventsLateArrivalMaxDelayInSeconds": 300
+                            }
                         }
                     }
                 ]

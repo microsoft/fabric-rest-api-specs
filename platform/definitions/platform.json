@@ -2047,7 +2047,7 @@
       "description": "Run on demand item job instance payload",
       "properties": {
         "executionData": {
-          "description": "The execution data for an on-demand job. This is fixed static data defined by the specific item job type.",
+          "description": "The execution data for an on-demand job. This is fixed static data, defined by the specific item job type.",
           "type": "object"
         },
         "parameters": {
@@ -2568,8 +2568,12 @@
           "description": "The actual data contains the time/weekdays of this schedule.",
           "$ref": "#/definitions/ScheduleConfig"
         },
+        "executionData": {
+          "description": "The execution data for a scheduled job. This is fixed static data, defined by the specific item job type.",
+          "type": "object"
+        },
         "owner": {
-          "description": "The user identity that created this schedule or last modified.",
+          "description": "The user identity that created this schedule or last modified it.",
           "$ref": "../../common/definitions.json#/definitions/Principal"
         }
       }
@@ -2586,6 +2590,10 @@
         "configuration": {
           "description": "The actual data contains the time/weekdays of this schedule.",
           "$ref": "#/definitions/ScheduleConfig"
+        },
+        "executionData": {
+          "description": "The execution data for a scheduled job. This is fixed static data, defined by the specific item job type.",
+          "type": "object"
         }
       }
     },
@@ -2601,6 +2609,10 @@
         "configuration": {
           "description": "The actual data contains the time/weekdays of this schedule.",
           "$ref": "#/definitions/ScheduleConfig"
+        },
+        "executionData": {
+          "description": "The execution data for a scheduled job. This is fixed static data, defined by the specific item job type.",
+          "type": "object"
         }
       }
     },
@@ -2897,7 +2909,7 @@
       "enum": [
         "DiagnosticLogs"
       ],
-      "x-ms-enum": { 
+      "x-ms-enum": {
         "name": "ImmutabilityScope",
         "modelAsString": true,
         "values": [
@@ -2906,6 +2918,91 @@
             "description": "Immutability policy for diagnostic logs."
           }
         ]
+      }
+    },
+    "UpdateItemIdentityRequest": {
+      "description": "Associate identity request payload.",
+      "required": [ "assignmentType" ],
+      "properties": {
+        "assignmentType": {
+            "description": "The type of subject that makes an associaste identity request.",
+            "$ref": "#/definitions/IdentityAssignmentType",
+            "readOnly": false
+        }
+      }
+    },
+    "IdentityAssignmentType": {
+      "description": "Specifies the type of identity for an associate identity request. Additional identity assignment types may be added over time.",
+      "type": "string",
+      "enum": [
+        "Caller"
+      ],
+      "x-ms-enum": {
+        "name": "IdentityAssignmentEntityType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Caller",
+            "description": "User or service principal who makes the associate identity request."
+          }
+        ]
+      }
+    },
+    "UpdateItemIdentityResponse": {
+      "description": "Associate identity response.",
+      "required": [ "assignmentStatus" ],
+      "properties": {
+        "assignmentStatus": {
+          "description": "The identity assigned to the item after update.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemAssignmentStatus"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "ItemAssignmentStatus": {
+      "description": "The status of an identity assignment to an item.",
+      "type": "object",
+      "required": [ "itemId", "status" ],
+       "properties": {
+        "itemId": {
+          "description": "The ID of the item.",
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "description": "The status of the identity assignment. Additional status may be added over time.",
+          "type": "string",
+          "enum": [
+            "Succeeded",
+            "Failed"
+          ],
+          "x-ms-enum": {
+            "name": "IdentityAssignmentStatusType",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "Succeeded",
+                "description": "The identity is successfully assigned to the item."
+              },
+              {
+                "value": "Failed",
+                "description": "The identity assignment failed."
+              }
+            ]
+          }
+        },
+        "parentItemId": {
+          "description": "The ID of the parent item.",
+          "type": "string",
+          "format": "uuid"
+        },
+        "errorInfo": {
+          "description": "The error information if the identity assignment failed.",
+          "$ref": "../../common/definitions.json#/definitions/ErrorResponseDetails"
+        }
       }
     }
   }

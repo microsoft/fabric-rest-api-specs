@@ -371,7 +371,7 @@
             },
 			{
                 "value": "VariableLibrary",
-                "description": "A VariableLibrary."                          
+                "description": "A VariableLibrary."
             },
             {
               "value": "MirroredAzureDatabricksCatalog",
@@ -596,6 +596,11 @@
                         "$ref": "#/definitions/ItemTag"
 
                     },
+                    "readOnly": true
+                },
+                "defaultIdentity": {
+                    "description": "The item's default identity.",
+                    "$ref": "../common/definitions.json#/definitions/Principal",
                     "readOnly": true
                 },
                 "sensitivityLabel": {
@@ -905,7 +910,7 @@
             ],
             "x-ms-discriminator-value": "Domain"
         },
-        
+
         "ItemReference": {
            "description": "An item reference object.",
            "type": "object",
@@ -933,8 +938,8 @@
                    {
                        "value": "ByVariable",
                        "description": "The item is referenced by a variable."
-                   }                   
-                   
+                   }
+
                ]
            }
        },
@@ -1009,8 +1014,8 @@
                    {
                        "value": "ByVariable",
                        "description": "The connection is referenced by a variable."
-                   }                   
-                   
+                   }
+
                ]
            }
        },
@@ -1051,7 +1056,7 @@
                }
            ],
            "x-ms-discriminator-value": "ByVariable"
-       },       
+       },
        "Duration": {
             "description": "A duration.",
             "type": "object",

@@ -714,6 +714,30 @@
             "description": "A token for retrieving the next page of results.",
             "type": "string",
             "required": false
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "description": "Specifies which item properties to include in the response as a comma-separated list. Additional values may be added over time.",
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DefaultIdentity"
+              ],
+              "x-ms-enum": {
+                "name": "ItemIncludeOption",
+                "modelAsString": true,
+                "values": [
+                  {
+                    "value": "DefaultIdentity",
+                    "description": "Includes the default identity"
+                  }
+                ]
+              }
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -761,6 +785,9 @@
           },
           "List items in workspace with continuation example": {
             "$ref": "./examples/platform/ListItemsInWorkspaceWithContinuation.json"
+          },
+          "List items with include option example": {
+            "$ref": "./examples/platform/ListItemsWithDefaultIdentity.json"
           }
         }
       },
@@ -882,6 +909,30 @@
             "type": "string",
             "format": "uuid",
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "description": "Specifies which item properties to include in the response as a comma-separated list. Additional values may be added over time.",
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DefaultIdentity"
+              ],
+              "x-ms-enum": {
+                "name": "ItemIncludeOption",
+                "modelAsString": true,
+                "values": [
+                  {
+                    "value": "DefaultIdentity",
+                    "description": "Includes the default identity"
+                  }
+                ]
+              }
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -914,6 +965,9 @@
         "x-ms-examples": {
           "Get an item example": {
             "$ref": "./examples/platform/GetItem.json"
+          },
+          "Get an item with include default Identity option example": {
+            "$ref": "./examples/platform/GetItemWithDefaultIdentity.json"
           }
         }
       },
@@ -1589,6 +1643,9 @@
         "x-ms-examples": {
           "create item schedule example": {
             "$ref": "./examples/platform/CreateItemSchedule.json"
+          },
+          "create item schedule with execution data example": {
+            "$ref": "./examples/platform/CreateItemScheduleWithExecutionData.json"
           }
         }
       }
@@ -1667,6 +1724,9 @@
         "x-ms-examples": {
           "get item schedule example": {
             "$ref": "./examples/platform/GetItemSchedule.json"
+          },
+          "get item schedule with execution data example": {
+            "$ref": "./examples/platform/GetItemScheduleWithExecutionData.json"
           }
         }
       },
@@ -1752,6 +1812,9 @@
         "x-ms-examples": {
           "update item schedule plan example": {
             "$ref": "./examples/platform/UpdateItemSchedule.json"
+          },
+          "update item schedule with execution data example": {
+            "$ref": "./examples/platform/UpdateItemScheduleWithExecutionData.json"
           }
         }
       },
@@ -7955,6 +8018,86 @@
         }
       }
     },
+    "/connections/{connectionId}/testConnection": {
+      "post": {
+        "summary": "Tests the connection.",
+        "description": "Provides the status of the specified connection.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n**Required permissions**: Permission to read the connection, or admin permission for the gateway that hosts the connection.\n**Required scopes**: Connection.Read.All or Connection.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Connections"
+        ],
+        "operationId": "Connections_TestConnection",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "description": "The ID of the connection.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The Status of the connection has been fetched.",
+            "schema": {
+              "$ref": "./definitions/connections.json#/definitions/ConnectionStatusResponse"
+            }
+          },
+          "202": {
+            "description": "Request accepted, fetching the status of the connection.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status which tracks the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* EntityNotFound - The requested resource could not be found.\n\n* InsufficientPermissionsToManageConnection - The caller has insufficient permissions to manage this connection.\n\n* IncorrectCredentials - Failed to establish connection using the Credentials input.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "OnlineExample": {
+            "$ref": "./examples/connections/TestConnection.json"
+          },
+          "OfflineExample": {
+            "$ref": "./examples/connections/TestConnectionOffline.json"
+          }
+        }
+      }
+    },
     "/connections/supportedConnectionTypes": {
       "get": {
         "summary": "Lists supported connection types.",
@@ -9742,9 +9885,103 @@
           }
         }
       }
+    },
+    "/workspaces/{workspaceId}/items/{itemId}/identities/default/assign?beta=true": {
+      "post": {
+        "summary": "Associates the default identity with an item.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n This API is supported for a number of item types, find the supported item types and information about their definition structure in [Item management overview](/rest/api/fabric/articles/item-management/item-management-overview).\n\n## Permissions\n\n The caller must have *read and write* permissions for the item.\n\n## Required Delegated Scopes\n\n For item APIs use these scope types: \n- Generic scope: Item.ReadWrite.All \n- Specific scope: *itemType*.ReadWrite.All (for example: Notebook.ReadWrite.All) \n\n for more information about scopes, see: [scopes article](/rest/api/fabric/articles/scopes).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | When the item type in the call is supported. Check the corresponding API for the item type you're calling, to see if your call is supported.|\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_Associate_Identity_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "description": "The item ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateItemIdentityRequest",
+            "description": "Associate identity request payload.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/UpdateItemIdentityRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/UpdateItemIdentityResponse"
+            }
+          },
+          "202": {
+            "description": "Request accepted, identity association is in progress.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The URL to the job instance resource"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request"
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.\n\n* InvalidRequest - Invalid association request.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Associate identity example": {
+            "$ref": "./examples/platform/UpdateItemIdentity.json"
+          }
+        }
+      }
     }
   },
   "responses": {},
   "security": [],
   "tags": []
 }
+
