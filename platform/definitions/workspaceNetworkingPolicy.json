@@ -218,6 +218,36 @@
           }
         ]
       }
+    },
+    "WorkspaceInboundAzureResourceRules": {
+      "type": "object",
+      "description": "Represents a collection of inbound Azure resource instance rules configured for a workspace. These rules define which Azure resource instances are allowed to access the workspace.",
+      "properties": {
+        "rules": {
+          "type": "array",
+          "description": "An array of inbound Azure resource instance rules associated with the workspace.",
+          "items": {
+            "$ref": "#/definitions/WorkspaceInboundAzureResourceRule"
+          }
+        }
+      }
+    },
+    "WorkspaceInboundAzureResourceRule": {
+      "type": "object",
+      "description": "Represents a single inbound Azure resource instance rule that specifies an allowed Azure resource instance for the workspace.",
+      "required": [ "displayName", "resourceId" ],
+      "properties": {
+        "displayName": {
+          "description": "A user-friendly display name for the rule. This name is used for display purposes only and does not affect the rule's functionality.",
+          "type": "string",
+          "readOnly": false
+        },
+        "resourceId": {
+          "description": "The full Azure Resource Manager (ARM) resource ID of the resource within the rule. This is a unique identifier in the format: `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}`. You can retrieve this from the Azure Portal (Resource properties), Azure CLI (az resource show), or ARM templates.",
+          "type": "string",
+          "readOnly": false
+        }
+      }
     }
   }
 }

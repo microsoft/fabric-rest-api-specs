@@ -150,18 +150,15 @@
     "CreateDataflowExecuteScheduleRequest": {
       "description": "Create dataflow execute schedule plan request payload.",
       "type": "object",
-      "required": [ "enabled", "configuration" ],
       "allOf": [
         {
           "$ref": "../platform/definitions/platform.json#/definitions/CreateScheduleRequest"
         }
       ]
-
     },
     "CreateDataflowApplyChangesScheduleRequest": {
       "description": "Create dataflow apply changes schedule plan request payload.",
       "type": "object",
-      "required": [ "enabled", "configuration" ],
       "allOf": [
         {
           "$ref": "../platform/definitions/platform.json#/definitions/CreateScheduleRequest"

@@ -1338,6 +1338,7 @@
             }
         },
         "ItemConnection": {
+            "description": "",
             "required": ["connectivityType", "connectionDetails"],
             "type": "object",
             "properties": {
@@ -1384,6 +1385,7 @@
             ]
         },
         "ConnectionStatusResponse": {
+            "description": "The connection status response returned when testing a connection. Includes the status and any errors encountered.",
             "required": [ "status" ],
             "type": "object",
             "properties": {
@@ -1407,6 +1409,7 @@
                     }
                 },
                 "errors": {
+                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ConnectionStatusError"
@@ -1415,6 +1418,7 @@
             }
         },
         "ConnectionStatusError": {
+            "description": "The error information when the connection is offline.",
             "required": [ "errorCode", "message" ],
             "type": "object",
             "properties": {

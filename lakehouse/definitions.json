@@ -157,7 +157,6 @@
     "CreateLakehouseRefreshMaterializedLakeViewsScheduleRequest": {
       "description": "Create lakehouse refresh materialized lake views schedule request payload.",
       "type": "object",
-      "required": ["enabled", "configuration"],
       "allOf": [
         {
           "$ref": "../platform/definitions/platform.json#/definitions/CreateScheduleRequest"
@@ -167,7 +166,6 @@
     "UpdateLakehouseRefreshMaterializedLakeViewsScheduleRequest": {
       "description": "Update lakehouse refresh materialized lake views schedule request payload.",
       "type": "object",
-      "required": ["enabled", "configuration"],
       "allOf": [
         {
           "$ref": "../platform/definitions/platform.json#/definitions/UpdateScheduleRequest"
