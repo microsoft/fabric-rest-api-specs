@@ -7,8 +7,9 @@
                 "Files/Sales/Contoso_Sales_2023"
             ],
             "recipient": {
-                "type": "User",
-                "userPrincipalName": "lisa@fabrikam.com"
+                "type": "ServicePrincipal",
+                "principalId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                "tenantId": "c51dc03f-268a-4da0-a879-25f24947ab8b"
             }
         }
     },
@@ -27,8 +28,9 @@
                     "type": "User"
                 },
                 "recipient": {
-                    "type": "User",
-                    "userPrincipalName": "lisa@fabrikam.com"
+                    "type": "ServicePrincipal",
+                    "principalId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                    "tenantId": "c51dc03f-268a-4da0-a879-25f24947ab8b"
                 },
                 "status": "Pending",
                 "expirationTimeUtc": "2024-12-13T00:00:00.000Z",

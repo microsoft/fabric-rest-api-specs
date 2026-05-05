@@ -155,7 +155,7 @@
       "required": ["parts"],
       "properties": {
         "format": {
-          "description": "The format of the item definition.",
+          "description": "The format of the warehouse definition.",
           "type": "string",
           "readOnly": false
         },

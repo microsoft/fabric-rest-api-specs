@@ -6115,6 +6115,9 @@
           "Create an external data share with a specific recipient tenant ID example": {
             "$ref": "./examples/externaldatasharing/CreateExternalDataShareWithRecipientTenantID.json"
           },
+          "Create an external data share with recipient object ID example": {
+            "$ref": "./examples/externaldatasharing/CreateExternalDataShareWithRecipientObjectId.json"
+          },
           "Create an external data share with multiple paths example": {
             "$ref": "./examples/externaldatasharing/CreateExternalDataShareWithMultiplePaths.json"
           }
@@ -6400,7 +6403,7 @@
     "/externalDataShares/invitations/{invitationId}": {
       "get": {
         "summary": "Returns information about an external data share invitation.",
-        "description": "## Required Delegated Scopes\n\nExternalDataShare.Accept.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *Users can accept external data shares* admin switch for the calling principal.\n\n## Limitations\n\nMaximum 10 requests per minute.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "description": "## Required Delegated Scopes\n\nExternalDataShare.Accept.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *Users can accept external data shares* admin switch for the calling principal.\n\n## Limitations\n\nMaximum 10 requests per minute.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "ExternalDataSharesRecipient"
         ],
@@ -6463,7 +6466,7 @@
     "/externalDataShares/invitations/{invitationId}/accept": {
       "post": {
         "summary": "Accepts an external data share invitation into a specified data item.",
-        "description": "## Permissions\n\nThe caller must have *write* permissions on the item.\n\n## Required Delegated Scopes\n\nExternalDataShare.Accept.All and for the specified item, one of the 2 types of scopes:\n- Generic scope: Item.ReadWrite.All\n- Specific scope: *itemType*.ReadWrite.All (for example: Lakehouse.ReadWrite.All)\n\n For more information about scopes, see [scopes article](/rest/api/fabric/articles/scopes).\n\n## Required Tenant Settings\n\nTo use this API, enable the *Users can accept external data shares* admin switch for the calling principal.\n\n## Limitations\n\nMaximum 10 requests per minute.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "description": "## Permissions\n\nThe caller must have *write* permissions on the item.\n\n## Required Delegated Scopes\n\nExternalDataShare.Accept.All and for the specified item, one of the 2 types of scopes:\n- Generic scope: Item.ReadWrite.All\n- Specific scope: *itemType*.ReadWrite.All (for example: Lakehouse.ReadWrite.All)\n\n For more information about scopes, see [scopes article](/rest/api/fabric/articles/scopes).\n\n## Required Tenant Settings\n\nTo use this API, enable the *Users can accept external data shares* admin switch for the calling principal.\n\n## Limitations\n\nMaximum 10 requests per minute.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "ExternalDataSharesRecipient"
         ],

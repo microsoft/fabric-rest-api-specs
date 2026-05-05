@@ -221,7 +221,7 @@
       ],
       "properties": {
         "format": {
-          "description": "The format of the item definition.",
+          "description": "The format of the snowflake database definition.",
           "type": "string",
           "readOnly": false
         },

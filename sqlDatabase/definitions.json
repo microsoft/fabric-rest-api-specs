@@ -271,7 +271,7 @@
                 },
                 "sourceDatabaseReference": {
                     "description": "Set the reference for the source database to be restored from.",
-                    "$ref": "../common/definitions.json#/definitions/ItemReference"
+                    "$ref": "../common/definitions.json#/definitions/ItemReferenceById"
                 }
             },
             "allOf": [
@@ -311,6 +311,11 @@
             "type": "object",
             "required": ["parts"],
             "properties": {
+                "format": {
+                    "description": "The format of the SQL database definition.",
+                    "type": "string",
+                    "readOnly": false
+                },
                 "parts": {
                     "description": "A list of definition parts.",
                     "type": "array",

@@ -2549,7 +2549,7 @@
       "x-ms-discriminator-value": "Lakehouse",
       "properties": {
         "lakehouse": {
-          "description": "Reference to the destination lakehouse.",
+          "description": "Reference to the destination lakehouse. Currently, only ItemReferenceById is supported.",
           "$ref": "../../common/definitions.json#/definitions/ItemReference",
           "readOnly": false
         }
@@ -2691,3 +2691,4 @@
     }
   }
 }
+

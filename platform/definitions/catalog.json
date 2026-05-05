@@ -57,6 +57,11 @@
           "description": "The Fabric item type.",
           "type": "string",
           "$ref": "../../common/definitions.json#/definitions/ItemType"
+        },
+        "hierarchy": {
+          "description": "The hierarchy of the catalog entry.",
+          "type": "object",
+          "$ref": "#/definitions/ItemCatalogEntryHierarchy"
         }
       },
       "allOf": [
@@ -66,12 +71,38 @@
       ],
       "x-ms-discriminator-value": "FabricItem"
     },
+    "ItemCatalogEntryHierarchy": {
+      "description": "The immediate ancestors of the item in Fabric's data architecture. Only applicable levels are returned.",
+      "type": "object",
+      "properties": {
+        "workspace": {
+          "description": "The workspace that contains the item.",
+          "type": "object",
+          "$ref": "#/definitions/CatalogWorkspace"
+        }
+      }
+    },
+    "CatalogWorkspace": {
+      "description": "The workspace for the catalog entry.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "The display name of the workspace.",
+          "type": "string"
+        },
+        "id": {
+          "description": "The ID of the workspace.",
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
     "CatalogQueryRequest": {
       "type": "object",
       "description": "The query for the search.",
       "properties": {
         "search": {
-          "description": "The text query for the search. This field supports searching across the display name and description of the CatalogEntry.",
+          "description": "The text query for the search. This field supports searching across the display name, workspace display name and description of the CatalogEntry.",
           "type": "string"
         },
         "pageSize": {
