@@ -16,6 +16,12 @@
             }
           }
         },
+        "immutabilityPolicies": [
+          {
+            "scope": "DiagnosticLogs",
+            "retentionDays": 30
+          }
+        ],
         "lifecycle": {
           "defaultTier": "Cool",
           "policy": "Active"

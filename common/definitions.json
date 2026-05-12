@@ -28,6 +28,11 @@
                         "$ref": "#/definitions/ErrorResponseDetails"
                     },
                     "readOnly": true
+                },
+                "isRetriable": {
+                    "type": "boolean",
+                    "description": "When true, the request can be retried. Use the `Retry-After` response header to determine the delay, if available.",
+                    "readOnly": true
                 }
             },
             "readOnly": true

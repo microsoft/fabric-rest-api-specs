@@ -368,6 +368,61 @@
                     "description": "Dynamic executor allocation."
                 }
             }
+        },
+        "CapacitySparkSettings": {
+            "type": "object",
+            "description": "Capacity Spark settings.",
+            "properties": {
+                "workspaceCustomPoolsSupport": {
+                    "$ref": "#/definitions/Enablement",
+                    "description": "Allow workspace admins to create custom Spark pools based on their compute needs."
+                },
+                "workspaceStarterPoolStatus": {
+                    "$ref": "#/definitions/Enablement",
+                    "description": "Disable starter pools in the workspaces attached to the capacity."
+                },
+                "jobBurstSupport": {
+                    "$ref": "#/definitions/Enablement",
+                    "description": "Allow a single job to use the maximum available VCores with burst factor. When this is off, each job will be limited to the max VCores without burst factor."
+                }
+            }
+        },
+        "UpdateCapacitySparkSettingsRequest": {
+            "type": "object",
+            "description": "Update capacity Spark settings request payload.",
+            "properties": {
+                "workspaceCustomPoolsSupport": {
+                    "$ref": "#/definitions/Enablement",
+                    "description": "Allow workspace admins to create custom Spark pools based on their compute needs."
+                },
+                "workspaceStarterPoolStatus": {
+                    "$ref": "#/definitions/Enablement",
+                    "description": "Disable starter pools in the workspaces attached to the capacity."
+                },
+                "jobBurstSupport": {
+                    "$ref": "#/definitions/Enablement",
+                    "description": "Allow a single job to use the maximum available VCores with burst factor. When this is off, each job will be limited to the max VCores without burst factor."
+                }
+            }
+        },
+        "Enablement": {
+            "type": "string",
+            "description": "Feature enablement. Additional `Enablement` types may be added over time.",
+            "enum": [ "Enabled", "Disabled" ],
+            "x-ms-enum": {
+                "name": "Enablement",
+                "modelAsString": true,
+                "values": [
+                    {
+                        "value": "Enabled",
+                        "description": "Feature is enabled."
+                    },
+                    {
+                        "value": "Disabled",
+                        "description": "Feature is disabled."
+                    }
+                ]
+            }
         }
     }
 }

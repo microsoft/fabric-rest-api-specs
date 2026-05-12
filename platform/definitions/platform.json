@@ -2494,6 +2494,14 @@
           "items": {
             "$ref": "#/definitions/ImmutabilityPolicy"
           }
+        },
+        "lifecycle": {
+          "description": "Lifecycle management settings for the workspace. Only present when lifecycle management is enabled.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/OneLakeLifecycleSettings"
+            }
+          ]
         }
       }
     },
@@ -2604,6 +2612,33 @@
         ]
       }
     },
+    "OneLakeAccessTier": {
+      "description": "The OneLake access tier. Additional access tier values may be added over time.",
+      "type": "string",
+      "enum": [
+        "Hot",
+        "Cool",
+        "Cold"
+      ],
+      "x-ms-enum": {
+        "name": "OneLakeAccessTier",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Hot",
+            "description": "Hot access tier. Highest storage costs and lowest transaction costs."
+          },
+          {
+            "value": "Cool",
+            "description": "Cool access tier. Lower storage costs and higher transaction costs. Minimum 30 days storage."
+          },
+          {
+            "value": "Cold",
+            "description": "Cold access tier. Lowest storage costs and highest transaction costs. Minimum 60 days storage."
+          }
+        ]
+      }
+    },
     "UpdateItemIdentityRequest": {
       "description": "Associate identity request payload.",
       "required": [ "assignmentType" ],
@@ -2630,6 +2665,80 @@
             "description": "User or service principal who makes the associate identity request."
           }
         ]
+      }
+    },
+    "OneLakeLifecyclePolicyStatus": {
+      "description": "The status of the OneLake lifecycle policy. Additional status values may be added over time.",
+      "type": "string",
+      "enum": [
+        "Inactive",
+        "Active"
+      ],
+      "x-ms-enum": {
+        "name": "OneLakeLifecyclePolicyStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Inactive",
+            "description": "No lifecycle policy rules are configured."
+          },
+          {
+            "value": "Active",
+            "description": "Lifecycle policy rules are configured and active."
+          }
+        ]
+      }
+    },
+    "OneLakeLifecycleSettings": {
+      "description": "OneLake lifecycle management settings.",
+      "type": "object",
+      "required": [ "defaultTier", "policy" ],
+      "properties": {
+        "defaultTier": {
+          "description": "The default access tier for the workspace. All files without an explicitly set tier are stored in the default tier.",
+          "$ref": "#/definitions/OneLakeAccessTier"
+        },
+        "policy": {
+          "description": "Indicates whether there is at least one active lifecycle rule in the workspace.",
+          "$ref": "#/definitions/OneLakeLifecyclePolicyStatus"
+        }
+      }
+    },
+    "ModifyOneLakeWorkspaceDefaultTierResponse": {
+      "description": "Response for modifying the default OneLake access tier.",
+      "type": "object",
+      "required": [ "defaultTier" ],
+      "properties": {
+        "defaultTier": {
+          "description": "The new default access tier for the workspace.",
+          "$ref": "#/definitions/OneLakeAccessTier"
+        }
+      }
+    },
+    "ImportOneLakeWorkspaceLifecyclePolicyRequest": {
+      "description": "Request for importing a OneLake workspace lifecycle policy. The request body follows the same structure as [Azure Storage lifecycle management](https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview). Send an empty rules array to delete the existing policy.",
+      "type": "object",
+      "required": [ "properties" ],
+      "properties": {
+        "properties": {
+          "description": "The lifecycle policy properties. The structure follows [Azure Storage lifecycle management](https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview).",
+          "type": "object"
+        }
+      }
+    },
+    "OneLakeWorkspaceLifecyclePolicyResponse": {
+      "description": "The OneLake workspace lifecycle policy response. Contains the policy properties and type as returned by [Azure Storage lifecycle management](https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview).",
+      "type": "object",
+      "required": [ "properties" ],
+      "properties": {
+        "properties": {
+          "description": "The lifecycle policy properties. The structure follows [Azure Storage lifecycle management](https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview).",
+          "type": "object"
+        },
+        "type": {
+          "description": "The ARM resource type, as returned by [Azure Storage lifecycle management](https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview).",
+          "type": "string"
+        }
       }
     },
     "UpdateItemIdentityResponse": {

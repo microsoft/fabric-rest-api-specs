@@ -4108,10 +4108,10 @@
           }
         },
         "x-ms-examples": {
-          "Get OneLake Setting for workspace with diagnostic setting example": {
+          "Get OneLake Settings with diagnostics enabled example": {
             "$ref": "./examples/platform/GetOneLakeDiagnosticSettingWithDiagnosticSetting.json"
           },
-          "Get OneLake Setting for workspace without diagnostic setting example": {
+          "Get OneLake Settings with diagnostics disabled example": {
             "$ref": "./examples/platform/GetOneLakeDiagnosticSettingWithoutDiagnosticSetting.json"
           },
           "Get OneLake Settings with immutability policy example": {
@@ -4119,6 +4119,9 @@
           },
           "Get OneLake Settings without immutability policy example": {
             "$ref": "./examples/platform/GetOneLakeSettingsWithoutImmutabilityPolicy.json"
+          },
+          "Get OneLake Settings with all settings example": {
+            "$ref": "./examples/platform/GetOneLakeSettingsWithAllSettings.json"
           }
         }
       }
@@ -4279,6 +4282,231 @@
           },
           "Reduce retention days example (error case)": {
             "$ref": "./examples/platform/ModifyOneLakeImmutabilityPolicyError.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/onelake/settings/modifyDefaultTier": {
+      "post": {
+        "summary": "Modifies the default OneLake storage tier for a workspace.",
+        "description": "All files without an explicitly set tier will be moved to the new default tier. You will be billed for any transactions resulting from movement between tiers.\n\n## Permissions\n\nThe caller must have an *admin* workspace role.\n\n## Required Delegated Scopes\n\nOneLake.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "OneLakeSettings"
+        ],
+        "operationId": "OneLakeSettings_ModifyDefaultTier",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": false,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "defaultTier",
+            "description": "The new default access tier for the workspace. Additional access tier values may be added over time.",
+            "type": "string",
+            "enum": [
+              "Hot",
+              "Cool",
+              "Cold"
+            ],
+            "x-ms-enum": {
+              "name": "OneLakeAccessTier",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "Hot",
+                  "description": "Hot access tier."
+                },
+                {
+                  "value": "Cool",
+                  "description": "Cool access tier."
+                },
+                {
+                  "value": "Cold",
+                  "description": "Cold access tier."
+                }
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/ModifyOneLakeWorkspaceDefaultTierResponse"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.\n\n* EntityNotFound - Workspace not found.\n\n* InvalidInput - Invalid request input.\n\n* UserNotAuthorizedForWorkspaceLifecycle - User is not authorized for the workspace.\n\n* LifecycleNotAllowedForMyWorkspace - Lifecycle settings are not allowed on My Workspace.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Modify default tier to Cool example": {
+            "$ref": "./examples/platform/ModifyOneLakeDefaultTierToCool.json"
+          },
+          "Modify default tier to Hot example": {
+            "$ref": "./examples/platform/ModifyOneLakeDefaultTierToHot.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/onelake/lifecycle/exportPolicy": {
+      "post": {
+        "summary": "Exports the OneLake lifecycle management policy for a workspace.",
+        "description": "Returns the lifecycle management policy for a workspace. A lifecycle policy is made up of rules, which are made up of filters, actions, and conditions. A prefixMatch of \"*/diagnosticLogs\" applies the rule to all diagnostic events routed to that workspace.\n\nOneLake supports the same lifecycle policy structure as [Azure Storage lifecycle management](https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview), with the following exceptions:\n\n- OneLake does not support the TierToArchive action.\n- OneLake does not support the Delete action.\n- OneLake does not support the blobIndexMatch filter.\n\nFor more information, see [OneLake lifecycle management](https://aka.ms/OneLakeLCM).\n\n## Permissions\n\nThe caller must have an *admin* workspace role.\n\n## Required Delegated Scopes\n\nOneLake.Read.All or OneLake.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "OneLakeLifecyclePolicy"
+        ],
+        "operationId": "OneLakeLifecyclePolicy_ExportPolicy",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": false,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/OneLakeWorkspaceLifecyclePolicyResponse"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.\n\n* EntityNotFound - Workspace not found.\n\n* UserNotAuthorizedForWorkspaceLifecycle - User is not authorized for the workspace.\n\n* LifecycleNotAllowedForMyWorkspace - Lifecycle settings are not allowed on My Workspace.\n\n* PolicyNotFound - No lifecycle policy exists for this workspace.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Export OneLake lifecycle policy example": {
+            "$ref": "./examples/platform/ExportOneLakeLifecyclePolicy.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/onelake/lifecycle/importPolicy": {
+      "post": {
+        "summary": "Imports a OneLake lifecycle management policy for a workspace.",
+        "description": "Creates or replaces the OneLake lifecycle management policy for a workspace. The policy must be sent in full as a complete replacement. To delete an existing policy, send a request with an empty rules array.\n\nIn OneLake, lifecycle rules are scoped to the workspace. The prefixMatch filter starts at the item level, so prefixMatch values must begin with a valid item name or item ID (for example, \"MyLakehouse.Lakehouse/Files/data\"). Setting the prefixMatch to \"*/diagnosticLogs\" applies the rule to all diagnostic events routed to that workspace.\n\nOneLake supports the same lifecycle policy structure as [Azure Storage lifecycle management](https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview), with the following exceptions:\n\n- OneLake does not support the TierToArchive action.\n- OneLake does not support the Delete action.\n- OneLake does not support the blobIndexMatch filter.\n\nFor more information, see [OneLake lifecycle management](https://aka.ms/OneLakeLCM).\n\n## Permissions\n\nThe caller must have an *admin* workspace role.\n\n## Required Delegated Scopes\n\nOneLake.ReadWrite.All\n\n## Limitations\n\n- The `tierToArchive` action is not supported.\n- The `delete` action is not supported.\n- The `blobIndexMatch` filter is not supported.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "OneLakeLifecyclePolicy"
+        ],
+        "operationId": "OneLakeLifecyclePolicy_ImportPolicy",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": false,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "importOneLakeWorkspaceLifecyclePolicyRequest",
+            "description": "The lifecycle policy to import.",
+            "required": true,
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/ImportOneLakeWorkspaceLifecyclePolicyRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/OneLakeWorkspaceLifecyclePolicyResponse"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.\n\n* EntityNotFound - Workspace not found.\n\n* InvalidInput - Invalid request body.\n\n* UserNotAuthorizedForWorkspaceLifecycle - User is not authorized for the workspace.\n\n* LifecycleNotAllowedForMyWorkspace - Lifecycle settings are not allowed on My Workspace.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Import OneLake lifecycle policy create example": {
+            "$ref": "./examples/platform/ImportOneLakeLifecyclePolicyCreate.json"
+          },
+          "Import empty OneLake lifecycle policy (delete) example": {
+            "$ref": "./examples/platform/ImportOneLakeLifecyclePolicyDelete.json"
+          },
+          "Import OneLake lifecycle policy with multiple actions example": {
+            "$ref": "./examples/platform/ImportOneLakeLifecyclePolicyMultiTier.json"
+          },
+          "Import OneLake lifecycle policy with multiple rules example": {
+            "$ref": "./examples/platform/ImportOneLakeLifecyclePolicyMultipleRules.json"
+          },
+          "Import OneLake lifecycle policy with diagnostic events scope example": {
+            "$ref": "./examples/platform/ImportOneLakeLifecyclePolicyWithPrefixMatch.json"
           }
         }
       }
@@ -9371,7 +9599,7 @@
       },
       "put": {
         "summary": "Sets the networking communication policy for the specified workspace.",
-        "description": "This API uses the PUT method and will overwrite all settings. Remaining policy will be set to default value if only partial policy is provided in the request body. Always run Get Network Communication Policy first and provide full policy in the request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API uses the PUT method and overwrites all settings. If only a partial policy is provided in the request body, remaining settings are set to the default values. Always call the Get Network Communication Policy operation first and provide the full policy in the request body.\n\n> [!NOTE]\n> If `defaultAction` is omitted from the request body, it defaults to `Allow`, which may unintentionally open inbound and outbound network access. Always explicitly specify `defaultAction` in every PUT request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Workspaces"
         ],
@@ -9444,7 +9672,7 @@
     "/workspaces/{workspaceId}/networking/communicationPolicy/outbound/connections": {
       "get": {
         "summary": "Returns the cloud connection rules for the workspace enabled with Outbound Access Protection (OAP).",
-        "description": "This API helps workspace administrators view the effective outbound network communication policies enforced for cloud connections. Cloud connection rules are returned and applied only if the workspace’s network communication policy has `outbound.publicAccessRules.defaultAction` set to `Deny`. If OAP is not enabled for the workspace, the API fails because outbound connections are not being restricted.\n\n> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use. \n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API helps workspace administrators view the effective outbound network communication policies enforced for cloud connections. Cloud connection rules are returned and applied only if the workspace’s network communication policy has `outbound.publicAccessRules.defaultAction` set to `Deny`. If OAP is not enabled for the workspace, the API fails because outbound connections are not being restricted.\n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Workspaces"
         ],
@@ -9502,7 +9730,7 @@
       },
       "put": {
         "summary": "Sets the outbound access protection cloud connection rules for the workspace.",
-        "description": "This API enables workspace administrators to set a collection of outbound network communication rules that control which cloud connection types and, where applicable, their external endpoints/workspaces are allowed from the workspace.\n\n> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n> [!NOTE]\n> Outbound access protection rules are only enforced if the workspace's network communication policy has `outbound.publicAccessRules.defaultAction` set to Deny. If OAP is not enabled on the workspace, the API fails because outbound connections are not restricted.\n\n> [!NOTE]\n> This API uses the PUT method and will overwrite all outbound access connections for the workspace. Any omitted settings are set to their default values. Always call Get first and provide the full policy in the request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API enables workspace administrators to set a collection of outbound network communication rules that control which cloud connection types and, where applicable, their external endpoints/workspaces are allowed from the workspace.\n\n> [!NOTE]\n> Outbound access protection rules are only enforced if the workspace's network communication policy has `outbound.publicAccessRules.defaultAction` set to `Deny`. If OAP is not enabled on the workspace, the API fails because outbound connections are not restricted.\n\n> [!NOTE]\n> This API uses the PUT method and overwrites all outbound access connections for the workspace. Always call the Get Outbound Cloud Connection Rules operation first and provide the full policy in the request body.\n\n> [!NOTE]\n> If `defaultAction` is omitted from the request body, it defaults to `Allow`, which may unintentionally permit all outbound cloud connections. Always explicitly specify `defaultAction` in every PUT request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Workspaces"
         ],
@@ -9568,7 +9796,7 @@
     "/workspaces/{workspaceId}/networking/communicationPolicy/outbound/gateways": {
       "get": {
         "summary": "Returns the gateway rules for the workspace enabled with Outbound Access Protection (OAP).",
-        "description": "This API helps workspace administrators view the effective outbound network communication policies enforced for on-premises and VNet data gateways. Gateway rules are returned and applied only if the workspace’s network communication policy has `outbound.publicAccessRules.defaultAction` set to `Deny`. If OAP is not enabled for the workspace, the API fails because outbound connections are not being restricted.\n\n> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API helps workspace administrators view the effective outbound network communication policies enforced for on-premises and VNet data gateways. Gateway rules are returned and applied only if the workspace’s network communication policy has `outbound.publicAccessRules.defaultAction` set to `Deny`. If OAP is not enabled for the workspace, the API fails because outbound connections are not being restricted.\n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Workspaces"
         ],
@@ -9626,7 +9854,7 @@
       },
       "put": {
         "summary": "Sets the gateway rules for the workspace enabled with Outbound Access Protection (OAP).",
-        "description": "This API enables workspace administrators to define, replace, or override the set of outbound network communication policies that control which on-prem /Vnet Data Gateways are to be allowed from current workspace.\n\n> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use. \n\n> [!NOTE]\n> Outbound access protection rules are only enforced if the workspace’s network communication policy has outbound.publicAccessRules.defaultAction set to Deny. If OAP is not enabled on workspace, API fails as outbound connections are not being restricted. \n\n> [!NOTE]\n>This API uses the PUT method and will overwrite all outbound access gateways for the workspace. Remaining policy will be set to default value if partial policy is provided in the request body. Always run Get first and provide full policy in the request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API enables workspace administrators to define, replace, or override the set of outbound network communication policies that control which on-prem /Vnet Data Gateways are to be allowed from the current workspace.\n\n> [!NOTE]\n> Outbound access protection rules are only enforced if the workspace’s network communication policy has `outbound.publicAccessRules.defaultAction` set to `Deny`. If OAP is not enabled on the workspace, the API fails because outbound connections are not restricted.\n\n> [!NOTE]\n> This API uses the PUT method and overwrites all outbound access gateways for the workspace. Always call the Get Gateway Rules operation first and provide the full policy in the request body.\n\n> [!NOTE]\n> If `defaultAction` is omitted from the request body, it defaults to `Allow`, which may unintentionally permit all outbound gateway connections. Always explicitly specify `defaultAction` in every PUT request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Workspaces"
         ],
@@ -9750,7 +9978,7 @@
       },
       "put": {
         "summary": "Sets Git Outbound policy for the specified workspace, when Outbound policy is set to 'Deny'.",
-        "description": "This API uses the PUT method and will overwrite all settings. In cases the workspace restrict outbound policy, a workspace admin needs to allow the use of Git integration on the specified workspace. When there's no outbound restriction on the workspace, changing this property will fail and it will not impact Git integration setting. \nAlways run Get Git outbound Policy first and provide full policy in the request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API uses the PUT method and overwrites all settings. When the workspace restricts outbound policy, a workspace admin needs to allow the use of Git integration on the specified workspace. When there's no outbound restriction on the workspace, changing this property will fail and will not impact the Git integration setting. Always call the Get Git Outbound Policy operation first and provide the full policy in the request body.\n\n> [!NOTE]\n> If `defaultAction` is omitted from the request body, it defaults to `Allow`, which may unintentionally permit Git integration when outbound access should be restricted. Always explicitly specify `defaultAction` in every PUT request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Workspaces"
         ],
