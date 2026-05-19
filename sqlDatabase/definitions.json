@@ -312,7 +312,7 @@
             "required": ["parts"],
             "properties": {
                 "format": {
-                    "description": "The format of the SQL database definition.",
+                    "description": "The format of the SQL database definition. Supported format: `dacpac` and `sqlproj`. If no format is provided, `dacpac` is used.",
                     "type": "string",
                     "readOnly": false
                 },
@@ -331,7 +331,7 @@
             "type": "object",
             "properties": {
                 "path": {
-                    "description": "The SQL database public definition part path.",
+                    "description": "The SQL database public definition part path. Supported SQL database content extensions: `.dacpac` for `dacpac` format; `.sqlproj`, `.sql` for `sqlproj` format.",
                     "type": "string",
                     "readOnly": false
                 },

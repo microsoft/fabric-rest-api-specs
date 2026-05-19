@@ -419,7 +419,7 @@
           {
             "in": "query",
             "name": "format",
-            "description": "The format of the SQL database public definition.",
+            "description": "The format of the SQL database public definition. Supported format: `dacpac` and `sqlproj`. If no format is provided, `dacpac` is used.",
             "type": "string",
             "required": false
           }
