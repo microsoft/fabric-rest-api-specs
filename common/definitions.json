@@ -611,7 +611,7 @@
                 },
                 "defaultIdentity": {
                     "description": "The item's default identity.",
-                    "$ref": "../common/definitions.json#/definitions/Principal",
+                    "$ref": "#/definitions/Principal",
                     "readOnly": true
                 },
                 "sensitivityLabel": {

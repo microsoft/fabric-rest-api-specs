@@ -3149,6 +3149,61 @@
         }
       }
     },
+    "/capacities/{capacityId}": {
+      "get": {
+        "summary": "Returns specified capacity information.",
+        "description": "## Permissions\n\nThe caller must have *administrator* or *contributor* permissions on the capacity.\n\n## Required Delegated Scopes\n\nCapacity.Read.All or Capacity.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Capacities"
+        ],
+        "operationId": "Capacities_GetCapacity",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "capacityId",
+            "description": "The capacity ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/Capacity"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a capacity example": {
+            "$ref": "./examples/platform/GetCapacity.json"
+          }
+        }
+      }
+    },
     "/operations/{operationId}": {
       "get": {
         "tags": [
@@ -10313,10 +10368,125 @@
           }
         }
       }
+    },
+    "/workspaces/{workspaceId}/networking/communicationPolicy/inbound/firewall": {
+      "get": {
+        "summary": "Returns the IP firewall rules for the workspace. This API is designed to help workspace administrators view the effective IP firewall rules. This feature is currently in preview.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use. \n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_GetFirewallRules",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "Unique identifier of the workspace whose firewall rules are being queried.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.\n\n---\n**Headers:**\n\n**ETag** `string` - The current ETag of the firewall configuration. Use this value in a subsequent PUT call's `If-Match` header to apply optimistic concurrency control.",
+            "schema": {
+              "$ref": "./definitions/workspaceNetworkingPolicy.json#/definitions/InboundFirewallConfiguration"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Example for getting workspace firewall rules": {
+            "$ref": "./examples/platform/GetFirewallRules.json"
+          }
+        }
+      },
+      "put": {
+        "summary": "Sets the IP firewall rules for the workspace. This API enables workspace administrators to set IP firewall rules that control which IP addresses are to be allowed to connect to the workspace. This feature is currently in preview.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use. \n\n> [!NOTE]\n> Firewall rules are only enforced if the workspace’s network communication policy has inbound.publicAccessRules.defaultAction set to Deny. If public access is not blocked on workspace, API calls to this workspace will not be restricted. \n\n> [!NOTE]\n> This API uses the PUT method and will overwrite all IP firewall rules for the workspace. Always run Get first and provide all IP firewall rules in the request body.\n\n## Permissions\n\nThe caller must have *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_SetFirewallRules",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "Unique identifier of the workspace to update.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "FirewallRulesRequest",
+            "description": "Request payload for setting IP firewall rules for the workspace.",
+            "schema": {
+              "$ref": "./definitions/workspaceNetworkingPolicy.json#/definitions/InboundFirewallConfiguration"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully and has no content in the response body.\n\n---\n**Headers:**\n\n**ETag** `string` - The new ETag of the firewall configuration after the update. Use this value in a subsequent PUT call's `If-Match` header to apply optimistic concurrency control."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Example for setting workspace firewall rules": {
+            "$ref": "./examples/platform/SetFirewallRules.json"
+          }
+        }
+      }
     }
   },
   "responses": {},
   "security": [],
   "tags": []
 }
+
 
