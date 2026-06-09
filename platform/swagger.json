@@ -8921,6 +8921,239 @@
         }
       }
     },
+    "/gateways/{gatewayId}/checkStatus": {
+      "post": {
+        "summary": "Checks the status of the specified gateway.",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must have permission for the gateway.\n\n## Required Delegated Scopes\n\nGateway.Read.All or Gateway.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Gateways"
+        ],
+        "operationId": "Gateways_CheckGatewayStatus",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "gatewayId",
+            "description": "The ID of the gateway.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/gateways.json#/definitions/GatewayStatusResponse"
+            }
+          },
+          "202": {
+            "description": "Request accepted, status check is in progress.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status. Can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID. Can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* EntityNotFound - The requested resource could not be found.\n\n* InsufficientPermissionsToManageGateway - The caller has insufficient permissions to manage this gateway.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Virtual network gateway example": {
+            "$ref": "./examples/gateways/CheckGatewayStatusVnet.json"
+          },
+          "On premise data gateway example when gateway cluster is online but one of the gateway member encounters an error": {
+            "$ref": "./examples/gateways/CheckGatewayStatusOnPremise.json"
+          }
+        }
+      }
+    },
+    "/gateways/{gatewayId}/members/{gatewayMemberId}/checkStatus": {
+      "post": {
+        "summary": "Checks the status of the specified gateway member.",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must have permission for the gateway.\n\n## Required Delegated Scopes\n\nGateway.Read.All or Gateway.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Gateways"
+        ],
+        "operationId": "Gateways_CheckGatewayMemberStatus",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "gatewayId",
+            "description": "The ID of the gateway.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "gatewayMemberId",
+            "description": "The ID of the gateway member.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/gateways.json#/definitions/GatewayStatusResponse"
+            }
+          },
+          "202": {
+            "description": "Request accepted, status check is in progress.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status. Can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID. Can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* EntityNotFound - The requested resource could not be found.\n\n* InsufficientPermissionsToManageGateway - The caller has insufficient permissions to manage this gateway.\n\n* UnsupportedGatewayType - This operation is not supported for the vnet gateway type.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Online gateway member example": {
+            "$ref": "./examples/gateways/CheckGatewayMemberStatus.json"
+          },
+          "Offline gateway member example": {
+            "$ref": "./examples/gateways/CheckGatewayMemberStatusOffline.json"
+          }
+        }
+      }
+    },
+    "/gateways/{gatewayId}/restart": {
+      "post": {
+        "summary": "Restarts the specified gateway.",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must have admin permission for the gateway.\n\n## Required Delegated Scopes\n\nGateway.ReadWrite.All\n\n## Limitations\n\nThis operation is only supported for vnet data gateway.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Gateways"
+        ],
+        "operationId": "Gateways_RestartGateway",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "gatewayId",
+            "description": "The ID of the gateway.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully restarted."
+          },
+          "202": {
+            "description": "Accepted. Gateway restart operation has been initiated.",
+            "headers": {
+              "Location": {
+                "description": "The URI to call to fetch status on the execution job.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID. Can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "Number of seconds to wait before next call to fetch the status."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* EntityNotFound - The requested resource could not be found.\n\n* InsufficientPermissionsToManageGateway - The caller has insufficient permissions to manage this gateway.\n\n* UnsupportedGatewayType - This operation is not supported for on-premise data gateways.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Example": {
+            "$ref": "./examples/gateways/RestartGateway.json"
+          }
+        }
+      }
+    },
     "/gateways/{gatewayId}/roleAssignments": {
       "get": {
         "summary": "Returns a list of gateway role assignments.",
@@ -9253,6 +9486,77 @@
         "x-ms-examples": {
           "Delete gateway role assignment example": {
             "$ref": "./examples/gateways/DeleteGatewayRoleAssignment.json"
+          }
+        }
+      }
+    },
+    "/gateways/{gatewayId}/shutdown": {
+      "post": {
+        "summary": "Shuts down the specified gateway.",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must have admin permission for the gateway.\n\n## Required Delegated Scopes\n\nGateway.ReadWrite.All\n\n## Limitations\n\nThis operation is only supported for vnet data gateway.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Gateways"
+        ],
+        "operationId": "Gateways_ShutdownGateway",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "gatewayId",
+            "description": "The ID of the gateway.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully shutdown."
+          },
+          "202": {
+            "description": "Accepted. Gateway shutdown operation has been initiated.",
+            "headers": {
+              "Location": {
+                "description": "The URI to call to fetch status on the execution job.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID. Can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "Number of seconds to wait before next call to fetch the status."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* EntityNotFound - The requested resource could not be found.\n\n* InsufficientPermissionsToManageGateway - The caller has insufficient permissions to manage this gateway.\n\n* UnsupportedGatewayType - This operation is not supported for on-premise data gateways.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Example": {
+            "$ref": "./examples/gateways/ShutdownGateway.json"
           }
         }
       }
