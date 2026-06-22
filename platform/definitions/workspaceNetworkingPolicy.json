@@ -219,6 +219,37 @@
         ]
       }
     },
+    "InboundFirewallConfiguration": {
+      "type": "object",
+      "description": "This object defines the complete set of firewall rules to manage inbound access protection as part of a workspace’s networking communication policy. It ensures that only explicitly authorized IP addresses are permitted for inbound communication. \nWhen submitted via the PUT API, this object creates or fully replaces the existing IP firewall configuration for the workspace. These rules are enforced only when the workspace’s network communication policy has inbound.publicAccessRules.defaultAction set to Deny.",
+      "properties": {
+        "rules": {
+          "type": "array",
+          "description": "A list of rules that define IP addresses permitted for inbound access. Each rule may include a name and a single IP address, an IP address range, or a CIDR IP address. A maximum of 256 rules can be specified per workspace.",
+          "items": {
+            "$ref": "#/definitions/FirewallRule"
+          }
+        }
+      }
+    },
+    "FirewallRule": {
+      "type": "object",
+      "description": "Defines a firewall rule, identified by its name and containing a single IP address, an IP address range, or a CIDR IP address as its value.",
+      "required": [
+        "displayName",
+        "value"
+      ],
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Specifies the name of the rule. Display names can be up to 128 characters in length and are required to be unique per workspace."
+        },
+        "value": {
+          "type": "string",
+          "description": "Specifies the value of the rule, specified as a single IP address, an IP address range, or a CIDR IP address."
+        }
+      }
+    },
     "WorkspaceInboundAzureResourceRules": {
       "type": "object",
       "description": "Represents a collection of inbound Azure resource instance rules configured for a workspace. These rules define which Azure resource instances are allowed to access the workspace.",

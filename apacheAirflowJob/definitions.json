@@ -50,7 +50,7 @@
                     "readOnly": false
                 },
                 "folderId": {
-                    "description": "The folder ID. If not specified or null, the Apache Airflow is created with the workspace as its folder.",
+                    "description": "The folder ID. If not specified or null, the Apache Airflow job is created with the workspace as its folder.",
                     "type": "string",
                     "format": "uuid",
                     "readOnly": false
