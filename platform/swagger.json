@@ -10673,6 +10673,177 @@
         }
       }
     },
+    "/workspaces/{workspaceId}/encryption": {
+      "get": {
+        "summary": "Gets the workspace Customer-Managed Key (CMK) encryption settings.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nReturns the CMK encryption settings and status for the specified workspace. \n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_GetWorkspaceEncryption",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully. If encryption is in progress, the response includes a `Retry-After` header.\n\n---\n**Headers:**\n\n**Retry-After** `integer` - Indicates the number of seconds after which the client can retry to get the encryption status.",
+            "schema": {
+              "$ref": "./definitions/workspaceCmk.json#/definitions/WorkspaceEncryptionDetail"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get workspace CMK encryption active example": {
+            "$ref": "./examples/platform/GetWorkspaceEncryptionSuccessResult.json"
+          },
+          "Get workspace CMK encryption in progress example": {
+            "$ref": "./examples/platform/GetWorkspaceEncryptionInprogressSuccessResult.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/encryption/assign": {
+      "post": {
+        "summary": "Assigns a Customer-Managed Key (CMK) to a workspace.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nEnables CMK encryption for the workspace or rotates the encryption key for the workspace. \n\n## Permissions\n\nThe caller must have an *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_AssignWorkspaceEncryption",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "assignWorkspaceEncryptionRequest",
+            "description": "Assign workspace encryption request payload.",
+            "schema": {
+              "$ref": "./definitions/workspaceCmk.json#/definitions/AssignWorkspaceEncryptionRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Assign workspace CMK encryption example": {
+            "$ref": "./examples/platform/AssignWorkspaceEncryption.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/encryption/reset": {
+      "post": {
+        "summary": "Resets the workspace encryption by removing the Customer-Managed Key (CMK) encryption configuration.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nAfter reset, the workspace data remains encrypted using Fabric's default Microsoft-managed keys. \n\n## Permissions\n\nThe caller must have an *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Workspaces"
+        ],
+        "operationId": "Workspaces_ResetWorkspaceEncryption",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Reset workspace CMK encryption example": {
+            "$ref": "./examples/platform/ResetWorkspaceEncryption.json"
+          }
+        }
+      }
+    },
     "/workspaces/{workspaceId}/networking/communicationPolicy/inbound/firewall": {
       "get": {
         "summary": "Returns the IP firewall rules for the workspace. This API is designed to help workspace administrators view the effective IP firewall rules. This feature is currently in preview.",
@@ -10792,5 +10963,3 @@
   "security": [],
   "tags": []
 }
-
-

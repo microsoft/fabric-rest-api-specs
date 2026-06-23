@@ -575,6 +575,20 @@
                 }
             }
         },
+        "AirflowEnvironmentComputeRequest": {
+            "description": "The request payload for updating Apache Airflow environment compute configuration.",
+            "type": "object",
+            "required": [
+                "poolTemplateId"
+            ],
+            "properties": {
+                "poolTemplateId": {
+                    "description": "The pool template ID.",
+                    "type": "string",
+                    "format": "uuid"
+                }
+            }
+        },
         "AirflowComputeResponse": {
             "description": "Apache Airflow compute configuration response.",
             "type": "object",

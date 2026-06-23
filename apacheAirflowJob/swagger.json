@@ -1241,6 +1241,105 @@
         }
       }
     },
+    "/workspaces/{workspaceId}/apacheAirflowJobs/{apacheAirflowJobId}/environment/updateCompute?beta=true": {
+      "post": {
+        "summary": "Updates the compute configuration for an Apache Airflow job environment.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must have *read and write* permissions for the Apache Airflow job.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\nSet the `beta` query parameter to `true` to call this API.\n\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Compute"
+        ],
+        "operationId": "Compute_Update_Apache_Airflow_Job_Compute_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "apacheAirflowJobId",
+            "description": "The Apache Airflow job ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true,
+            "default": true
+          },
+          {
+            "in": "body",
+            "name": "airflowEnvironmentComputeRequest",
+            "description": "Update Apache Airflow environment compute request payload.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/AirflowEnvironmentComputeRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. The compute configuration will be updated in the background.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested Apache Airflow job was not found.\n\n* Forbidden - The caller doesn't have permissions to call the API.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update Apache Airflow compute configuration example": {
+            "$ref": "./examples/UpdateApacheAirflowJobCompute.json"
+          }
+        }
+      }
+    },
     "/workspaces/{workspaceId}/apacheAirflowJobs/{apacheAirflowJobId}/files?beta=true": {
       "get": {
         "summary": "Returns a list of Apache Airflow job files from the specified Apache Airflow job.",
