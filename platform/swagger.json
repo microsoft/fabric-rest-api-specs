@@ -8103,6 +8103,9 @@
           "Virtual network gateway example": {
             "$ref": "./examples/connections/CreateVirtualNetworkGatewayConnection.json"
           },
+          "Streaming virtual network gateway example": {
+            "$ref": "./examples/connections/CreateStreamingVirtualNetworkGatewayConnection.json"
+          },
           "Cloud example": {
             "$ref": "./examples/connections/CreateCloudConnection.json"
           },
@@ -8235,6 +8238,9 @@
           "Virtual network gateway example": {
             "$ref": "./examples/connections/UpdateVirtualNetworkGatewayConnection.json"
           },
+          "Streaming virtual network gateway example": {
+            "$ref": "./examples/connections/UpdateStreamingVirtualNetworkGatewayConnection.json"
+          },
           "Shareable cloud example": {
             "$ref": "./examples/connections/UpdateShareableCloudConnection.json"
           },
@@ -8297,7 +8303,7 @@
     "/connections/{connectionId}/testConnection": {
       "post": {
         "summary": "Tests the connection.",
-        "description": "Provides the status of the specified connection.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nPermission to read the connection, or admin permission for the gateway that hosts the connection.\n\n## Required Delegated Scopes \n\nConnection.Read.All or Connection.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "Provides the status of the specified connection.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n[!NOTE]\n> Connections that route through a streaming virtual network gateway (`connectivityType` = `StreamingVirtualNetworkGateway`) are not supported.\n\n## Permissions\n\nPermission to read the connection, or admin permission for the gateway that hosts the connection.\n\n## Required Delegated Scopes \n\nConnection.Read.All or Connection.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Connections"
         ],
@@ -8556,6 +8562,9 @@
         "x-ms-examples": {
           "Virtual network gateway example": {
             "$ref": "./examples/gateways/CreateVirtualNetworkGateway.json"
+          },
+          "Streaming virtual network gateway example": {
+            "$ref": "./examples/gateways/CreateStreamingVirtualNetworkGateway.json"
           }
         }
       }
@@ -8679,6 +8688,9 @@
           },
           "Virtual network gateway example": {
             "$ref": "./examples/gateways/UpdateVirtualNetworkGateway.json"
+          },
+          "Streaming virtual network gateway example": {
+            "$ref": "./examples/gateways/UpdateStreamingVirtualNetworkGateway.json"
           }
         }
       },

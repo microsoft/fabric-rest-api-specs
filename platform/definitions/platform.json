@@ -76,6 +76,11 @@
                   "$ref": "../../common/definitions.json#/definitions/WorkspaceAppliedTag"
           },
           "readOnly": true
+        },
+        "capacityRegion": {
+          "description": "The region of the capacity associated with this workspace.",
+          "$ref": "#/definitions/CapacityRegion",
+          "readOnly": true
         }
       },
       "readOnly": true
@@ -98,11 +103,6 @@
         "workspaceIdentity": {
           "description": "The workspace identity.",
           "$ref": "#/definitions/WorkspaceIdentity",
-          "readOnly": true
-        },
-        "capacityRegion": {
-          "description": "The region of the capacity associated with this workspace.",
-          "$ref": "#/definitions/CapacityRegion",
           "readOnly": true
         },
         "oneLakeEndpoints": {
