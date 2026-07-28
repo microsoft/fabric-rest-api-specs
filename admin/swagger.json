@@ -1409,6 +1409,13 @@
             "required": false
           },
           {
+            "in": "query",
+            "name": "withAssignedWorkspacesOnly",
+            "description": "When true, only return domains that have at least one workspace assigned to them, or to any of their subdomains. Default: false.",
+            "type": "boolean",
+            "required": false
+          },
+          {
             "name": "preview",
             "in": "query",
             "description": "This parameter specifies which version of the API to use. Set to `false` to use the release version.",
