@@ -29,6 +29,25 @@
                 ]
             }
         },
+        "GitConnectionType": {
+            "type": "string",
+            "description": "The type of Git connection. Additional GitConnectionType types may be added over time.",
+            "enum": ["Full", "Selective"],
+            "x-ms-enum": {
+                "name": "GitConnectionType",
+                "modelAsString": true,
+                "values": [
+                    {
+                        "value": "Full",
+                        "description": "All items in the branch are synced to the workspace."
+                    },
+                    {
+                        "value": "Selective",
+                        "description": "Only user-selected items are synced to the workspace."
+                    }
+                ]
+            }
+        },
         "GitSyncDetails": {
             "description": "Contains the sync details.",
             "type": "object",
@@ -59,6 +78,10 @@
                 },
                 "gitConnectionState": {
                     "$ref": "#/definitions/GitConnectionState"
+                },
+                "gitConnectionType": {
+                    "$ref": "#/definitions/GitConnectionType",
+                    "readOnly": true
                 }
             }
         },
