@@ -11012,7 +11012,7 @@
     "/workspaces/{workspaceId}/encryption": {
       "get": {
         "summary": "Gets the workspace Customer-Managed Key (CMK) encryption settings.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nReturns the CMK encryption settings and status for the specified workspace. \n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "Returns the CMK encryption settings and status for the specified workspace. \n\n## Permissions\n\n The caller must have *viewer* or higher workspace role. \n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Workspaces"
         ],
@@ -11070,7 +11070,7 @@
     "/workspaces/{workspaceId}/encryption/assign": {
       "post": {
         "summary": "Assigns a Customer-Managed Key (CMK) to a workspace.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nEnables CMK encryption for the workspace or rotates the encryption key for the workspace. \n\n## Permissions\n\nThe caller must have an *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "Enables CMK encryption for the workspace or rotates the encryption key for the workspace. \n\n## Permissions\n\nThe caller must have an *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Workspaces"
         ],
@@ -11131,7 +11131,7 @@
     "/workspaces/{workspaceId}/encryption/reset": {
       "post": {
         "summary": "Resets the workspace encryption by removing the Customer-Managed Key (CMK) encryption configuration.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\nAfter reset, the workspace data remains encrypted using Fabric's default Microsoft-managed keys. \n\n## Permissions\n\nThe caller must have an *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "After reset, the workspace data remains encrypted using Fabric's default Microsoft-managed keys. \n\n## Permissions\n\nThe caller must have an *admin* workspace role.\n\n## Required Delegated Scopes \n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Workspaces"
         ],
