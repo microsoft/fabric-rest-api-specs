@@ -98,24 +98,6 @@
             ],
             "discriminator": "type"
         },
-        "DestinationConnectionResponse": {
-            "type": "object",
-            "description": "Represents the connection information for an eventstream destination.",
-            "required": [
-                "consumerGroupName"
-            ],
-            "properties": {
-                "consumerGroupName": {
-                    "type": "string",
-                    "description": "The consumer group name."
-                }
-            },
-            "allOf": [
-                {
-                    "$ref": "./common.json#/definitions/BaseCustomEndpointConnection"
-                }
-            ]
-        },
         "ActivatorDestinationResponse": {
             "type": "object",
             "description": "Activator destination response.",

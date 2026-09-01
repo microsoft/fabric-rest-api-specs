@@ -103,6 +103,20 @@
                         "status": "Running"
                     },
                     {
+                        "id": "b7e2c4a1-3f9d-4e6b-8a1c-2d5f7b0e9c63",
+                        "name": "CriblSource",
+                        "type": "Cribl",
+                        "properties": {},
+                        "status": "Running"
+                    },
+                    {
+                        "id": "a1b2c3d4-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+                        "name": "SAPDatasphereSource",
+                        "type": "SAPDatasphere",
+                        "properties": {},
+                        "status": "Running"
+                    },
+                    {
                         "id": "8b6b1b8e-9b7f-4a7d-8f6b-6f2a8b7c4b15",
                         "name": "AzureBlobStorageEventsSource",
                         "type": "AzureBlobStorageEvents",
@@ -118,6 +132,30 @@
                                 }
                             ],
                             "streamEvents": true
+                        },
+                        "status": "Running"
+                    },
+                    {
+                        "id": "a4b5c6d7-e8f9-4a0b-c1d2-e3f4a5b6c7d8",
+                        "name": "FabricCapacityOperationEventsSource",
+                        "type": "FabricCapacityOperationEvents",
+                        "properties": {
+                            "eventScope": "Capacity",
+                            "capacityId": "0b6d8e27-0b7b-4e18-9e5b-2e6b9d9d7e3a",
+                            "includedEventTypes": [
+                                "Microsoft.Fabric.Capacity.OperationStarted",
+                                "Microsoft.Fabric.Capacity.OperationCompleted"
+                            ],
+                            "filters": [
+                                {
+                                    "operatorType": "StringIn",
+                                    "key": "data.operationType",
+                                    "values": [
+                                        "ScaleUp",
+                                        "ScaleDown"
+                                    ]
+                                }
+                            ]
                         },
                         "status": "Running"
                     },

@@ -25,8 +25,10 @@
                 "AzureSQLMIDBCDC",
                 "AzureServiceBus",
                 "ConfluentCloud",
+                "Cribl",
                 "CustomEndpoint",
                 "FabricAnomalyDetectionEvents",
+                "FabricCapacityOperationEvents",
                 "FabricCapacityOverviewEvents",
                 "FabricJobEvents",
                 "FabricOneLakeEvents",
@@ -40,6 +42,8 @@
                 "OracleDBCDC",
                 "PostgreSQLCDC",
                 "RealTimeWeather",
+                "ReferenceLakehouse",
+                "SAPDatasphere",
                 "SQLServerOnVMDBCDC",
                 "SampleData",
                 "SolacePubSub"
@@ -109,12 +113,20 @@
                         "description": "The Confluent Cloud source type."
                     },
                     {
+                        "value": "Cribl",
+                        "description": "The Cribl source type."
+                    },
+                    {
                         "value": "CustomEndpoint",
                         "description": "The Custom Endpoint source type."
                     },
                     {
                         "value": "FabricAnomalyDetectionEvents",
                         "description": "The Fabric Anomaly Detection Events source type."
+                    },
+                    {
+                        "value": "FabricCapacityOperationEvents",
+                        "description": "The Fabric Capacity Operation Events source type."
                     },
                     {
                         "value": "FabricCapacityOverviewEvents",
@@ -169,8 +181,16 @@
                         "description": "The Real Time Weather source type."
                     },
                     {
+                        "value": "ReferenceLakehouse",
+                        "description": "The Reference Lakehouse source type. Provides a point-in-time snapshot from a Lakehouse delta table for enrichment joins."
+                    },
+                    {
                         "value": "SQLServerOnVMDBCDC",
                         "description": "The SQL Server on VM DB CDC source type."
+                    },
+                    {
+                        "value": "SAPDatasphere",
+                        "description": "The SAP Datasphere source type."
                     },
                     {
                         "value": "SampleData",
@@ -229,15 +249,6 @@
                 }
             ],
             "discriminator": "type"
-        },
-        "SourceConnectionResponse": {
-            "type": "object",
-            "description": "Represents the connection information for an eventstream source.",
-            "allOf": [
-                {
-                    "$ref": "common.json#/definitions/BaseCustomEndpointConnection"
-                }
-            ]
         },
         "AzureEventGridNamespaceSourceResponse": {
             "type": "object",
@@ -391,6 +402,44 @@
             ],
             "x-ms-discriminator-value": "CustomEndpoint"
         },
+        "SAPDatasphereSourceResponse": {
+            "type": "object",
+            "description": "Represents an SAP Datasphere source response.",
+            "required": [
+                "properties"
+            ],
+            "properties": {
+                "properties": {
+                    "description": "The properties of the SAP Datasphere source.",
+                    "$ref": "#/definitions/SAPDatasphereSourceProperties"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/SourceResponse"
+                }
+            ],
+            "x-ms-discriminator-value": "SAPDatasphere"
+        },
+        "CriblSourceResponse": {
+            "type": "object",
+            "description": "Represents a Cribl source response.",
+            "required": [
+                "properties"
+            ],
+            "properties": {
+                "properties": {
+                    "description": "The properties of the Cribl source.",
+                    "$ref": "#/definitions/CriblSourceProperties"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/SourceResponse"
+                }
+            ],
+            "x-ms-discriminator-value": "Cribl"
+        },
         "FabricAnomalyDetectionEventsSourceResponse": {
             "type": "object",
             "description": "Fabric Anomaly Detection Events source response.",
@@ -409,6 +458,25 @@
                 }
             ],
             "x-ms-discriminator-value": "FabricAnomalyDetectionEvents"
+        },
+        "FabricCapacityOperationEventsSourceResponse": {
+            "type": "object",
+            "description": "Fabric Capacity Operation Events source response.",
+            "required": [
+                "properties"
+            ],
+            "properties": {
+                "properties": {
+                    "description": "The properties of the Fabric Capacity Operation Events source.",
+                    "$ref": "#/definitions/FabricCapacityOperationEventsSourceProperties"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/SourceResponse"
+                }
+            ],
+            "x-ms-discriminator-value": "FabricCapacityOperationEvents"
         },
         "FabricCapacityOverviewEventsSourceResponse": {
             "type": "object",
@@ -693,6 +761,25 @@
                 }
             ],
             "x-ms-discriminator-value": "RealTimeWeather"
+        },
+        "ReferenceLakehouseSourceResponse": {
+            "type": "object",
+            "description": "Reference Lakehouse source response. Reference data sources provide point-in-time snapshots from a Lakehouse delta table used for enrichment joins.",
+            "required": [
+                "properties"
+            ],
+            "properties": {
+                "properties": {
+                    "description": "The properties of the Reference Lakehouse source.",
+                    "$ref": "#/definitions/ReferenceLakehouseSourceProperties"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/SourceResponse"
+                }
+            ],
+            "x-ms-discriminator-value": "ReferenceLakehouse"
         },
         "GooglePubSubSourceResponse": {
             "type": "object",
@@ -1156,6 +1243,16 @@
             "description": "Custom endpoint events source properties.",
             "properties": {}
         },
+        "CriblSourceProperties": {
+            "type": "object",
+            "description": "Cribl source properties. Connection information (bootstrap server, topic name, keys) is returned through the separate source connection API.",
+            "properties": {}
+        },
+        "SAPDatasphereSourceProperties": {
+            "type": "object",
+            "description": "Represents the properties of an SAP Datasphere source. Connection information (bootstrap server, topic name, and authentication credentials) is returned through the separate source connection API.",
+            "properties": {}
+        },
         "FabricAnomalyDetectionEventsSourceProperties": {
             "type": "object",
             "description": "Fabric Anomaly Detection Events source properties.",
@@ -1178,6 +1275,71 @@
                 "includedEventTypes": {
                     "type": "array",
                     "description": "The list of event types to include. Supported values: Microsoft.Fabric.AnomalyDetection.AnomalyDetected. Additional event types may be added over time.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "filters": {
+                    "type": "array",
+                    "description": "The Azure Event Grid advanced filters to apply. Each entry is an advanced filter object as defined by Azure Event Grid. For details, see https://learn.microsoft.com/azure/event-grid/event-filtering#advanced-filtering.",
+                    "items": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "FabricCapacityOperationEventsSourceProperties": {
+            "type": "object",
+            "description": "Fabric Capacity Operation Events source properties.",
+            "required": [
+                "eventScope"
+            ],
+            "properties": {
+                "eventScope": {
+                    "type": "string",
+                    "description": "The event scope.",
+                    "enum": [
+                        "Tenant",
+                        "Capacity",
+                        "Workspace",
+                        "Item",
+                        "SubItem"
+                    ],
+                    "x-ms-enum": {
+                        "name": "EventScope",
+                        "modelAsString": true,
+                        "values": [
+                            {
+                                "value": "Tenant",
+                                "description": "The event scope is Tenant."
+                            },
+                            {
+                                "value": "Capacity",
+                                "description": "The event scope is Capacity."
+                            },
+                            {
+                                "value": "Workspace",
+                                "description": "The event scope is Workspace."
+                            },
+                            {
+                                "value": "Item",
+                                "description": "The event scope is Item."
+                            },
+                            {
+                                "value": "SubItem",
+                                "description": "The event scope is SubItem."
+                            }
+                        ]
+                    }
+                },
+                "capacityId": {
+                    "type": "string",
+                    "description": "The capacity identifier.",
+                    "format": "uuid"
+                },
+                "includedEventTypes": {
+                    "type": "array",
+                    "description": "The list of event types to include. Supported values: Microsoft.Fabric.Capacity.OperationStarted, Microsoft.Fabric.Capacity.OperationCompleted. Additional event types may be added over time.",
                     "items": {
                         "type": "string"
                     }
@@ -2158,6 +2320,40 @@
                 "longitude": {
                     "type": "number",
                     "description": "The longitude for the weather data."
+                }
+            }
+        },
+        "ReferenceLakehouseSourceProperties": {
+            "type": "object",
+            "description": "Reference Lakehouse source properties. The schema and table are identified by absoluteOneLakePath; workspaceId and itemId are still required for OneLake authorization and must match the workspaceId/itemId segments embedded in the URL.\n\nNote that a Reference Lakehouse source can only be used as input to a Join operator (or to a SQL operator when its reference-input feature is enabled). When joined, the other input must be a streaming source and at least one joinOn key is required, with joinOn.left referencing a streaming column and joinOn.right referencing a reference column; duration is not used and a LeftOuter join preserves the streaming side.",
+            "required": [
+                "absoluteOneLakePath"
+            ],
+            "properties": {
+                "workspaceId": {
+                    "type": "string",
+                    "description": "The Lakehouse workspace identifier.",
+                    "format": "uuid"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "The Lakehouse item identifier.",
+                    "format": "uuid"
+                },
+                "absoluteOneLakePath": {
+                    "type": "string",
+                    "description": "Absolute OneLake DFS URL to the delta table, in the form https://onelake.dfs.fabric.microsoft.com/{workspaceId}/{itemId}/Tables/{schema}/{table}. The schema and table segments identify the reference table; workspaceId and itemId segments must match the workspaceId and itemId properties."
+                },
+                "referencedColumns": {
+                    "type": "array",
+                    "description": "The columns to include from the delta table. When omitted, all columns are included.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "refreshRate": {
+                    "type": "string",
+                    "description": "Refresh rate for the reference data snapshot, as a .NET TimeSpan-formatted string (\"hh:mm:ss\", e.g. \"00:05:00\" for 5 minutes). Must be at least 00:00:00 (static, no refresh) and less than 24 hours. When omitted, the reference data is treated as static (no refresh). OneLake operations are billed separately, so an explicit non-zero refresh rate has cost implications."
                 }
             }
         },
