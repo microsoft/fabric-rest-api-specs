@@ -1297,14 +1297,14 @@
         }
       }
     },
-    "/workspaces/{workspaceId}/items/bulkExportDefinitions?beta=true": {
+    "/workspaces/{workspaceId}/items/bulkExportDefinitions": {
       "post": {
         "summary": "Bulk export item definitions from the workspace.",
-        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\nExports item definitions from multiple items in a workspace in a single operation. This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation). You can export all supported item definitions or selectively export specific items from the specified workspace. To see the supported item types, see [Item definition overview](/rest/api/fabric/articles/item-management/definitions/item-definition-overview).\n\n## Permissions\n\nThe caller must have a *contributor* or higher role for the workspace.\n\nWhen exporting all items in a workspace: Only the Items that the caller has both *read* and *write* permissions for are exported.\n\nWhen exporting specific items: The caller must have *read* and *write* permissions for **all** specified items.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Only when all the [items](/rest/api/fabric/articles/item-management/item-management-overview) involved in the operation support service principals |\n\n## Interface",
+        "description": "Exports item definitions from multiple items in a workspace in a single operation. This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation). You can export all supported item definitions or selectively export specific items from the specified workspace. To see the supported item types, see [Item definition overview](/rest/api/fabric/articles/item-management/definitions/item-definition-overview).\n\n## Permissions\n\nThe caller must have a *contributor* or higher role for the workspace.\n\nWhen exporting all items in a workspace: Only the Items that the caller has both *read* and *write* permissions for are exported.\n\nWhen exporting specific items: The caller must have *read* and *write* permissions for **all** specified items.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Only when all the [items](/rest/api/fabric/articles/item-management/item-management-overview) involved in the operation support service principals |\n\n## Interface",
         "tags": [
           "Items"
         ],
-        "operationId": "Items_Bulk_Export_Item_Definitions_(beta)",
+        "operationId": "Items_BulkExportItemDefinitions",
         "consumes": [
           "application/json"
         ],
@@ -1319,13 +1319,6 @@
             "description": "The workspace ID.",
             "type": "string",
             "format": "uuid",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "beta",
-            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
-            "type": "boolean",
             "required": true
           },
           {
@@ -1392,14 +1385,14 @@
         }
       }
     },
-    "/workspaces/{workspaceId}/items/bulkImportDefinitions?beta=true": {
+    "/workspaces/{workspaceId}/items/bulkImportDefinitions": {
       "post": {
         "summary": "Bulk import item definitions into the workspace.",
-        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\nImports item definitions for multiple items into a workspace in a single operation. This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation). Each item definition in the request will be processed, creating new items or updating existing ones as determined by the system based on whether the item already exists. To see the supported item types, see [Item definition overview](/rest/api/fabric/articles/item-management/definitions/item-definition-overview).\n\n## Permissions\n\nThe caller must have a *contributor* or higher role for the workspace.\n\nThe caller must have *read and write* permissions for each item being updated.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Only when all the [items](/rest/api/fabric/articles/item-management/item-management-overview) involved in the operation support service principals |\n\n## Interface",
+        "description": "Imports item definitions for multiple items into a workspace in a single operation. This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation). Each item definition in the request will be processed, creating new items or updating existing ones as determined by the system based on whether the item already exists. To see the supported item types, see [Item definition overview](/rest/api/fabric/articles/item-management/definitions/item-definition-overview).\n\n## Permissions\n\nThe caller must have a *contributor* or higher role for the workspace.\n\nThe caller must have *read and write* permissions for each item being updated.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Only when all the [items](/rest/api/fabric/articles/item-management/item-management-overview) involved in the operation support service principals |\n\n## Interface",
         "tags": [
           "Items"
         ],
-        "operationId": "Items_Bulk_Import_Item_Definitions_(beta)",
+        "operationId": "Items_BulkImportItemDefinitions",
         "consumes": [
           "application/json"
         ],
@@ -1414,13 +1407,6 @@
             "description": "The workspace ID.",
             "type": "string",
             "format": "uuid",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "beta",
-            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
-            "type": "boolean",
             "required": true
           },
           {
@@ -2811,6 +2797,14 @@
             "type": "string",
             "format": "uuid",
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "includeFilesDetails",
+            "description": "When true, each item change in the response includes a fileChanges array with per-file change details.",
+            "type": "boolean",
+            "default": false,
+            "required": false
           }
         ],
         "responses": {
@@ -2867,6 +2861,9 @@
           },
           "Get status with conflict example": {
             "$ref": "./examples/gitIntegration/GetStatus_Conflict.json"
+          },
+          "Get status with file details example": {
+            "$ref": "./examples/gitIntegration/GetStatus_WithFileDetails.json"
           }
         }
       }
@@ -2874,7 +2871,7 @@
     "/workspaces/{workspaceId}/git/commitToGit": {
       "post": {
         "summary": "Commits the changes made in the workspace to the connected remote branch.",
-        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nTo use this API, the caller's Git credentials must be configured using [Update My Git Credentials](/rest/api/fabric/core/git/update-my-git-credentials) API. You can use the [Get My Git Credentials](/rest/api/fabric/core/git/get-my-git-credentials) API to check the Git credentials configuration.\n\nYou can choose to commit all changes or only specific changed items. To sync the workspace for the first time, use this API after the [Connect](/rest/api/fabric/core/git/connect) and [Initialize Connection](/rest/api/fabric/core/git/initialize-connection) APIs.\n\n## Permissions\n\nThe caller must have a *contributor* or higher workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.GitCommit.All.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Only supported when all the [items](/rest/api/fabric/articles/item-management/item-management-overview) involved in the operation support service principals |\n\n## Interface",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nTo use this API, the caller's Git credentials must be configured using [Update My Git Credentials](/rest/api/fabric/core/git/update-my-git-credentials) API. You can use the [Get My Git Credentials](/rest/api/fabric/core/git/get-my-git-credentials) API to check the Git credentials configuration.\n\nYou can choose to commit all changes, specific items, or specific files within items using the FileLevelSelective mode. To sync the workspace for the first time, use this API after the [Connect](/rest/api/fabric/core/git/connect) and [Initialize Connection](/rest/api/fabric/core/git/initialize-connection) APIs.\n\n## Permissions\n\nThe caller must have a *contributor* or higher workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.GitCommit.All.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Only supported when all the [items](/rest/api/fabric/articles/item-management/item-management-overview) involved in the operation support service principals |\n\n## Interface",
         "tags": [
           "Git"
         ],
@@ -2953,6 +2950,9 @@
           },
           "Commit selective items to Git example": {
             "$ref": "./examples/gitIntegration/CommitToGit_Selective.json"
+          },
+          "Commit file-level selective to Git example": {
+            "$ref": "./examples/gitIntegration/CommitToGit_FileLevelSelective.json"
           }
         }
       }
@@ -4616,6 +4616,74 @@
           },
           "Modify default tier to Hot example": {
             "$ref": "./examples/platform/ModifyOneLakeDefaultTierToHot.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/onelake/settings/modifyAccessTimeTracking": {
+      "post": {
+        "summary": "Enables or disables OneLake access time tracking for a workspace.",
+        "description": "Enables or disables Azure Storage `LastAccessTime` tracking for OneLake files in the workspace. When enabled, file reads and writes update the file's last access timestamp; metadata-only operations, such as checking properties, metadata, or tags, do not. Changes take effect immediately.\n\n## Permissions\n\nThe caller must have an *admin* workspace role.\n\n## Required Delegated Scopes\n\nOneLake.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "OneLakeSettings"
+        ],
+        "operationId": "OneLakeSettings_ModifyAccessTimeTracking",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": false,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "modifyAccessTimeTrackingRequest",
+            "description": "The modify access time tracking request object.",
+            "required": true,
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/ModifyAccessTimeTrackingRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* WorkspaceNotFound - Workspace not found.\n\n* UserNotAuthorized - User is not authorized. The caller must have an *admin* workspace role.\n\n* OneLakeNotProvisioned - The workspace has no items, so OneLake storage is not provisioned.\n\n* UnknownError - An error occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Enable access time tracking example": {
+            "$ref": "./examples/platform/ModifyOneLakeAccessTimeTrackingEnable.json"
+          },
+          "Disable access time tracking example": {
+            "$ref": "./examples/platform/ModifyOneLakeAccessTimeTrackingDisable.json"
           }
         }
       }
@@ -7773,8 +7841,8 @@
     },
     "/workspaces/{workspaceId}/items/bulkMove": {
       "post": {
-        "summary": "Move multiple items to a folder. Children items are moved with their parent items. You can't move children items without their parent items.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\n The caller must have *contributor* or higher role on the workspace.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Limitations\n\n A single request can't contain more than 50 items.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Moves multiple items to a folder.",
+        "description": "Moves multiple items to a folder. Child items are moved with their parent items. You can't move a child item without its parent item.\n\n## Permissions\n\n The caller must have *contributor* or higher role on the workspace.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Limitations\n\n A single request can't contain more than 50 items.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -7843,8 +7911,8 @@
     },
     "/workspaces/{workspaceId}/items/{itemId}/move": {
       "post": {
-        "summary": "Move the specified item to a folder within the same workspace. Child items are moved with their parent item. You can't move a child item without its parent item.",
-        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n## Permissions\n\n The caller must have *contributor* or higher role on the workspace.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Moves the specified item to a folder.",
+        "description": "Moves the specified item to a folder within the same workspace. Child items are moved with their parent item. You can't move a child item without its parent item.\n\n## Permissions\n\n The caller must have *contributor* or higher role on the workspace.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],

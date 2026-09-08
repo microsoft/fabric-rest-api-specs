@@ -2656,6 +2656,44 @@
         "policy": {
           "description": "Indicates whether there is at least one active lifecycle rule in the workspace.",
           "$ref": "#/definitions/OneLakeLifecyclePolicyStatus"
+        },
+        "accessTimeTracking": {
+          "description": "Indicates whether Azure Storage access time tracking (LastAccessTime updates) is enabled for OneLake files in the workspace.",
+          "$ref": "#/definitions/AccessTimeTrackingStatus"
+        }
+      }
+    },
+    "AccessTimeTrackingStatus": {
+      "description": "The status of OneLake access time tracking. When enabled, Azure Storage updates the LastAccessTime property on file reads and writes. Additional status values may be added over time.",
+      "type": "string",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "x-ms-enum": {
+        "name": "AccessTimeTrackingStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Enabled",
+            "description": "Access time tracking is enabled. Azure Storage updates LastAccessTime on file reads and writes."
+          },
+          {
+            "value": "Disabled",
+            "description": "Access time tracking is disabled. LastAccessTime is not updated on file access."
+          }
+        ]
+      }
+    },
+    "ModifyAccessTimeTrackingRequest": {
+      "description": "Modify OneLake access time tracking request.",
+      "type": "object",
+      "required": [ "status" ],
+      "properties": {
+        "status": {
+          "description": "The desired access time tracking status.",
+          "$ref": "#/definitions/AccessTimeTrackingStatus",
+          "readOnly": false
         }
       }
     },
