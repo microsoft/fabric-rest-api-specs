@@ -1466,6 +1466,9 @@
         "x-ms-examples": {
           "Bulk import item definitions example": {
             "$ref": "./examples/platform/BulkImportItemDefinitions.json"
+          },
+          "Bulk import item definitions with options example": {
+            "$ref": "./examples/platform/BulkImportItemDefinitionsWithOptions.json"
           }
         }
       }
@@ -2773,6 +2776,9 @@
         "x-ms-examples": {
           "Update a workspace using data from a Git example": {
             "$ref": "./examples/gitIntegration/UpdateFromGit.json"
+          },
+          "Update a workspace from Git with options example": {
+            "$ref": "./examples/gitIntegration/UpdateFromGitWithOptions.json"
           }
         }
       }
@@ -5823,6 +5829,9 @@
           },
           "Example of deploying all Fabric items (such as reports or dashboards) from a deployment pipeline stage": {
             "$ref": "./examples/deploymentPipelines/DeployAll.json"
+          },
+          "Example of deploying with options": {
+            "$ref": "./examples/deploymentPipelines/DeployWithOptions.json"
           }
         }
       }

@@ -741,6 +741,14 @@
                     "allowPairingByName": {
                         "type": "boolean",
                         "description": "Specifies how to handle an imported item without a Logical ID when an item with the same display name and item type already exists in the workspace.\n\nTrue – The imported item will be paired with the existing workspace item based on display name and type.\n\nFalse – Name-based pairing is disabled. If a workspace item with the same display name and type exists, the import fails due to a name duplication conflict.\n\nDefault value is false"
+                    },
+                    "itemOptionsByLogicalId": {
+                        "description": "Per-item options. Each entry targets its item by logical ID and applies its options to that item.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "../../common/definitions.json#/definitions/ItemOptionsByLogicalIdEntry"
+                        },
+                        "readOnly": false
                     }
                 }
             }
@@ -927,6 +935,11 @@
           "description": "The sensitivity label settings for the item.",
           "$ref": "../../common/definitions.json#/definitions/SensitivityLabelSettings",
           "readOnly": false
+        },
+        "options": {
+          "description": "Options for the item being created. Only honored when a `definition` is also provided; supplying `options` without `definition` results in a `BadRequest` error. Property names are option names valid for the item type; values are the option values. For the options supported by a specific item type, see that item type's `Update-Definition` API documentation.",
+          "type": "object",
+          "readOnly": false
         }
       }
     },
@@ -936,6 +949,11 @@
       "properties": {
         "definition": {
           "$ref": "#/definitions/ItemDefinition"
+        },
+        "options": {
+          "description": "Options for the item whose definition is being updated. Property names are option names valid for the item type; values are the option values. For the options supported by a specific item type, see that item type's `Update-Definition` API documentation.",
+          "type": "object",
+          "readOnly": false
         }
       }
     },
