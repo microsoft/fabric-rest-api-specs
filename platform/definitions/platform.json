@@ -967,6 +967,32 @@
         }
       }
     },
+    "UpdateLogicalIdRequest": {
+      "description": "Update logical ID request payload.",
+      "type": "object",
+      "required": [ "logicalId" ],
+      "properties": {
+        "logicalId": {
+          "description": "The logical ID to update for the item.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        }
+      }
+    },
+    "LogicalIdResponse": {
+      "description": "Logical ID response.",
+      "type": "object",
+      "required": [ "logicalId" ],
+      "properties": {
+        "logicalId": {
+          "description": "The logical ID of the item.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        }
+      }
+    },
     "ItemDefinition": {
       "description": "An item definition object.",
       "type": "object",
@@ -2811,4 +2837,3 @@
     }
   }
 }
-

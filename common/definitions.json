@@ -599,6 +599,12 @@
                     "format": "uuid",
                     "readOnly": true
                 },
+                "logicalId": {
+                    "description": "The item's logical identifier. Corresponding item instances share the same logical ID. The value is null when no logical ID has been assigned.",
+                    "type": "string",
+                    "format": "uuid",
+                    "readOnly": true
+                },
                 "displayName": {
                     "description": "The item display name.",
                     "type": "string",
@@ -1313,4 +1319,3 @@
         }
     }
 }
-

@@ -1113,6 +1113,81 @@
         }
       }
     },
+    "/workspaces/{workspaceId}/items/{itemId}/logicalId": {
+      "patch": {
+        "summary": "Updates the logical ID for the specified item.",
+        "description": "Corresponding item instances share the same logical ID. Use this operation to resolve logical ID conflicts. Before changing the logical ID, review any automations that rely on its current value and update them as needed. Otherwise, those automations might fail to locate the item or fail because of a duplicate display name. For more information, see [Resolve logical ID conflicts in Microsoft Fabric](/fabric/cicd/git-integration/logical-id-conflict-resolution).\n\n## Permissions\n\nThe caller must have *read and write* permissions for the item.\n\n## Required Delegated Scopes\n\nFor item APIs, use one of the following scope types:\n\n- Generic scope: Item.ReadWrite.All.\n- Specific scope: *itemType*.ReadWrite.All (for example, Notebook.ReadWrite.All).\n\nFor more information about scopes, see [Scopes](/rest/api/fabric/articles/scopes).\n\n## Limitations\n\n- The logical ID can't be an empty GUID (`00000000-0000-0000-0000-000000000000`).\n- The logical ID must be unique within the workspace.\n- The operation isn't supported while a CI/CD operation is active in the workspace.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_UpdateLogicalId",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "description": "The item ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateLogicalIdRequest",
+            "description": "Update logical ID request payload.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/UpdateLogicalIdRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/LogicalIdResponse"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.\n\n* ActiveCiCdOperationInProgress - A CI/CD operation is active in the workspace.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update logical ID example": {
+            "$ref": "./examples/platform/UpdateLogicalId.json"
+          }
+        }
+      }
+    },
     "/workspaces/{workspaceId}/items/{itemId}/getDefinition": {
       "post": {
         "summary": "Returns the specified item definition.",
@@ -1300,7 +1375,7 @@
     "/workspaces/{workspaceId}/items/bulkExportDefinitions": {
       "post": {
         "summary": "Bulk export item definitions from the workspace.",
-        "description": "Exports item definitions from multiple items in a workspace in a single operation. This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation). You can export all supported item definitions or selectively export specific items from the specified workspace. To see the supported item types, see [Item definition overview](/rest/api/fabric/articles/item-management/definitions/item-definition-overview).\n\n## Permissions\n\nThe caller must have a *contributor* or higher role for the workspace.\n\nWhen exporting all items in a workspace: Only the Items that the caller has both *read* and *write* permissions for are exported.\n\nWhen exporting specific items: The caller must have *read* and *write* permissions for **all** specified items.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Only when all the [items](/rest/api/fabric/articles/item-management/item-management-overview) involved in the operation support service principals |\n\n## Interface",
+        "description": "Exports item definitions from multiple items in a workspace in a single operation. This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation). You can export all supported item definitions or selectively export specific items from the specified workspace. To see the supported item types, see [Item definition overview](/rest/api/fabric/articles/item-management/definitions/item-definition-overview).\n\n## Permissions\n\nThe caller must have a *contributor* or higher role for the workspace.\n\nWhen exporting all items in a workspace: Only the Items that the caller has both *read* and *write* permissions for are exported.\n\nWhen exporting specific items: The caller must have *read* and *write* permissions for **all** specified items.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All.\n\n## Limitations\n\n The following limitations apply: \n- The maximum supported request payload size is 128 MB. \n- If the request includes one or more Fabric item types, the workspace must be assigned to a Fabric capacity (F SKU, including Fabric Trial). Power BI Premium capacities are supported only for Power BI items and aren't sufficient for Fabric items.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Only when all the [items](/rest/api/fabric/articles/item-management/item-management-overview) involved in the operation support service principals |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -1388,7 +1463,7 @@
     "/workspaces/{workspaceId}/items/bulkImportDefinitions": {
       "post": {
         "summary": "Bulk import item definitions into the workspace.",
-        "description": "Imports item definitions for multiple items into a workspace in a single operation. This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation). Each item definition in the request will be processed, creating new items or updating existing ones as determined by the system based on whether the item already exists. To see the supported item types, see [Item definition overview](/rest/api/fabric/articles/item-management/definitions/item-definition-overview).\n\n## Permissions\n\nThe caller must have a *contributor* or higher role for the workspace.\n\nThe caller must have *read and write* permissions for each item being updated.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Only when all the [items](/rest/api/fabric/articles/item-management/item-management-overview) involved in the operation support service principals |\n\n## Interface",
+        "description": "Imports item definitions for multiple items into a workspace in a single operation. This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation). Each item definition in the request will be processed, creating new items or updating existing ones as determined by the system based on whether the item already exists. To see the supported item types, see [Item definition overview](/rest/api/fabric/articles/item-management/definitions/item-definition-overview).\n\n## Permissions\n\nThe caller must have a *contributor* or higher role for the workspace.\n\nThe caller must have *read and write* permissions for each item being updated.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All.\n\n## Limitations\n\n The following limitations apply: \n- The maximum supported request payload size is 128 MB. \n- If the request includes one or more Fabric item types, the workspace must be assigned to a Fabric capacity (F SKU, including Fabric Trial). Power BI Premium capacities are supported only for Power BI items and aren't sufficient for Fabric items.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Only when all the [items](/rest/api/fabric/articles/item-management/item-management-overview) involved in the operation support service principals |\n\n## Interface",
         "tags": [
           "Items"
         ],
