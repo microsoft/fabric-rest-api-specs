@@ -35,6 +35,7 @@
                 "FabricWorkspaceItemEvents",
                 "GooglePubSub",
                 "Http",
+                "LakehouseChangeFeed",
                 "MirroredDatabaseChangeFeed",
                 "MongoDBCDC",
                 "Mqtt",
@@ -151,6 +152,10 @@
                     {
                         "value": "Http",
                         "description": "The HTTP source type."
+                    },
+                    {
+                        "value": "LakehouseChangeFeed",
+                        "description": "The Lakehouse Change Feed source type."
                     },
                     {
                         "value": "MirroredDatabaseChangeFeed",
@@ -818,6 +823,25 @@
                 }
             ],
             "x-ms-discriminator-value": "Http"
+        },
+        "LakehouseChangeFeedSourceResponse": {
+            "type": "object",
+            "description": "Represents a Lakehouse Change Feed source response.",
+            "required": [
+                "properties"
+            ],
+            "properties": {
+                "properties": {
+                    "description": "The properties of the Lakehouse Change Feed source.",
+                    "$ref": "#/definitions/LakehouseChangeFeedSourceProperties"
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/SourceResponse"
+                }
+            ],
+            "x-ms-discriminator-value": "LakehouseChangeFeed"
         },
         "MirroredDatabaseChangeFeedSourceResponse": {
             "type": "object",
@@ -1516,6 +1540,10 @@
                 "mapSolaceProperties": {
                     "type": "boolean",
                     "description": "Indicates whether to map Solace standard message properties to Kafka record headers."
+                },
+                "tlsSettings": {
+                    "description": "The TLS and mutual TLS settings for the Solace PubSub connection.",
+                    "$ref": "#/definitions/TLSSettings"
                 }
             },
             "discriminator": "pubSubType"
@@ -2164,6 +2192,18 @@
                     "items": {
                         "$ref": "#/definitions/SnapshotSelectStatementOverrideItem"
                     }
+                },
+                "heartbeatIntervalMs": {
+                    "type": "integer",
+                    "description": "The interval in milliseconds between heartbeat messages."
+                },
+                "heartbeatActionQuery": {
+                    "type": "string",
+                    "description": "The query executed on the source database when a heartbeat is sent."
+                },
+                "storeOnlyCapturedTablesDdl": {
+                    "type": "boolean",
+                    "description": "Indicates whether schema history stores data definition language statements only for captured tables."
                 }
             },
             "allOf": [
@@ -2232,6 +2272,10 @@
                             }
                         ]
                     }
+                },
+                "storeOnlyCapturedTablesDdl": {
+                    "type": "boolean",
+                    "description": "Indicates whether schema history stores data definition language statements only for captured tables."
                 }
             },
             "allOf": [
@@ -2297,6 +2341,10 @@
                     "items": {
                         "$ref": "#/definitions/SnapshotSelectStatementOverrideItem"
                     }
+                },
+                "heartbeatIntervalMs": {
+                    "type": "integer",
+                    "description": "The interval in milliseconds between heartbeat messages."
                 }
             },
             "allOf": [
@@ -2560,6 +2608,34 @@
                 }
             }
         },
+        "LakehouseChangeFeedSourceProperties": {
+            "type": "object",
+            "description": "Represents the Lakehouse Change Feed source properties.",
+            "required": [
+                "workspaceId",
+                "itemId",
+                "tableNames"
+            ],
+            "properties": {
+                "workspaceId": {
+                    "type": "string",
+                    "description": "The workspace containing the Lakehouse.",
+                    "format": "uuid"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "The Lakehouse item identifier.",
+                    "format": "uuid"
+                },
+                "tableNames": {
+                    "type": "array",
+                    "description": "The list of table names whose changes are consumed. Currently, only `[\"*\"]` (all tables) is supported. Specific table selection will be supported in a future release.",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "MongoDBCDCSourceProperties": {
             "type": "object",
             "description": "MongoDB CDC source properties.",
@@ -2751,6 +2827,10 @@
                             }
                         ]
                     }
+                },
+                "storeOnlyCapturedTablesDdl": {
+                    "type": "boolean",
+                    "description": "Indicates whether schema history stores data definition language statements only for captured tables."
                 }
             }
         },
@@ -2955,8 +3035,8 @@
                 "verifyHostname"
             ],
             "properties": {
-                "certificate": {
-                    "description": "The certificate resource.",
+                "certificateResource": {
+                    "description": "The trusted CA certificate resource.",
                     "$ref": "#/definitions/CertificateResource"
                 },
                 "verifyHostname": {
@@ -2973,8 +3053,8 @@
             "type": "object",
             "description": "Represents the client certificate settings.",
             "properties": {
-                "certificate": {
-                    "description": "The certificate resource.",
+                "certificateResource": {
+                    "description": "The client certificate resource.",
                     "$ref": "#/definitions/CertificateResource"
                 },
                 "revocationMode": {

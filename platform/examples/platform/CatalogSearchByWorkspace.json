@@ -1,9 +1,9 @@
 {
     "parameters": {
         "catalogQueryRequest": {
-            "search": "sales",
-            "pageSize": 3,
-            "filter": "Type eq 'Report' or Type eq 'Lakehouse' or Type eq 'Workspace'"
+            "search": "revenue",
+            "filter": "(Type eq 'Report' or Type eq 'SemanticModel') and WorkspaceId eq '7f2c8a91-3b4d-4e5f-a6b7-c8d9e0f1a2b3'",
+            "pageSize": 2
         }
     },
     "responses": {
@@ -24,27 +24,20 @@
                         }
                     },
                     {
-                        "id": "5e8f2a1b-9c3d-4e7f-b6a5-d4c3b2a1e0f9",
-                        "type": "Lakehouse",
+                        "id": "c41d9f2e-7b60-4a15-8d3c-2f6e9a0b7c48",
+                        "type": "SemanticModel",
                         "catalogEntryType": "FabricItem",
-                        "displayName": "Sales Revenue Lakehouse",
-                        "description": "Central lakehouse for sales transaction data.",
+                        "displayName": "Revenue Semantic Model",
+                        "description": "Shared revenue model backing the sales reports.",
                         "hierarchy": {
                             "workspace": {
-                                "id": "a2b3c4d5-e6f7-4a8b-9c0d-1e2f3a4b5c6d",
-                                "displayName": "Finance Platform"
+                                "id": "7f2c8a91-3b4d-4e5f-a6b7-c8d9e0f1a2b3",
+                                "displayName": "Sales Analytics"
                             }
                         }
-                    },
-                    {
-                        "id": "7f2c8a91-3b4d-4e5f-a6b7-c8d9e0f1a2b3",
-                        "type": "Workspace",
-                        "catalogEntryType": "Workspace",
-                        "displayName": "Sales Analytics",
-                        "description": "Workspace for the sales analytics team."
                     }
                 ],
-                "continuationToken": "eyJza2lwIjozLCJ0YWtl..."
+                "continuationToken": "eyJza2lwIjoyLCJ0YWtl..."
             }
         }
     }
