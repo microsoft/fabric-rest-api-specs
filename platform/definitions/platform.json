@@ -599,6 +599,71 @@
         ]
       }
     },
+    "CapacityOverageConfiguration": {
+      "description": "The overage configuration for a capacity.",
+      "type": "object",
+      "required": [
+        "state",
+        "thresholdCapacityUnitHours"
+      ],
+      "properties": {
+        "state": {
+          "description": "The overage state. When the state is `Disabled`, `thresholdCapacityUnitHours` is reset to 0.",
+          "$ref": "#/definitions/CapacityOverageState",
+          "readOnly": true
+        },
+        "thresholdCapacityUnitHours": {
+          "description": "The capacity unit hours threshold for overage. Valid range is 0 to 240000.",
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 240000,
+          "readOnly": true
+        }
+      }
+    },
+    "UpdateCapacityOverageConfigurationRequest": {
+      "description": "The overage configuration update request payload. At least one property must be provided. When `state` is set to `Disabled`, `thresholdCapacityUnitHours` is automatically reset to 0. When `state` is set to `Enabled`, a `thresholdCapacityUnitHours` greater than 0 must be supplied (either in the same request or already configured). Setting `thresholdCapacityUnitHours` to 0 automatically disables overage.",
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "state": {
+          "description": "The overage state. When set to `Disabled`, `thresholdCapacityUnitHours` is automatically reset to 0.",
+          "$ref": "#/definitions/CapacityOverageState",
+          "readOnly": false
+        },
+        "thresholdCapacityUnitHours": {
+          "description": "The capacity unit hours threshold for overage. Valid range is 0 to 240000. Setting to 0 automatically disables overage.",
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 240000,
+          "readOnly": false
+        }
+      }
+    },
+    "CapacityOverageState": {
+      "description": "The state of overage. Additional overage states may be added over time.",
+      "type": "string",
+      "enum": [
+        "Disabled",
+        "Enabled"
+      ],
+      "x-ms-enum": {
+        "name": "CapacityOverageState",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Disabled",
+            "description": "Overage is disabled for the capacity."
+          },
+          {
+            "value": "Enabled",
+            "description": "Overage is enabled for the capacity."
+          }
+        ]
+      }
+    },
     "AssignWorkspaceToCapacityRequest": {
       "type": "object",
       "description": "A capacity assignment request.",

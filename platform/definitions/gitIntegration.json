@@ -96,6 +96,10 @@
               "myGitCredentials": {
                 "description": "User-specific Git credentials for authentication to the GitProvider. These credentials are not shared with other workspace contributors. For GitHub, this property is required. For AzureDevOps, this property is optional. If not set, the default is AutomaticGitCredentials.",
                 "$ref": "#/definitions/GitCredentials"
+              },
+              "connectionSettings": {
+                "description": "Optional connection settings to apply at connection time. If omitted, defaults apply.",
+                "$ref": "#/definitions/GitConnectionSettings"
               }
             }
         },
@@ -759,6 +763,45 @@
                     "description": "The type of the related workspace to create in the relation. Only `Base` and `Branch` are valid for creation.",
                     "$ref": "#/definitions/WorkspaceRelationType",
                     "readOnly": false
+                }
+            }
+        },
+        "GitAdditionalBranchChangingRoles": {
+            "type": "string",
+            "description": "The additional workspace roles beyond admin that are allowed to change the connected Git branch. Additional values may be added over time.",
+            "enum": ["None", "MemberAndContributor"],
+            "x-ms-enum": {
+                "name": "GitAdditionalBranchChangingRoles",
+                "modelAsString": true,
+                "values": [
+                    {
+                        "value": "None",
+                        "description": "No additional roles beyond admin can change branches. This is the default."
+                    },
+                    {
+                        "value": "MemberAndContributor",
+                        "description": "Members and contributors can also change branches in addition to admins."
+                    }
+                ]
+            }
+        },
+        "GitConnectionSettings": {
+            "description": "Contains the Git connection settings.",
+            "type": "object",
+            "properties": {
+                "additionalRolesAuthorizedToChangeBranch": {
+                    "description": "The additional workspace roles beyond admin that are allowed to change the connected Git branch.",
+                    "$ref": "#/definitions/GitAdditionalBranchChangingRoles"
+                }
+            }
+        },
+        "UpdateGitConnectionSettingsRequest": {
+            "description": "Contains the request data to update the Git connection settings.",
+            "type": "object",
+            "properties": {
+                "additionalRolesAuthorizedToChangeBranch": {
+                    "description": "The additional workspace roles beyond admin that are allowed to change the connected Git branch.",
+                    "$ref": "#/definitions/GitAdditionalBranchChangingRoles"
                 }
             }
         }

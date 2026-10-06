@@ -1402,7 +1402,8 @@
             "description": "The requested items to export their item definition.",
             "schema": {
               "$ref": "./definitions/platform.json#/definitions/BulkExportItemDefinitionsRequest"
-            }
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -1490,7 +1491,8 @@
             "description": "Import item definitions request payload.",
             "schema": {
               "$ref": "./definitions/platform.json#/definitions/BulkImportItemDefinitionsRequest"
-            }
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -2628,6 +2630,9 @@
           },
           "Connect a workspace to GitHub example - GitHub Enterprise With Data Residency (ghe.com)": {
             "$ref": "./examples/gitIntegration/ConnectToGitHubEnterpriseWithDataResidency.json"
+          },
+          "Connect a workspace to Azure DevOps with connection settings example": {
+            "$ref": "./examples/gitIntegration/ConnectToAzureDevOpsWithConnectionSettings.json"
           }
         }
       }
@@ -3360,6 +3365,126 @@
         }
       }
     },
+    "/workspaces/{workspaceId}/git/connectionSettings": {
+      "get": {
+        "summary": "Gets the connection settings for a Git-connected workspace.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use. [Learn more](/fabric/fundamentals/preview).\n\nReturns the connection settings for a Git-connected workspace.\n\n## Permissions\n\nThe caller must have a *contributor* or higher workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Git"
+        ],
+        "operationId": "Git_GetConnectionSettings",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/gitIntegration.json#/definitions/GitConnectionSettings"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.\n\n* InsufficientPrivileges - The caller does not have sufficient workspace permissions.\n\n* WorkspaceNotConnectedToGit - Workspace is not connected to git.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get connection settings example": {
+            "$ref": "./examples/gitIntegration/GetConnectionSettings.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates the connection settings for a Git-connected workspace.",
+        "description": "> [!NOTE]\n> This API is part of a Preview release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use. [Learn more](/fabric/fundamentals/preview).\n\nUpdates the connection settings for a Git-connected workspace. Only properties included in the request body are updated; omitted properties remain unchanged.\n\n## Permissions\n\nThe caller must have an *admin* role for the workspace.\n\n## Required Delegated Scopes\n\nWorkspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Git"
+        ],
+        "operationId": "Git_UpdateConnectionSettings",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateGitConnectionSettingsRequest",
+            "description": "The update connection settings request payload.",
+            "schema": {
+              "$ref": "./definitions/gitIntegration.json#/definitions/UpdateGitConnectionSettingsRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/gitIntegration.json#/definitions/GitConnectionSettings"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* UnknownError - An error occurred.\n\n* InsufficientPrivileges - The caller does not have an admin role for the workspace.\n\n* WorkspaceNotConnectedToGit - Workspace is not connected to git.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update connection settings example": {
+            "$ref": "./examples/gitIntegration/UpdateConnectionSettings.json"
+          }
+        }
+      }
+    },
     "/capacities": {
       "get": {
         "summary": "Returns a list of capacities the principal can access (either administrator or a contributor).",
@@ -3600,6 +3725,126 @@
           },
           "Disable surge protection on a capacity example": {
             "$ref": "./examples/surgeProtection/UpdateCapacitySurgeProtection_Disable.json"
+          }
+        }
+      }
+    },
+    "/capacities/{capacityId}/overageConfiguration": {
+      "get": {
+        "summary": "Gets the overage configuration for the specified capacity.",
+        "description": "> [!NOTE]\n> Capacity overage configuration is currently in Preview.\n\n## Permissions\n\nThe caller must have *admin* permissions on the capacity.\n\n## Required Delegated Scopes\n\nCapacity.Read.All or Capacity.ReadWrite.All\n\n## Limitations\n\nNone.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Capacities"
+        ],
+        "operationId": "Capacities_GetOverageConfiguration",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "capacityId",
+            "description": "The capacity ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/CapacityOverageConfiguration"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* CapacityNotFound - The specified capacity was not found.\n\n* Unauthorized - The caller doesn't have permission to call the API.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get overage configuration example": {
+            "$ref": "./examples/platform/GetOverageConfiguration.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates the overage configuration for the specified capacity.",
+        "description": "> [!NOTE]\n> Capacity overage configuration is currently in Preview.\n\n## Permissions\n\nThe caller must have *admin* permissions on the capacity.\n\n## Required Delegated Scopes\n\nCapacity.ReadWrite.All\n\n## Limitations\n\nNone.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Capacities"
+        ],
+        "operationId": "Capacities_UpdateOverageConfiguration",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "capacityId",
+            "description": "The capacity ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateOverageConfigurationRequest",
+            "description": "The update overage configuration request payload.",
+            "required": true,
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/UpdateCapacityOverageConfigurationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/CapacityOverageConfiguration"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* CapacityNotFound - The specified capacity was not found.\n\n* Unauthorized - The caller doesn't have permission to call the API.\n\n* InvalidRequest - The request payload is invalid.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update overage configuration example": {
+            "$ref": "./examples/platform/UpdateOverageConfiguration.json"
           }
         }
       }
