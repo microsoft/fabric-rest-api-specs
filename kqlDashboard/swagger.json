@@ -125,12 +125,6 @@
         "responses": {
           "201": {
             "description": "Request completed successfully.",
-            "headers": {
-              "Location": {
-                "description": "The URL of the newly created KQL dashboard.",
-                "type": "string"
-              }
-            },
             "schema": {
               "$ref": "./definitions.json#/definitions/KQLDashboard"
             }
