@@ -1,7 +1,6 @@
 {
     "parameters": {
-        "nonEmptyOnly": true,
-        "preview": "false"
+        "nonEmptyOnly": true
     },
     "responses": {
         "200": {

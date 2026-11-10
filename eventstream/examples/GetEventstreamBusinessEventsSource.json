@@ -1,0 +1,44 @@
+{
+    "parameters": {
+        "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+        "eventstreamId": "8c500070-073f-4a88-b478-8fabe1941c52",
+        "sourceId": "97554164-1b8f-410b-bb72-750f6e88f1c6"
+    },
+    "responses": {
+        "200": {
+            "body": {
+                "id": "97554164-1b8f-410b-bb72-750f6e88f1c6",
+                "name": "CommerceBusinessEvents",
+                "type": "BusinessEvents",
+                "properties": {
+                    "workspaceId": "2a764774-08a3-4a46-9638-45703873bf3b",
+                    "itemId": "443ae150-734c-4bbf-8e7c-f53668b270b3",
+                    "businessEventTypeIds": [
+                        "Contoso.Commerce.OrderPlaced",
+                        "Contoso.Commerce.OrderUpdated"
+                    ],
+                    "filters": [
+                        {
+                            "operatorType": "NumberGreaterThanOrEquals",
+                            "key": "data.order.total",
+                            "value": 100
+                        },
+                        {
+                            "operatorType": "StringIn",
+                            "key": "data.order.country",
+                            "values": [
+                                "US",
+                                "CA"
+                            ]
+                        },
+                        {
+                            "operatorType": "IsNotNull",
+                            "key": "data.order.customerId"
+                        }
+                    ]
+                },
+                "status": "Running"
+            }
+        }
+    }
+}

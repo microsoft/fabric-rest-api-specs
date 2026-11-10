@@ -1,0 +1,42 @@
+{
+  "title": "Create a share with a public definition example",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "createShareRequest": {
+      "displayName": "Contoso Q1 Data Share",
+      "description": "Q1 curated datasets shared with Fabrikam.",
+      "definition": {
+        "parts": [
+          {
+            "path": "share.json",
+            "payload": "eyIkc2NoZW1hIjoiaHR0cHM6Ly9kZXZlbG9wZXIubWljcm9zb2Z0LmNvbS9qc29uLXNjaGVtYXMvZmFicmljL2l0ZW0vc2hhcmUvZGVmaW5pdGlvbi9zaGFyZS8xLjAuMC9zY2hlbWEuanNvbiIsImFzc2V0cyI6W3siaXRlbSI6eyJyZWZlcmVuY2VUeXBlIjoiQnlJZCIsIndvcmtzcGFjZUlkIjoiY2ZhZmJlYjEtODAzNy00ZDBjLTg5NmUtYTQ2ZmIyN2ZmMjI5IiwiaXRlbUlkIjoiZDRlNWY2YTctYjhjOS00YTIzLThlZjAtNDU2Nzg5MDEyMzQ1In0sInNoYXJlQXMiOiJzZWxmIn1dLCJyZWNpcGllbnRzIjpbeyJ0eXBlIjoiVXNlciIsInVzZXJQcmluY2lwYWxOYW1lIjoiYWxleEBmYWJyaWthbS5jb20iLCJ0ZW5hbnRJZCI6ImExYjJjM2Q0LWU1ZjYtNzg5MC1hYmNkLWVmMDEyMzQ1Njc4OSJ9XX0=",
+            "payloadType": "InlineBase64"
+          },
+          {
+            "path": ".platform",
+            "payload": "eyJtZXRhZGF0YSI6eyJ0eXBlIjoiU2hhcmUiLCJkaXNwbGF5TmFtZSI6IkNvbnRvc28gUTEgRGF0YSBTaGFyZSJ9LCJjb25maWciOnsidmVyc2lvbiI6IjIuMCIsImxvZ2ljYWxJZCI6ImU3ZjhhOWIwLWMxZDItNGUzNC05ZjAxLTIzNDU2Nzg5MGFiYyJ9fQ==",
+            "payloadType": "InlineBase64"
+          }
+        ]
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "body": {
+        "id": "5b218778-e7a5-4d73-8187-f10824047715",
+        "displayName": "Contoso Q1 Data Share",
+        "description": "Q1 curated datasets shared with Fabrikam.",
+        "type": "Share",
+        "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229"
+      }
+    },
+    "202": {
+      "headers": {
+        "Location": "https://api.fabric.microsoft.com/v1/operations/431e8d7b-4a95-4c02-8ccd-6faef5ba1bd7",
+        "x-ms-operation-id": "431e8d7b-4a95-4c02-8ccd-6faef5ba1bd7",
+        "Retry-After": 30
+      }
+    }
+  }
+}

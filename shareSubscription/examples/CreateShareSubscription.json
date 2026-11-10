@@ -1,0 +1,35 @@
+{
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "createShareSubscriptionRequest": {
+      "displayName": "Fabrikam Weather Feed",
+      "description": "Subscription to Fabrikam's shared weather dataset.",
+      "folderId": "bcd6e0b1-8037-4d0c-896e-a46fb27ff229",
+      "sensitivityLabelSettings": {
+        "labelId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"
+      },
+      "creationPayload": {
+        "invitationUrl": "https://app.fabric.microsoft.com/share/invite/9f2c8b7a-1d3e-4f5a-8b9c-0d1e2f3a4b5c"
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "body": {
+        "id": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+        "displayName": "Fabrikam Weather Feed",
+        "description": "Subscription to Fabrikam's shared weather dataset.",
+        "type": "ShareSubscription",
+        "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+        "folderId": "bcd6e0b1-8037-4d0c-896e-a46fb27ff229"
+      }
+    },
+    "202": {
+      "headers": {
+        "Location": "https://api.fabric.microsoft.com/v1/operations/0acd697c-1550-43cd-b998-91bfbfbd47c6",
+        "x-ms-operation-id": "0acd697c-1550-43cd-b998-91bfbfbd47c6",
+        "Retry-After": 30
+      }
+    }
+  }
+}

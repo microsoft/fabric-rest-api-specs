@@ -1,0 +1,52 @@
+{
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "createCustomStreamConnectorRequest": {
+      "displayName": "Contoso Kafka Connector",
+      "description": "Custom Kafka Connect connector for the Contoso streaming source.",
+      "definition": {
+        "format": "CustomStreamConnectorDefinitionV1",
+        "parts": [
+          {
+            "path": "connector.json",
+            "payload": "eyJjb25uZWN0b3JEZXNjcmlwdGlvbiI6IkNvbm5lY3RvciBmb3IgdGhlIENvbnRvc28gc3RyZWFtaW5nIHNvdXJjZS4iLCJkZWZhdWx0VmVyc2lvbiI6InYyIn0=",
+            "payloadType": "InlineBase64"
+          },
+          {
+            "path": "resources/connector.svg",
+            "payload": "PHN2Zy8+",
+            "payloadType": "InlineBase64"
+          },
+          {
+            "path": "CustomConnectorPackages/v2/my-connector-1.3.2.jar",
+            "payload": "Y29ubmVjdG9yIHBhY2thZ2UgYXJjaGl2ZSBieXRlcyAoSkFSIG9yIFpJUCk=",
+            "payloadType": "InlineBase64"
+          },
+          {
+            "path": ".platform",
+            "payload": "ZG90UGxhdGZvcm1CYXNlNjRTdHJpbmc=",
+            "payloadType": "InlineBase64"
+          }
+        ]
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "body": {
+        "id": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+        "displayName": "Contoso Kafka Connector",
+        "description": "Custom Kafka Connect connector for the Contoso streaming source.",
+        "type": "CustomStreamConnector",
+        "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229"
+      }
+    },
+    "202": {
+      "headers": {
+        "Location": "https://api.fabric.microsoft.com/v1/operations/0acd697c-1550-43cd-b998-91bfbfbd47c6",
+        "x-ms-operation-id": "0acd697c-1550-43cd-b998-91bfbfbd47c6",
+        "Retry-After": 30
+      }
+    }
+  }
+}

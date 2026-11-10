@@ -1,0 +1,23 @@
+{
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "copyJobId": "dddddddd-9999-0000-1111-eeeeeeeeeeee",
+    "jobInstanceId": "aaaaaaaa-0000-1111-2222-bbbbbbbbbbbb"
+  },
+  "responses": {
+    "200": {
+      "headers": {
+        "Retry-After": 120
+      },
+      "body": {
+        "id": "aaaaaaaa-0000-1111-2222-bbbbbbbbbbbb",
+        "itemId": "dddddddd-9999-0000-1111-eeeeeeeeeeee",
+        "jobType": "execute",
+        "invokeType": "Scheduled",
+        "status": "InProgress",
+        "rootActivityId": "11111111-2222-3333-4444-555555555555",
+        "startTimeUtc": "2026-03-28T06:35:00.7812154"
+      }
+    }
+  }
+}

@@ -870,6 +870,358 @@
                     }
                 ]
             }
+        },
+        "QueryFeedbackRequest": {
+            "description": "The request payload used to filter, sort, and paginate feedback for a DataAgent. All properties are optional; omitted criteria do not constrain the results. Unknown JSON properties in this object or its filter object return `InvalidInput`; unrecognized query parameters are ignored.",
+            "type": "object",
+            "properties": {
+                "search": {
+                    "description": "An optional free-text search term with a maximum length of 200 characters. Control characters, including newlines and tabs, return `InvalidInput`. The provider searches the feedback comment, feedback ID, submitter email, and submitter user ID. Matching, tokenization, and case behavior are provider-defined.",
+                    "type": "string",
+                    "maxLength": 200,
+                    "readOnly": false
+                },
+                "startSubmittedDateTime": {
+                    "description": "The inclusive lower bound for the feedback submission time. Provide an RFC 3339 timestamp with `Z` or a numeric UTC offset, for example, `2026-07-01T00:00:00-04:00`.",
+                    "type": "string",
+                    "readOnly": false
+                },
+                "endSubmittedDateTime": {
+                    "description": "The inclusive upper bound for the feedback submission time. Provide an RFC 3339 timestamp with `Z` or a numeric UTC offset, for example, `2026-08-01T00:00:00Z`.",
+                    "type": "string",
+                    "readOnly": false
+                },
+                "filter": {
+                    "description": "The typed allowlist of filters applied to the feedback query.",
+                    "$ref": "#/definitions/FeedbackFilter",
+                    "readOnly": false
+                },
+                "sortBy": {
+                    "description": "The property used to sort the feedback.",
+                    "$ref": "#/definitions/FeedbackSortBy",
+                    "readOnly": false
+                },
+                "sortOrder": {
+                    "description": "The sort order applied to the feedback. If not specified, the default is `Descending`.",
+                    "$ref": "#/definitions/FeedbackSortOrder",
+                    "readOnly": false
+                }
+            }
+        },
+        "FeedbackFilter": {
+            "description": "A typed allowlist of feedback filters. Values within a single property are combined with a logical OR, and different properties are combined with a logical AND. Unknown properties and control characters in filter values return `InvalidInput`.",
+            "type": "object",
+            "properties": {
+                "channels": {
+                    "description": "The feedback channels to include. A maximum of 100 values is accepted. Each value must contain at least one non-whitespace character, be no longer than 256 characters, and contain no control characters such as newlines or tabs. Invalid values return `InvalidInput`. Values within the array are combined with a logical OR.",
+                    "type": "array",
+                    "maxItems": 100,
+                    "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256,
+                        "pattern": ".*\\S.*"
+                    },
+                    "readOnly": false
+                },
+                "products": {
+                    "description": "The feedback products to include. A maximum of 100 values is accepted. Each value must contain at least one non-whitespace character, be no longer than 256 characters, and contain no control characters such as newlines or tabs. Invalid values return `InvalidInput`. Values within the array are combined with a logical OR.",
+                    "type": "array",
+                    "maxItems": 100,
+                    "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256,
+                        "pattern": ".*\\S.*"
+                    },
+                    "readOnly": false
+                },
+                "platforms": {
+                    "description": "The feedback platforms to include. A maximum of 100 values is accepted. Each value must contain at least one non-whitespace character, be no longer than 256 characters, and contain no control characters such as newlines or tabs. Invalid values return `InvalidInput`. Values within the array are combined with a logical OR.",
+                    "type": "array",
+                    "maxItems": 100,
+                    "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256,
+                        "pattern": ".*\\S.*"
+                    },
+                    "readOnly": false
+                },
+                "feedbackTypes": {
+                    "description": "The feedback types to include. A maximum of 100 values is accepted. Each value must contain at least one non-whitespace character, be no longer than 256 characters, and contain no control characters such as newlines or tabs. Invalid values return `InvalidInput`. Values within the array are combined with a logical OR.",
+                    "type": "array",
+                    "maxItems": 100,
+                    "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256,
+                        "pattern": ".*\\S.*"
+                    },
+                    "readOnly": false
+                }
+            }
+        },
+        "FeedbackSortBy": {
+            "type": "string",
+            "description": "The property used to sort feedback. Additional FeedbackSortBy types may be added over time.",
+            "enum": [
+                "SubmittedDateTime"
+            ],
+            "x-ms-enum": {
+                "name": "FeedbackSortBy",
+                "modelAsString": true,
+                "values": [
+                    {
+                        "value": "SubmittedDateTime",
+                        "description": "Sorts by the time the feedback was submitted."
+                    }
+                ]
+            }
+        },
+        "FeedbackSortOrder": {
+            "type": "string",
+            "description": "The sort order applied to feedback results. Additional FeedbackSortOrder types may be added over time.",
+            "enum": [
+                "Ascending",
+                "Descending"
+            ],
+            "x-ms-enum": {
+                "name": "FeedbackSortOrder",
+                "modelAsString": true,
+                "values": [
+                    {
+                        "value": "Ascending",
+                        "description": "Sorts from oldest to newest."
+                    },
+                    {
+                        "value": "Descending",
+                        "description": "Sorts from newest to oldest."
+                    }
+                ]
+            }
+        },
+        "FeedbackPage": {
+            "description": "A paginated list of feedback summaries for a DataAgent.",
+            "type": "object",
+            "required": [
+                "value"
+            ],
+            "properties": {
+                "value": {
+                    "description": "The list of feedback summaries in the current page.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FeedbackSummary"
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+                }
+            ]
+        },
+        "FeedbackSummary": {
+            "description": "A summary projection of a single feedback record. All properties are read-only. The `id` and `hasAttachments` properties are always present in successful responses; other properties can be null because the provider model permits null values.",
+            "type": "object",
+            "required": [
+                "id",
+                "hasAttachments"
+            ],
+            "properties": {
+                "id": {
+                    "description": "The feedback record ID. This is an opaque provider identifier with a maximum length of 200 characters and is not a Fabric resource identifier.",
+                    "type": "string",
+                    "maxLength": 200,
+                    "pattern": "^(?!\\.)(?!.*\\.\\.)[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                    "readOnly": true
+                },
+                "comment": {
+                    "description": "The free-text feedback comment. This can contain personal information.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "app": {
+                    "description": "The source application that submitted the feedback.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "submittedDateTime": {
+                    "description": "The time the feedback was submitted as an RFC 3339 timestamp. Fractional seconds can be included. The value is in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "feedbackType": {
+                    "description": "The provider-defined feedback type, such as `Smile` or `Frown`. This is not a closed set of values.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "feedbackSubType": {
+                    "description": "The provider-defined feedback subtype.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "submitter": {
+                    "description": "The principal that submitted the feedback. This contains personal information.",
+                    "$ref": "../common/definitions.json#/definitions/Principal",
+                    "readOnly": true
+                },
+                "channel": {
+                    "description": "The provider-defined feedback channel.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "platform": {
+                    "description": "The provider-defined feedback platform.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "product": {
+                    "description": "The provider-defined feedback product.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "aiContext": {
+                    "description": "The AI context associated with the feedback, including the prompt and response. This can contain sensitive content.",
+                    "$ref": "#/definitions/FeedbackAiContextSummary",
+                    "readOnly": true
+                },
+                "hasAttachments": {
+                    "description": "Indicates whether an attachment bundle is available for the feedback record.",
+                    "type": "boolean",
+                    "readOnly": true
+                }
+            }
+        },
+        "Feedback": {
+            "description": "The full projection of a single feedback record returned by the get feedback operation. All properties are read-only. The `id` and `hasAttachments` properties are always present in successful responses; other properties can be null because the provider model permits null values.",
+            "type": "object",
+            "required": [
+                "id",
+                "hasAttachments"
+            ],
+            "properties": {
+                "id": {
+                    "description": "The feedback record ID. This is an opaque provider identifier with a maximum length of 200 characters and is not a Fabric resource identifier.",
+                    "type": "string",
+                    "maxLength": 200,
+                    "pattern": "^(?!\\.)(?!.*\\.\\.)[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                    "readOnly": true
+                },
+                "comment": {
+                    "description": "The free-text feedback comment. This can contain personal information.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "app": {
+                    "description": "The source application that submitted the feedback.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "submittedDateTime": {
+                    "description": "The time the feedback was submitted as an RFC 3339 timestamp. Fractional seconds can be included. The value is in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "feedbackType": {
+                    "description": "The provider-defined feedback type, such as `Smile` or `Frown`. This is not a closed set of values.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "feedbackSubType": {
+                    "description": "The provider-defined feedback subtype.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "submitter": {
+                    "description": "The principal that submitted the feedback. This contains personal information.",
+                    "$ref": "../common/definitions.json#/definitions/Principal",
+                    "readOnly": true
+                },
+                "channel": {
+                    "description": "The provider-defined feedback channel.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "platform": {
+                    "description": "The provider-defined feedback platform.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "product": {
+                    "description": "The provider-defined feedback product.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "aiContext": {
+                    "description": "The AI context associated with the feedback, including the prompt, response, and optional chat history. This can contain sensitive content.",
+                    "$ref": "#/definitions/FeedbackAiContext",
+                    "readOnly": true
+                },
+                "hasAttachments": {
+                    "description": "Indicates whether an attachment bundle is available for the feedback record.",
+                    "type": "boolean",
+                    "readOnly": true
+                }
+            }
+        },
+        "FeedbackAiContextSummary": {
+            "description": "The AI context summary associated with a feedback record. This object and each of its properties are optional and can contain sensitive content.",
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "description": "The prompt submitted to the AI. This can contain sensitive content.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "responseMessage": {
+                    "description": "The response message returned by the AI. This can contain sensitive content.",
+                    "type": "string",
+                    "readOnly": true
+                }
+            }
+        },
+        "FeedbackAiContext": {
+            "description": "The AI context associated with a feedback record, including the optional chat history. This object and each of its properties are optional and can contain sensitive content.",
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "description": "The prompt submitted to the AI. This can contain sensitive content.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "responseMessage": {
+                    "description": "The response message returned by the AI. This can contain sensitive content.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "chatHistory": {
+                    "description": "The chat history associated with the feedback. This is present only in the individual feedback resource.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FeedbackChatHistoryItem"
+                    },
+                    "readOnly": true
+                }
+            }
+        },
+        "FeedbackChatHistoryItem": {
+            "description": "A single entry in a feedback chat history. Both properties are optional because the provider model permits null values.",
+            "type": "object",
+            "properties": {
+                "user": {
+                    "description": "The speaker label for the chat entry, such as `User` or `Copilot`. This is not documented as a user identity.",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "message": {
+                    "description": "The chat message content. This can contain sensitive content.",
+                    "type": "string",
+                    "readOnly": true
+                }
+            }
         }
     }
 }

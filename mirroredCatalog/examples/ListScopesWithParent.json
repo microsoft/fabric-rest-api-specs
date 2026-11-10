@@ -4,8 +4,7 @@
     "connectionId": "4eb6b767-e786-45ed-b7cf-d25023e52222",
     "parent": [
       "Accounting"
-    ],
-    "beta": true
+    ]
   },
   "responses": {
     "200": {

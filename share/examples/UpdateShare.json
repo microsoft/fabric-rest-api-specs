@@ -1,0 +1,30 @@
+{
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "shareId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "updateShareRequest": {
+      "displayName": "Contoso Sales Q3 Share (Partner)",
+      "description": "Updated: Q3 sales content shared with the Fabrikam partner analytics team.",
+      "sensitivityLabelSettings": {
+        "labelId": "7f8e9d0c-1b2a-3c4d-5e6f-7a8b9c0d1e2f"
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+        "displayName": "Contoso Sales Q3 Share (Partner)",
+        "description": "Updated: Q3 sales content shared with the Fabrikam partner analytics team.",
+        "type": "Share",
+        "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+        "folderId": "bcd6e0b1-8037-4d0c-896e-a46fb27ff229",
+        "properties": {
+          "invitationUrl": "https://app.fabric.microsoft.com/share/invite/cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+          "shareStatus": "Active",
+          "shareVersion": "0003"
+        }
+      }
+    }
+  }
+}

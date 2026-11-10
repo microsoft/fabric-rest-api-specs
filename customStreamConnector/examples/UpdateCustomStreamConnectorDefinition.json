@@ -1,0 +1,44 @@
+{
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "customStreamConnectorId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "updateMetadata": true,
+    "updateCustomStreamConnectorDefinitionRequest": {
+      "definition": {
+        "format": "CustomStreamConnectorDefinitionV1",
+        "parts": [
+          {
+            "path": "connector.json",
+            "payload": "eyJjb25uZWN0b3JEZXNjcmlwdGlvbiI6IkNvbm5lY3RvciBmb3IgdGhlIENvbnRvc28gc3RyZWFtaW5nIHNvdXJjZS4iLCJkZWZhdWx0VmVyc2lvbiI6InYzIn0=",
+            "payloadType": "InlineBase64"
+          },
+          {
+            "path": "resources/connector.svg",
+            "payload": "PHN2Zy8+",
+            "payloadType": "InlineBase64"
+          },
+          {
+            "path": "CustomConnectorPackages/v3/my-connector-2.0.0.jar",
+            "payload": "Y29ubmVjdG9yIHBhY2thZ2UgYXJjaGl2ZSBieXRlcyAoSkFSIG9yIFpJUCk=",
+            "payloadType": "InlineBase64"
+          },
+          {
+            "path": ".platform",
+            "payload": "ZG90UGxhdGZvcm1CYXNlNjRTdHJpbmc=",
+            "payloadType": "InlineBase64"
+          }
+        ]
+      }
+    }
+  },
+  "responses": {
+    "200": {},
+    "202": {
+      "headers": {
+        "Location": "https://api.fabric.microsoft.com/v1/operations/427f6c34-b64e-4ee4-8ea5-b533c0e203ef",
+        "x-ms-operation-id": "427f6c34-b64e-4ee4-8ea5-b533c0e203ef",
+        "Retry-After": 30
+      }
+    }
+  }
+}

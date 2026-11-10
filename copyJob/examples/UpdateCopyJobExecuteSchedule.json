@@ -1,0 +1,43 @@
+{
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "copyJobId": "dddddddd-9999-0000-1111-eeeeeeeeeeee",
+    "scheduleId": "bbbbbbbb-1111-2222-3333-cccccccccccc",
+    "updateScheduleRequest": {
+      "enabled": false,
+      "configuration": {
+        "startDateTime": "2026-03-28T00:00:00",
+        "endDateTime": "2026-04-30T23:59:00",
+        "localTimeZoneId": "Central Standard Time",
+        "type": "Daily",
+        "times": [
+          "09:00",
+          "17:00"
+        ]
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "bbbbbbbb-1111-2222-3333-cccccccccccc",
+        "enabled": false,
+        "createdDateTime": "2026-03-28T05:35:20.5366667",
+        "configuration": {
+          "startDateTime": "2026-03-28T00:00:00",
+          "endDateTime": "2026-04-30T23:59:00",
+          "localTimeZoneId": "Central Standard Time",
+          "type": "Daily",
+          "times": [
+            "09:00",
+            "17:00"
+          ]
+        },
+        "owner": {
+          "id": "33dd33dd-ee44-ff55-aa66-77bb77bb77bb",
+          "type": "User"
+        }
+      }
+    }
+  }
+}

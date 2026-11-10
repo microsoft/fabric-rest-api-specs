@@ -1,0 +1,25 @@
+{
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "createShareRequest": {
+      "displayName": "Contoso Sales Q3 Share",
+      "description": "Curated Q3 sales content shared with the Fabrikam partner team.",
+      "folderId": "bcd6e0b1-8037-4d0c-896e-a46fb27ff229",
+      "sensitivityLabelSettings": {
+        "labelId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "body": {
+        "id": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+        "displayName": "Contoso Sales Q3 Share",
+        "description": "Curated Q3 sales content shared with the Fabrikam partner team.",
+        "type": "Share",
+        "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+        "folderId": "bcd6e0b1-8037-4d0c-896e-a46fb27ff229"
+      }
+    }
+  }
+}

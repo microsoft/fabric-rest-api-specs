@@ -1,0 +1,79 @@
+{
+    "parameters": {
+        "workspaceId": "00000000-0000-0000-0000-000000000001",
+        "dataAgentId": "00000000-0000-0000-0000-000000000002",
+        "beta": true,
+        "pageSize": 50,
+        "queryFeedbackRequest": {
+            "search": "incorrect result",
+            "startSubmittedDateTime": "2026-07-01T00:00:00-04:00",
+            "endSubmittedDateTime": "2026-08-01T00:00:00Z",
+            "filter": {
+                "channels": ["Fabric"],
+                "products": ["DataAgent"],
+                "platforms": ["Web"],
+                "feedbackTypes": ["Frown"]
+            },
+            "sortBy": "SubmittedDateTime",
+            "sortOrder": "Descending"
+        }
+    },
+    "responses": {
+        "200": {
+            "body": {
+                "value": [
+                    {
+                        "id": "fb_2026-07-15:001",
+                        "comment": "The answer used an outdated value.",
+                        "app": "Fabric",
+                        "submittedDateTime": "2026-07-15T14:32:10Z",
+                        "feedbackType": "Frown",
+                        "feedbackSubType": "IncorrectAnswer",
+                        "submitter": {
+                            "id": "8f6b2d41-3c5a-4e19-9b7f-1a2c3d4e5f60",
+                            "displayName": "Alex Wilber",
+                            "type": "User",
+                            "userDetails": {
+                                "userPrincipalName": "AlexW@example.com"
+                            }
+                        },
+                        "channel": "Fabric",
+                        "platform": "Web",
+                        "product": "DataAgent",
+                        "aiContext": {
+                            "prompt": "What were last quarter's sales?",
+                            "responseMessage": "The total was ..."
+                        },
+                        "hasAttachments": true
+                    },
+                    {
+                        "id": "fb_2026-07-14:087",
+                        "comment": "Great, this saved me a lot of time.",
+                        "app": "Fabric",
+                        "submittedDateTime": "2026-07-14T09:05:44Z",
+                        "feedbackType": "Smile",
+                        "feedbackSubType": "Helpful",
+                        "submitter": {
+                            "id": "d2b7a9e4-6f13-4c88-a0e5-7b9c1d3e2f44",
+                            "displayName": "Dana Lee",
+                            "type": "User",
+                            "userDetails": {
+                                "userPrincipalName": "DanaL@example.com"
+                            }
+                        },
+                        "channel": "Fabric",
+                        "platform": "Web",
+                        "product": "DataAgent",
+                        "aiContext": {
+                            "prompt": "Summarize revenue by region.",
+                            "responseMessage": "Here is the revenue by region ..."
+                        },
+                        "hasAttachments": false
+                    }
+                ],
+                "continuationToken": "opaque-token",
+                "continuationUri": "https://api.fabric.microsoft.com/v1/workspaces/00000000-0000-0000-0000-000000000001/dataAgents/00000000-0000-0000-0000-000000000002/feedback/search?beta=true&continuationToken=opaque-token"
+            }
+        }
+    }
+}

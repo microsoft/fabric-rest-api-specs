@@ -1,0 +1,21 @@
+{
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "customStreamConnectorId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "updateCustomStreamConnectorRequest": {
+      "displayName": "Contoso Kafka Connector (renamed)",
+      "description": "Updated description."
+    }
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+        "displayName": "Contoso Kafka Connector (renamed)",
+        "description": "Updated description.",
+        "type": "CustomStreamConnector",
+        "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229"
+      }
+    }
+  }
+}

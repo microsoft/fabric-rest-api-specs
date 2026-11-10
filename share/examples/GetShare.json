@@ -1,0 +1,23 @@
+{
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "shareId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+        "displayName": "Contoso Sales Q3 Share",
+        "description": "Curated Q3 sales content shared with the Fabrikam partner team.",
+        "type": "Share",
+        "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+        "folderId": "bcd6e0b1-8037-4d0c-896e-a46fb27ff229",
+        "properties": {
+          "invitationUrl": "https://app.fabric.microsoft.com/share/invite/cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+          "shareStatus": "Active",
+          "shareVersion": "0003"
+        }
+      }
+    }
+  }
+}

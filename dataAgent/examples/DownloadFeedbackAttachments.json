@@ -1,0 +1,13 @@
+{
+    "parameters": {
+        "workspaceId": "00000000-0000-0000-0000-000000000001",
+        "dataAgentId": "00000000-0000-0000-0000-000000000002",
+        "feedbackId": "fb_2026-07-15:001",
+        "beta": true,
+        "language": "en",
+        "allowDownloadWithoutSensitivityLabel": true
+    },
+    "responses": {
+        "200": {}
+    }
+}

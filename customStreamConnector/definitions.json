@@ -1,0 +1,153 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "CustomStreamConnector data types",
+    "version": "v1"
+  },
+  "paths": {},
+  "definitions": {
+    "CustomStreamConnector": {
+      "description": "A Custom Stream Connector object.",
+      "type": "object",
+      "required": ["type"],
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/Item"
+        }
+      ]
+    },
+    "CustomStreamConnectors": {
+      "description": "A list of Custom Stream Connectors.",
+      "required": ["value"],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "A list of Custom Stream Connectors.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomStreamConnector"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "CreateCustomStreamConnectorRequest": {
+      "description": "The request payload for creating a Custom Stream Connector.",
+      "required": ["displayName"],
+      "properties": {
+        "displayName": {
+          "description": "The Custom Stream Connector display name. The display name must follow naming rules according to item type.",
+          "type": "string",
+          "readOnly": false
+        },
+        "description": {
+          "description": "The Custom Stream Connector description. Maximum length is 256 characters.",
+          "type": "string",
+          "readOnly": false
+        },
+        "folderId": {
+          "description": "The folder ID. If not specified or null, the Custom Stream Connector is created with the workspace as its folder.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        },
+        "definition": {
+          "description": "The Custom Stream Connector public definition. Providing a `definition` is optional; when supplied, the Custom Stream Connector is created with that content. If it is omitted, the Custom Stream Connector is created without a definition and its content can be supplied later through the update definition API. This item type does not support `creationPayload`.",
+          "$ref": "#/definitions/CustomStreamConnectorDefinition",
+          "readOnly": false
+        }
+      }
+    },
+    "UpdateCustomStreamConnectorRequest": {
+      "description": "The request payload for updating a Custom Stream Connector.",
+      "properties": {
+        "displayName": {
+          "description": "The Custom Stream Connector display name. The display name must follow naming rules according to item type.",
+          "type": "string",
+          "readOnly": false
+        },
+        "description": {
+          "description": "The Custom Stream Connector description. Maximum length is 256 characters.",
+          "type": "string",
+          "readOnly": false
+        }
+      }
+    },
+    "CustomStreamConnectorDefinition": {
+      "description": "Custom Stream Connector public definition object. Refer to this [article](/rest/api/fabric/articles/item-management/definitions/custom-stream-connector-definition) for more details on the structure of the Custom Stream Connector definition.",
+      "type": "object",
+      "required": ["parts"],
+      "properties": {
+        "format": {
+          "description": "The format of the Custom Stream Connector definition. Additional CustomStreamConnectorDefinitionFormat types may be added over time.",
+          "type": "string",
+          "enum": ["CustomStreamConnectorDefinitionV1"],
+          "x-ms-enum": {
+            "name": "CustomStreamConnectorDefinitionFormat",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "CustomStreamConnectorDefinitionV1",
+                "description": "The initial version of the Custom Stream Connector definition format."
+              }
+            ]
+          },
+          "readOnly": false
+        },
+        "parts": {
+          "description": "A list of definition parts.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomStreamConnectorDefinitionPart"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "CustomStreamConnectorDefinitionPart": {
+      "description": "Custom Stream Connector definition part object.",
+      "type": "object",
+      "required": ["path", "payload", "payloadType"],
+      "properties": {
+        "path": {
+          "description": "The Custom Stream Connector part path.",
+          "type": "string",
+          "readOnly": false
+        },
+        "payload": {
+          "description": "The Custom Stream Connector part payload.",
+          "type": "string",
+          "readOnly": false
+        },
+        "payloadType": {
+          "description": "The payload type.",
+          "$ref": "../common/definitions.json#/definitions/PayloadType",
+          "readOnly": false
+        }
+      }
+    },
+    "CustomStreamConnectorDefinitionResponse": {
+      "description": "Custom Stream Connector public definition response.",
+      "required": ["definition"],
+      "properties": {
+        "definition": {
+          "$ref": "#/definitions/CustomStreamConnectorDefinition",
+          "readOnly": true
+        }
+      }
+    },
+    "UpdateCustomStreamConnectorDefinitionRequest": {
+      "description": "The request payload for updating a Custom Stream Connector public definition.",
+      "required": ["definition"],
+      "properties": {
+        "definition": {
+          "$ref": "#/definitions/CustomStreamConnectorDefinition"
+        }
+      }
+    }
+  }
+}

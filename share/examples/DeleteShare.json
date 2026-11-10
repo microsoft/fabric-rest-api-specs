@@ -1,0 +1,9 @@
+{
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "shareId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229"
+  },
+  "responses": {
+    "200": {}
+  }
+}

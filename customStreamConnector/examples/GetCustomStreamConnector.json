@@ -1,0 +1,17 @@
+{
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "customStreamConnectorId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+        "displayName": "Contoso Kafka Connector",
+        "description": "Custom Kafka Connect connector for the Contoso streaming source.",
+        "type": "CustomStreamConnector",
+        "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229"
+      }
+    }
+  }
+}

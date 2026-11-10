@@ -13,7 +13,7 @@
     "/workspaces/{workspaceId}/mirroredCatalogs": {
       "get": {
         "summary": "Returns a list of MirroredCatalogs from the specified workspace.",
-        "description": "> [!NOTE]\n> MirroredCatalog item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\n The caller must have a *viewer* workspace role. \n\n## Required Delegated Scopes \n\n Workspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [pagination](/rest/api/fabric/articles/pagination).\n\nLists MirroredCatalogs in the specified workspace.\n\n## Permissions\n\nThe caller must have a *viewer* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -91,7 +91,7 @@
       },
       "post": {
         "summary": "Creates a MirroredCatalog in the specified workspace.",
-        "description": "> [!NOTE]\n> MirroredCatalog item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nTo create MirroredCatalog with a public definition, refer to the [MirroredCatalog](/rest/api/fabric/articles/item-management/definitions/mirrored-catalog-definition) article.\n\n## Permissions\n\nThe caller must have a *contributor* workspace role.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Limitations\n- To create a MirroredCatalog the workspace must be on a supported Fabric capacity. For more information see: [Microsoft Fabric license types](/fabric/enterprise/licenses#microsoft-fabric-license-types).\n- The `scope` in the definition payload must be a `Selectable` namespace as returned by the List Scopes API.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nCreates a MirroredCatalog in the specified workspace. To create a MirroredCatalog with a public definition, refer to the [MirroredCatalog](/rest/api/fabric/articles/item-management/definitions/mirrored-catalog) article.\n\n## Permissions\n\nThe caller must have a *contributor* workspace role.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Limitations\n- To create a MirroredCatalog the workspace must be on a supported Fabric capacity. For more information see: [Microsoft Fabric license types](/fabric/enterprise/licenses#microsoft-fabric-license-types).\n- The `scope` in the definition payload must be a `Selectable` namespace as returned by the List Scopes API.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -177,7 +177,7 @@
     "/workspaces/{workspaceId}/mirroredCatalogs/{mirroredCatalogId}": {
       "get": {
         "summary": "Returns properties of the specified MirroredCatalog.",
-        "description": "> [!NOTE]\n> MirroredCatalog item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\n## Permissions\n\n The caller must have *read* permissions for the mirrored catalog. \n\n## Required Delegated Scopes \n\n  Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "Returns properties of the specified MirroredCatalog.\n\n## Permissions\n\nThe caller must have *read* permissions for the mirrored catalog.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -238,7 +238,7 @@
       },
       "patch": {
         "summary": "Updates the properties of the specified MirroredCatalog.",
-        "description": "> [!NOTE]\n> MirroredCatalog item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\n## Permissions\n\n The caller must have *read and write* permissions for the mirrored catalog.\n\n## Required Delegated Scopes \n\n  Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "Updates the properties of the specified MirroredCatalog.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the mirrored catalog.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -311,7 +311,7 @@
       },
       "delete": {
         "summary": "Deletes the specified MirroredCatalog.",
-        "description": "> [!NOTE]\n> MirroredCatalog item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\n## Permissions\n\n The caller must have *write* permissions for the mirrored catalog. \n\n## Required Delegated Scopes \n\n  Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "Deletes the specified MirroredCatalog.\n\n## Permissions\n\nThe caller must have *write* permissions for the mirrored catalog.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -371,7 +371,7 @@
     "/workspaces/{workspaceId}/mirroredCatalogs/{mirroredCatalogId}/getDefinition": {
       "post": {
         "summary": "Returns the specified MirroredCatalog public definition.",
-        "description": "> [!NOTE]\n> MirroredCatalog item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nWhen you get a MirroredCatalog's public definition, the sensitivity label is not a part of the definition.\n\n## Permissions\n\n The caller must have *read and write* permissions for the mirrored catalog. \n\n## Required Delegated Scopes \n\n  Item.ReadWrite.All\n\n## Limitations\n\nTo retrieve the definition of a mirrored catalog item protected by an encrypted sensitivity label, the caller must have sufficient [usage rights](/fabric/enterprise/powerbi/service-security-sensitivity-label-change-enforcement) to remove the label, as configured in [Microsoft Purview](/purview/purview).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nGets the public definition of the specified MirroredCatalog. The sensitivity label is not a part of the definition.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the mirrored catalog.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Limitations\n\nTo retrieve the definition of a mirrored catalog item protected by an encrypted sensitivity label, the caller must have sufficient [usage rights](/fabric/enterprise/powerbi/service-security-sensitivity-label-change-enforcement) to remove the label, as configured in [Microsoft Purview](/purview/purview).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -460,7 +460,7 @@
     "/workspaces/{workspaceId}/mirroredCatalogs/{mirroredCatalogId}/updateDefinition": {
       "post": {
         "summary": "Overrides the definition for the specified MirroredCatalog.",
-        "description": "> [!NOTE]\n> MirroredCatalog item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n \nUpdating the MirroredCatalog's definition, does not affect its sensitivity label. \n\n## Permissions\n\n The caller must have *read and write* permissions for the mirrored catalog. \n\n## Required Delegated Scopes \n\n  Item.ReadWrite.All\n\n## Limitations\n- The `scope` in the definition payload must be a `Selectable` namespace as returned by the List Scopes API.\n- The `sourceType` and `connectionId` properties are immutable and cannot be changed after item creation.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nOverrides the public definition of the specified MirroredCatalog. Updating the MirroredCatalog's definition does not affect its sensitivity label.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the mirrored catalog.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Limitations\n- The `scope` in the definition payload must be a `Selectable` namespace as returned by the List Scopes API.\n- The `sourceType` and `connectionId` properties are immutable and cannot be changed after item creation.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Items"
         ],
@@ -552,14 +552,14 @@
         }
       }
     },
-    "/workspaces/{workspaceId}/mirroredCatalogs/{mirroredCatalogId}/refreshCatalogMetadata?beta=true": {
+    "/workspaces/{workspaceId}/mirroredCatalogs/{mirroredCatalogId}/refreshCatalogMetadata": {
       "post": {
         "summary": "Triggers a refresh of catalog metadata from the source.",
-        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nRefreshes the catalog metadata from the source Iceberg REST Catalog, synchronizing namespace and table changes.\n\n## Permissions\n\n The caller must have *read and write* permissions for the mirrored catalog. \n\n## Required Delegated Scopes \n\n  Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nRefreshes the catalog metadata from the source Iceberg REST Catalog, synchronizing namespace and table changes.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the mirrored catalog.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Refresh"
         ],
-        "operationId": "Refresh_Refresh_Catalog_Metadata_(beta)",
+        "operationId": "Refresh_RefreshCatalogMetadata",
         "produces": [
           "application/json"
         ],
@@ -579,13 +579,6 @@
             "description": "The MirroredCatalog ID.",
             "type": "string",
             "format": "uuid",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "beta",
-            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
-            "type": "boolean",
             "required": true
           }
         ],
@@ -638,14 +631,14 @@
         }
       }
     },
-    "/workspaces/{workspaceId}/catalogmirroring/scopes?beta=true": {
+    "/workspaces/{workspaceId}/catalogmirroring/scopes": {
       "get": {
         "summary": "Returns a hierarchical list of namespaces from the source catalog.",
-        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\nReturns a hierarchical list of namespaces from the source catalog. This API is used to browse and select the `scope` when creating or updating a MirroredCatalog.\n\n## Permissions\n\n The caller must have a *viewer* workspace role. \n\n## Required Delegated Scopes \n\n Workspace.Read.All or Workspace.ReadWrite.All or CatalogMirroring.Read.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [pagination](/rest/api/fabric/articles/pagination).\n\nReturns a hierarchical list of namespaces from the source catalog. This API is used to browse and select the `scope` when creating or updating a MirroredCatalog.\n\n## Permissions\n\nThe caller must have a *viewer* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All or CatalogMirroring.Read.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Discovery"
         ],
-        "operationId": "Discovery_List_Scopes_(beta)",
+        "operationId": "Discovery_ListScopes",
         "x-ms-pageable": {
           "nextLinkName": "continuationUri"
         },
@@ -659,13 +652,6 @@
             "description": "The workspace ID.",
             "type": "string",
             "format": "uuid",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "beta",
-            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
-            "type": "boolean",
             "required": true
           },
           {
@@ -739,14 +725,14 @@
         }
       }
     },
-    "/workspaces/{workspaceId}/catalogmirroring/tables?beta=true": {
+    "/workspaces/{workspaceId}/catalogmirroring/tables": {
       "get": {
         "summary": "Returns a list of tables within a specified namespace scope from the source catalog.",
-        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\nReturns a list of tables within a specified namespace scope from the source catalog. This API is used to browse tables when configuring partial mirroring with table-level selection.\n\n## Permissions\n\n The caller must have a *viewer* workspace role. \n\n## Required Delegated Scopes \n\n Workspace.Read.All or Workspace.ReadWrite.All or CatalogMirroring.Read.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "This API supports [pagination](/rest/api/fabric/articles/pagination).\n\nReturns a list of tables within a specified namespace scope from the source catalog. This API is used to browse tables when configuring partial mirroring with table-level selection.\n\n## Permissions\n\nThe caller must have a *viewer* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All or CatalogMirroring.Read.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Discovery"
         ],
-        "operationId": "Discovery_List_Tables_(beta)",
+        "operationId": "Discovery_ListTables",
         "x-ms-pageable": {
           "nextLinkName": "continuationUri"
         },
@@ -760,13 +746,6 @@
             "description": "The workspace ID.",
             "type": "string",
             "format": "uuid",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "beta",
-            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
-            "type": "boolean",
             "required": true
           },
           {
@@ -830,14 +809,14 @@
         }
       }
     },
-    "/workspaces/{workspaceId}/mirroredCatalogs/{mirroredCatalogId}/mirroringStatus?beta=true": {
+    "/workspaces/{workspaceId}/mirroredCatalogs/{mirroredCatalogId}/mirroringStatus": {
       "get": {
-        "summary": "Returns the overall mirroring status of the MirroredCatalog.",
-        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\nReturns the overall mirroring status of the MirroredCatalog.\n\n## Permissions\n\n The caller must have *read* permissions for the mirrored catalog. \n\n## Required Delegated Scopes \n\n Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Gets the overall mirroring status of the MirroredCatalog.",
+        "description": "Returns the overall mirroring status of the MirroredCatalog.\n\n## Permissions\n\nThe caller must have *read* permissions for the mirrored catalog.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Monitoring"
         ],
-        "operationId": "Monitoring_Mirroring_Status_(beta)",
+        "operationId": "Monitoring_GetMirroringStatus",
         "produces": [
           "application/json"
         ],
@@ -856,13 +835,6 @@
             "description": "The MirroredCatalog ID.",
             "type": "string",
             "format": "uuid",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "beta",
-            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
-            "type": "boolean",
             "required": true
           }
         ],
@@ -903,14 +875,14 @@
         }
       }
     },
-    "/workspaces/{workspaceId}/mirroredCatalogs/{mirroredCatalogId}/tablesMirroringStatus?beta=true": {
+    "/workspaces/{workspaceId}/mirroredCatalogs/{mirroredCatalogId}/tablesMirroringStatus": {
       "get": {
-        "summary": "Returns the per-table mirroring status for the MirroredCatalog.",
-        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\nReturns the per-table mirroring status for the MirroredCatalog. This API shows the mirroring status of each table in the source catalog.\n\n## Permissions\n\n The caller must have *read* permissions for the mirrored catalog. \n\n## Required Delegated Scopes \n\n Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "summary": "Lists the per-table mirroring statuses for the MirroredCatalog.",
+        "description": "This API supports [pagination](/rest/api/fabric/articles/pagination).\n\nReturns the per-table mirroring status for the MirroredCatalog. This API shows the mirroring status of each table in the source catalog.\n\n## Permissions\n\nThe caller must have *read* permissions for the mirrored catalog.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Monitoring"
         ],
-        "operationId": "Monitoring_Tables_Mirroring_Status_(beta)",
+        "operationId": "Monitoring_ListTablesMirroringStatus",
         "x-ms-pageable": {
           "nextLinkName": "continuationUri"
         },
@@ -932,13 +904,6 @@
             "description": "The MirroredCatalog ID.",
             "type": "string",
             "format": "uuid",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "beta",
-            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
-            "type": "boolean",
             "required": true
           },
           {

@@ -1,7 +1,5 @@
 {
-    "parameters": {
-        "preview": "false"
-    },
+    "parameters": {},
     "responses": {
         "200": {
             "body": {

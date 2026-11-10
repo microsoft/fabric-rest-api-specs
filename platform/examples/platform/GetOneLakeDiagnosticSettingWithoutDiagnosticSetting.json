@@ -11,6 +11,9 @@
         "lifecycle": {
           "defaultTier": "Hot",
           "policy": "Inactive"
+        },
+        "fileSoftDelete": {
+          "status": "Disabled"
         }
       }
     }

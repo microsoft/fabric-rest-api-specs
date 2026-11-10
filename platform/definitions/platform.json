@@ -2547,8 +2547,123 @@
               "$ref": "#/definitions/OneLakeLifecycleSettings"
             }
           ]
+        },
+        "fileSoftDelete": {
+          "description": "File soft-delete settings for the workspace, when available. Omitted when the public feature is disabled, capacity or backend settings are unavailable, or the soft-delete lookup fails. An omitted property does not imply that soft-delete is disabled or unconfigured.",
+          "$ref": "#/definitions/OneLakeFileSoftDeleteSettings"
         }
       }
+    },
+    "OneLakeFileSoftDeleteStatus": {
+      "description": "The status of file soft-delete for a workspace. Additional status values may be added over time.",
+      "type": "string",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "x-ms-enum": {
+        "name": "OneLakeFileSoftDeleteStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Enabled",
+            "description": "File soft-delete is enabled. Deleted files are retained for the configured retention period before permanent deletion."
+          },
+          {
+            "value": "Disabled",
+            "description": "File soft-delete is disabled. Files deleted after disabling bypass retention and are permanently removed immediately. Files already in a soft-deleted state retain their existing expiry."
+          }
+        ]
+      }
+    },
+    "OneLakeFileSoftDeleteSettings": {
+      "description": "This object contains the file soft-delete settings for a workspace.",
+      "type": "object",
+      "required": [ "status" ],
+      "discriminator": "status",
+      "properties": {
+        "status": {
+          "description": "The file soft-delete status that identifies the settings variant. When set to `Disabled`, the retention period configuration is not retained and must be provided again when set back to `Enabled`.",
+          "$ref": "#/definitions/OneLakeFileSoftDeleteStatus",
+          "readOnly": false
+        }
+      }
+    },
+    "EnabledOneLakeFileSoftDeleteSettings": {
+      "description": "This object contains the enabled file soft-delete settings and retention period for a workspace.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OneLakeFileSoftDeleteSettings"
+        }
+      ],
+      "x-ms-discriminator-value": "Enabled",
+      "required": [ "retentionPeriodInDays" ],
+      "properties": {
+        "retentionPeriodInDays": {
+          "description": "The number of days deleted files are retained before permanent deletion. Valid range is 1 to 365 days.",
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "maximum": 365,
+          "readOnly": false
+        }
+      }
+    },
+    "DisabledOneLakeFileSoftDeleteSettings": {
+      "description": "This object represents disabled file soft-delete settings for a workspace. The retention period is omitted.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OneLakeFileSoftDeleteSettings"
+        }
+      ],
+      "x-ms-discriminator-value": "Disabled"
+    },
+    "ModifyOneLakeFileSoftDeleteRequest": {
+      "description": "This request specifies the file soft-delete settings to apply.",
+      "type": "object",
+      "required": [ "status" ],
+      "discriminator": "status",
+      "properties": {
+        "status": {
+          "description": "The file soft-delete status that identifies the request variant. When set to `Disabled`, the retention period configuration is not retained and must be provided again when set back to `Enabled`.",
+          "$ref": "#/definitions/OneLakeFileSoftDeleteStatus",
+          "readOnly": false
+        }
+      }
+    },
+    "EnableOneLakeFileSoftDeleteRequest": {
+      "description": "This request enables file soft-delete with the specified retention period.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModifyOneLakeFileSoftDeleteRequest"
+        }
+      ],
+      "x-ms-discriminator-value": "Enabled",
+      "required": [ "retentionPeriodInDays" ],
+      "properties": {
+        "retentionPeriodInDays": {
+          "description": "The number of days deleted files are retained before permanent deletion. Valid range is 1 to 365 days.",
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "maximum": 365,
+          "readOnly": false
+        }
+      }
+    },
+    "DisableOneLakeFileSoftDeleteRequest": {
+      "description": "This request disables file soft-delete. A supplied retentionPeriodInDays value is ignored, and the previously configured retention period is not retained.",
+      "type": "object",
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModifyOneLakeFileSoftDeleteRequest"
+        }
+      ],
+      "x-ms-discriminator-value": "Disabled"
     },
     "ModifyOneLakeDiagnosticSettingRequest": {
       "description": "Modify OneLake diagnostic settings request.",

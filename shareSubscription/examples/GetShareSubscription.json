@@ -1,0 +1,27 @@
+{
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "shareSubscriptionId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+        "displayName": "Fabrikam Weather Feed",
+        "description": "Subscription to Fabrikam's shared weather dataset.",
+        "type": "ShareSubscription",
+        "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+        "folderId": "bcd6e0b1-8037-4d0c-896e-a46fb27ff229",
+        "properties": {
+          "status": "Active",
+          "shareVersion": "0008",
+          "producerTenantDetails": {
+            "tenantId": "7e6d5c4b-3a2f-1e0d-9c8b-7a6f5e4d3c2b",
+            "displayName": "Fabrikam Inc.",
+            "verifiedDomainName": "fabrikam.com"
+          }
+        }
+      }
+    }
+  }
+}

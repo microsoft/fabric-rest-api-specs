@@ -2989,9 +2989,368 @@
           }
         }
       }
+    },
+    "/workspaces/{workspaceId}/dataAgents/{dataAgentId}/feedback/search?beta=true": {
+      "post": {
+        "summary": "Searches feedback for the specified Fabric data agent.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Feedback for Fabric data agents in Microsoft Copilot is currently in Preview ([learn more](/fabric/data-science/data-agent-microsoft-copilot-feedback)).\n\nReturns a filtered, sorted, and paginated list of Microsoft One Customer Voice (OCV) feedback for the specified Fabric data agent. Feedback can contain personal information, including comments, prompts, responses, and details about the person who submitted it.\n\nThe API only returns feedback that the person who submitted it agreed to share with the creators of the Fabric data agent. Results are filtered first, then sorted and divided into pages. This API supports [pagination](/rest/api/fabric/articles/pagination).\n\nFor the first page, you can provide a request body to filter and sort the feedback, and use `pageSize` to choose the page size. To get the next page, send a POST request to the returned `continuationUri` without a request body or `pageSize`. The API reuses the original query and page size.\n\nThe API supports the `beta`, `pageSize`, and `continuationToken` query parameters. The `beta` parameter must appear exactly once, set to `true`. Otherwise, the API returns a generic `404 Not Found` error. Repeated, empty, or whitespace-only `pageSize` or `continuationToken` values return `400 InvalidInput`. The API ignores query parameters that it doesn't recognize.\n\n## Permissions\n\nThe caller must have *write* permission on the Fabric data agent.\n\n## Required Delegated Scopes\n\nDataAgent.ReadWrite.All or Item.ReadWrite.All\n\n## Limitations\n\nService principal and managed identity are not supported for this API.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "tags": [
+          "Feedback"
+        ],
+        "operationId": "Feedback_Search_Feedback_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri",
+          "operationName": "Feedback_Search_Feedback_Next_(beta)"
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "dataAgentId",
+            "description": "The Fabric data agent ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "The maximum number of feedback records to return for the initial request. The value must be an integer from 1 through 9,999. The default is 50 only when this parameter is omitted. Malformed, overflowing, repeated, or empty values return `InvalidInput`. Large values can increase latency and the risk of throttling. Omit this parameter when using a continuation token.",
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 9999,
+            "default": 50,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token returned by the preceding page to retrieve the next page of results. Use it exactly as returned, without interpreting or changing it. The token is valid for 24 hours and can be used only with the same tenant, signed-in user, workspace, Fabric data agent, and resolved MetaOS title identifier. Changing that title invalidates outstanding tokens; republishing with the same title does not itself invalidate them. When using the token, don't send a request body or page size. The API reuses the original query and page size.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "body",
+            "name": "queryFeedbackRequest",
+            "description": "The filters and sort options for the first page of feedback. If omitted, no query criteria limit the results. JSON properties that the API doesn't recognize in the body or filter object, and control characters such as newlines or tabs in search or filter values, return `400 InvalidInput`. Query parameters that the API doesn't recognize are ignored. Don't send a body when using a continuation token.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/QueryFeedbackRequest"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/FeedbackPage"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidInput - The request, query parameters, filter, date range, page size, or continuation token isn't valid.\n\n* InsufficientPrivileges - The caller doesn't have write permission on the Fabric data agent.\n\n* EntityNotFound - The specified Fabric data agent wasn't found.\n\n* UnknownError - The feedback service returned an unexpected error or didn't respond in time.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Query feedback example": {
+            "$ref": "./examples/QueryFeedback.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/dataAgents/{dataAgentId}/feedback/{feedbackId}?beta=true": {
+      "get": {
+        "summary": "Gets the specified feedback record.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Feedback for Fabric data agents in Microsoft Copilot is currently in Preview ([learn more](/fabric/data-science/data-agent-microsoft-copilot-feedback)).\n\nReturns one feedback record for the specified Fabric data agent, including available AI context and chat history. The record can contain personal information, including comments, prompts, responses, and details about the person who submitted it. Use the `id` value from the Search Feedback (beta) results to identify the record.\n\nThe API only returns feedback that the person who submitted it agreed to share with the creators of the Fabric data agent. Before returning the record, the API checks that it belongs to the Fabric data agent in the request. Missing or unavailable feedback, or feedback whose association with the data agent can't be verified, returns `404 EntityNotFound`.\n\nThe API supports the `beta` query parameter. It must appear exactly once, set to `true`. Otherwise, the API returns a generic `404 Not Found` error. The API ignores query parameters that it doesn't recognize.\n\n## Permissions\n\nThe caller must have *write* permission on the Fabric data agent.\n\n## Required Delegated Scopes\n\nDataAgent.ReadWrite.All or Item.ReadWrite.All\n\n## Limitations\n\nService principal and managed identity are not supported for this API.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "tags": [
+          "Feedback"
+        ],
+        "operationId": "Feedback_Get_Feedback_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "dataAgentId",
+            "description": "The Fabric data agent ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "feedbackId",
+            "description": "The ID of the feedback record. Use the `id` value from the Search Feedback (beta) results, exactly as returned. The maximum length is 200 characters.",
+            "type": "string",
+            "maxLength": 200,
+            "pattern": "^(?!\\.)(?!.*\\.\\.)[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/Feedback"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidInput - The feedback ID, request, or query parameters aren't valid.\n\n* InsufficientPrivileges - The caller doesn't have write permission on the Fabric data agent.\n\n* EntityNotFound - The Fabric data agent or feedback record wasn't found, or the feedback record's association with the data agent couldn't be verified.\n\n* UnknownError - The feedback service returned an unexpected error or didn't respond in time.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get feedback example": {
+            "$ref": "./examples/GetFeedback.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/dataAgents/{dataAgentId}/feedback/{feedbackId}/attachments?beta=true": {
+      "get": {
+        "summary": "Downloads the attachments for the specified feedback record as a ZIP file.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Feedback for Fabric data agents in Microsoft Copilot is currently in Preview ([learn more](/fabric/data-science/data-agent-microsoft-copilot-feedback)).\n\nThe ZIP file contains the files attached to the feedback, such as a screenshot. These files can contain personal information.\n\nDownloaded attachments don't preserve Microsoft sensitivity labels or protections. To acknowledge this, set `allowDownloadWithoutSensitivityLabel` to `true` on every request. After the earlier checks described below pass, leaving it out or setting it to `false` returns `400 SensitivityLabelAcknowledgementRequired` and no attachment content.\n\nThe API only returns attachments for feedback that the person who submitted it agreed to share with the creators of the Fabric data agent. Before returning any files, the API checks that the feedback record belongs to the Fabric data agent in the request. If that association can't be verified, the API returns `404 EntityNotFound`. The server chooses the file name; callers can't provide one.\n\nWhen the original attachments have expired, a successful download can contain only a localized `README.txt` file explaining their unavailability. Missing or unavailable feedback or attachment bundles can instead return `404 EntityNotFound`. Use the `language` parameter to choose the language of the retention notice.\n\nQuery parameters must follow these rules:\n\n- `beta` must appear exactly once, set to `true`. Otherwise, the API returns a generic `404 Not Found` error.\n- `language` and `allowDownloadWithoutSensitivityLabel` can each appear only once, and their values can't be empty or whitespace-only.\n- `allowDownloadWithoutSensitivityLabel` must be a boolean value. Letter case and spaces around the value don't matter, but numbers such as `1` and `0` aren't accepted. Only `true` allows a download.\n\nRepeated, empty, or whitespace-only `language` or `allowDownloadWithoutSensitivityLabel` values, and non-boolean acknowledgement values, return `400 InvalidInput`. The API ignores query parameters that it doesn't recognize.\n\nThe API checks each request in the following order. If more than one check fails, it returns the error for the first one:\n\n1. Authentication, permissions, feature availability, and the `beta` parameter.\n2. Repeated, empty, or whitespace-only query-parameter checks.\n3. The `allowDownloadWithoutSensitivityLabel` value.\n4. The format of the feedback ID and the `language` value.\n5. Finding the feedback record, verifying ownership and consent, and retrieving its attachments.\n\nFor example, assuming authentication, permissions, feature availability, `beta`, and the repeated/blank query-parameter checks pass, an invalid feedback ID without acknowledgement returns `SensitivityLabelAcknowledgementRequired`. Setting the acknowledgement to `true` makes the same request return `InvalidInput` instead.\n\n## Permissions\n\nThe caller must have *write* permission on the Fabric data agent.\n\n## Required Delegated Scopes\n\nDataAgent.ReadWrite.All or Item.ReadWrite.All\n\n## Limitations\n\nService principal and managed identity are not supported for this API.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "tags": [
+          "Feedback"
+        ],
+        "operationId": "Feedback_Download_Attachments_(beta)",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "dataAgentId",
+            "description": "The Fabric data agent ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "feedbackId",
+            "description": "The ID of the feedback record. Use the `id` value from the Search Feedback (beta) results, exactly as returned. The maximum length is 200 characters.",
+            "type": "string",
+            "maxLength": 200,
+            "pattern": "^(?!\\.)(?!.*\\.\\.)[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "description": "The language of the retention notice in `README.txt`. Use a BCP 47 language tag, such as `en` or `en-US`, with a maximum length of 35 characters. If omitted, the default is `en`. Invalid tags return `400 InvalidInput`.",
+            "type": "string",
+            "maxLength": 35,
+            "default": "en",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "allowDownloadWithoutSensitivityLabel",
+            "description": "Set to `true` to acknowledge that downloaded attachments don't preserve Microsoft sensitivity labels or protections. You must set it on every request. After earlier request checks pass, omission or boolean `false` returns `400 SensitivityLabelAcknowledgementRequired`. Repeated, empty, whitespace-only, or non-boolean values return `400 InvalidInput`. Letter case and surrounding spaces don't matter, but numeric values aren't accepted. The API checks acknowledgement before the feedback ID and language format, and before any OCV lookup or attachment retrieval.",
+            "type": "boolean",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully. The response body is a ZIP file (`application/octet-stream`).\n\n---\n**Headers:**\n\n**Content-Disposition** `string` - Marks the response as a file download and gives the file name, in the format `attachment; filename=\"feedback-{feedbackId}-attachments.zip\"`.\n\n**X-Content-Type-Options** `string` - Set to `nosniff`, so clients don't guess the content type.\n\n**Cache-Control** `string` - Set to `private, no-store, no-cache`, so the response isn't cached.",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidInput - The feedback ID, language, request, or query parameters aren't valid, including repeated, empty, whitespace-only, or non-boolean `allowDownloadWithoutSensitivityLabel` values.\n\n* SensitivityLabelAcknowledgementRequired - After earlier request checks pass, `allowDownloadWithoutSensitivityLabel` is missing or set to boolean `false`.\n\n* InsufficientPrivileges - The caller doesn't have write permission on the Fabric data agent.\n\n* EntityNotFound - The Fabric data agent, feedback record, or attachment bundle wasn't found, or the feedback record's association with the data agent couldn't be verified.\n\n* UnknownError - The feedback service returned an unexpected error or didn't respond in time.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Download feedback attachments example": {
+            "$ref": "./examples/DownloadFeedbackAttachments.json"
+          }
+        }
+      }
     }
   },
   "responses": {},
   "security": [],
-  "tags": []
+  "tags": [],
+  "x-ms-paths": {
+    "/workspaces/{workspaceId}/dataAgents/{dataAgentId}/feedback/search?beta=true&continuationToken": {
+      "post": {
+        "summary": "Returns the next page of feedback search results.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Feedback for Fabric data agents in Microsoft Copilot is currently in Preview ([learn more](/fabric/data-science/data-agent-microsoft-copilot-feedback)).\n\nRetrieves the next page of feedback for the specified Fabric data agent with a POST request. This is the internal continuation operation for generated SDKs. The API only returns feedback that the person who submitted it agreed to share with the creators of the Fabric data agent. Feedback can contain personal information.\n\nUse the returned `continuationUri` without a request body or `pageSize`. The API reuses the original query and page size. The continuation token can be used only with the same tenant, signed-in user, workspace, Fabric data agent, and resolved MetaOS title identifier. Changing that title invalidates outstanding tokens; republishing with the same title does not itself invalidate them.\n\nThis operation uses `beta=true` and `continuationToken`. Repeated, empty, or whitespace-only `continuationToken` values return `400 InvalidInput`. The `beta` parameter must appear exactly once, set to `true`. Otherwise, the API returns a generic `404 Not Found` error. The API ignores query parameters that it doesn't recognize.\n\n## Permissions\n\nThe caller must have *write* permission on the Fabric data agent.\n\n## Required Delegated Scopes\n\nDataAgent.ReadWrite.All or Item.ReadWrite.All\n\n## Limitations\n\nService principal and managed identity are not supported for this API.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | No |\n\n## Interface",
+        "tags": [
+          "Feedback"
+        ],
+        "operationId": "Feedback_Search_Feedback_Next_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "dataAgentId",
+            "description": "The Fabric data agent ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "The token returned by the preceding page. Use it exactly as returned, without interpreting or changing it. The token can be used only with the same tenant, signed-in user, workspace, Fabric data agent, and resolved MetaOS title identifier. Changing that title invalidates outstanding tokens; republishing with the same title does not itself invalidate them.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/FeedbackPage"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidInput - The continuation token or query parameters aren't valid, are expired, repeated, or blank, or don't match the current caller, resource, or resolved MetaOS title. Sending a request body or page size with a continuation token also returns this error.\n\n* InsufficientPrivileges - The caller doesn't have write permission on the Fabric data agent.\n\n* EntityNotFound - The specified Fabric data agent wasn't found or is no longer published.\n\n* UnknownError - The feedback service returned an unexpected error or didn't respond in time.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Query next feedback page example": {
+            "$ref": "./examples/QueryFeedbackNext.json"
+          }
+        },
+        "x-ms-internal": true
+      }
+    }
+  }
 }

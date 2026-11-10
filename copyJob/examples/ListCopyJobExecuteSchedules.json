@@ -1,0 +1,49 @@
+{
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "copyJobId": "dddddddd-9999-0000-1111-eeeeeeeeeeee"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "value": [
+          {
+            "id": "bbbbbbbb-1111-2222-3333-cccccccccccc",
+            "enabled": true,
+            "createdDateTime": "2026-03-28T05:35:20.5366667",
+            "configuration": {
+              "startDateTime": "2026-03-28T00:00:00",
+              "endDateTime": "2026-03-30T23:59:00",
+              "localTimeZoneId": "Central Standard Time",
+              "type": "Cron",
+              "interval": 10
+            },
+            "owner": {
+              "id": "33dd33dd-ee44-ff55-aa66-77bb77bb77bb",
+              "type": "User"
+            }
+          },
+          {
+            "id": "cccccccc-2222-3333-4444-dddddddddddd",
+            "enabled": false,
+            "createdDateTime": "2026-03-29T08:15:42.1234567",
+            "configuration": {
+              "startDateTime": "2026-03-29T00:00:00",
+              "endDateTime": "2026-04-30T23:59:00",
+              "localTimeZoneId": "Central Standard Time",
+              "type": "Daily",
+              "times": [
+                "09:00",
+                "17:00"
+              ]
+            },
+            "owner": {
+              "id": "44ee44ee-ff55-aa66-bb77-88cc88cc88cc",
+              "type": "User"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

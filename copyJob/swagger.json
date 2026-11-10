@@ -770,6 +770,438 @@
           }
         }
       }
+    },
+    "/workspaces/{workspaceId}/copyJobs/{copyJobId}/jobs/execute/instances/{jobInstanceId}": {
+      "get": {
+        "summary": "Gets the specified CopyJob execute job instance.",
+        "description": "## Permissions\n\nThe caller must have *read* permission on the CopyJob item.\n\n## Required Delegated Scopes\n\nCopyJob.Read.All or CopyJob.ReadWrite.All or Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_GetExecuteJobInstance",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "copyJobId",
+            "description": "The CopyJob ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "jobInstanceId",
+            "description": "The job instance ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.\n\n---\n**Headers:**\n\n**Retry-After** `integer` - The number of seconds to wait before checking the status of the job instance.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CopyJobExecuteJobInstance"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item ID was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get CopyJob execute job instance example": {
+            "$ref": "./examples/GetCopyJobExecuteJobInstance.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/copyJobs/{copyJobId}/jobs/execute/schedules": {
+      "get": {
+        "summary": "Lists execute schedules for the specified CopyJob.",
+        "description": "This API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must have *read* permission on the CopyJob item.\n\n## Required Delegated Scopes\n\nCopyJob.Read.All or CopyJob.ReadWrite.All or Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_ListExecuteSchedules",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "copyJobId",
+            "description": "The CopyJob ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CopyJobExecuteSchedules"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item ID was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List CopyJob execute schedules example": {
+            "$ref": "./examples/ListCopyJobExecuteSchedules.json"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates an execute schedule for the specified CopyJob.",
+        "description": "## Permissions\n\nThe caller must have *write* and *execute* permissions on the CopyJob item.\n\n## Required Delegated Scopes\n\n(CopyJob.Execute.All or Item.Execute.All) and (CopyJob.ReadWrite.All or Item.ReadWrite.All)\n\n## Limitations\n\nA CopyJob is subject to the platform limit on schedules per item across all job types. Disabled schedules count toward the limit.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_ScheduleExecute",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "copyJobId",
+            "description": "The CopyJob ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "createScheduleRequest",
+            "description": "The request payload for creating a CopyJob execute schedule.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CreateCopyJobExecuteScheduleRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully created the schedule.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the newly created schedule.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CopyJobExecuteSchedule"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item ID was not found.\n\n* ScheduleExceedsLimit - The number of schedules created for the item exceeds the limit.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create CopyJob execute schedule example": {
+            "$ref": "./examples/CreateCopyJobExecuteSchedule.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/copyJobs/{copyJobId}/jobs/execute/schedules/{scheduleId}": {
+      "get": {
+        "summary": "Gets the specified CopyJob execute schedule.",
+        "description": "## Permissions\n\nThe caller must have *read* permission on the CopyJob item.\n\n## Required Delegated Scopes\n\nCopyJob.Read.All or CopyJob.ReadWrite.All or Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_GetExecuteSchedule",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "copyJobId",
+            "description": "The CopyJob ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "scheduleId",
+            "description": "The CopyJob schedule ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CopyJobExecuteSchedule"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item ID was not found.\n\n* ScheduleNotFound - The requested schedule ID was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get CopyJob execute schedule example": {
+            "$ref": "./examples/GetCopyJobExecuteSchedule.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates the specified CopyJob execute schedule.",
+        "description": "## Permissions\n\nThe caller must have *write* and *execute* permissions on the CopyJob item.\n\n## Required Delegated Scopes\n\n(CopyJob.Execute.All or Item.Execute.All) and (CopyJob.ReadWrite.All or Item.ReadWrite.All)\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_UpdateExecuteSchedule",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "copyJobId",
+            "description": "The CopyJob ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "scheduleId",
+            "description": "The CopyJob schedule ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateScheduleRequest",
+            "description": "The request payload for updating a CopyJob execute schedule.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdateCopyJobExecuteScheduleRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CopyJobExecuteSchedule"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item ID was not found.\n\n* ScheduleNotFound - The requested schedule ID was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update CopyJob execute schedule example": {
+            "$ref": "./examples/UpdateCopyJobExecuteSchedule.json"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes the specified CopyJob execute schedule.",
+        "description": "## Permissions\n\nThe caller must have *write* permission on the CopyJob item.\n\n## Required Delegated Scopes\n\nCopyJob.ReadWrite.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_DeleteExecuteSchedule",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "copyJobId",
+            "description": "The CopyJob ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "scheduleId",
+            "description": "The CopyJob schedule ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item ID was not found.\n\n* ScheduleNotFound - The requested schedule ID was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete CopyJob execute schedule example": {
+            "$ref": "./examples/DeleteCopyJobExecuteSchedule.json"
+          }
+        }
+      }
     }
   },
   "responses": {},

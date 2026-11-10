@@ -8,7 +8,7 @@
     "definitions": {
         "SourceType": {
             "type": "string",
-            "description": "Represents the type of the source. Additional source types may be added over time.",
+            "description": "Represents the type of the source. Additional SourceType types may be added over time.",
             "enum": [
                 "AmazonKinesis",
                 "AmazonMSKKafka",
@@ -24,6 +24,7 @@
                 "AzureSQLDBCDC",
                 "AzureSQLMIDBCDC",
                 "AzureServiceBus",
+                "BusinessEvents",
                 "ConfluentCloud",
                 "Cribl",
                 "CustomEndpoint",
@@ -109,6 +110,10 @@
                     {
                         "value": "AzureServiceBus",
                         "description": "The Azure Service Bus source type."
+                    },
+                    {
+                        "value": "BusinessEvents",
+                        "description": "The Business Events source type."
                     },
                     {
                         "value": "ConfluentCloud",
@@ -259,6 +264,26 @@
                 }
             ],
             "discriminator": "type"
+        },
+        "BusinessEventsSourceResponse": {
+            "type": "object",
+            "description": "A Business Events source response. Source-data preview and source-level pause/resume are not supported.",
+            "required": [
+                "properties"
+            ],
+            "properties": {
+                "properties": {
+                    "description": "The properties of the Business Events source.",
+                    "$ref": "#/definitions/BusinessEventsSourceProperties",
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/SourceResponse"
+                }
+            ],
+            "x-ms-discriminator-value": "BusinessEvents"
         },
         "AzureEventGridNamespaceSourceResponse": {
             "type": "object",
@@ -3214,6 +3239,612 @@
                     }
                 }
             ]
+        },
+        "BusinessEventsSourceProperties": {
+            "type": "object",
+            "description": "The resolved configuration of a Business Events source.",
+            "required": [
+                "workspaceId",
+                "itemId",
+                "businessEventTypeIds"
+            ],
+            "properties": {
+                "workspaceId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The resolved workspace ID of the referenced Event Schema Set, including when it equals the Eventstream workspace ID.",
+                    "readOnly": true
+                },
+                "itemId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The resolved item ID of the referenced Event Schema Set.",
+                    "readOnly": true
+                },
+                "businessEventTypeIds": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 25,
+                    "description": "The existing event-type identifiers selected from the referenced Event Schema Set.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "readOnly": true
+                },
+                "filters": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The additional event conditions. Every condition must match. At most 25 conditions and 25 total comparison entries are supported. Omission or an empty array means no additional conditions.",
+                    "items": {
+                        "$ref": "#/definitions/AdvancedFilter"
+                    },
+                    "readOnly": true
+                }
+            }
+        },
+        "AdvancedFilterOperatorType": {
+            "type": "string",
+            "description": "The supported advanced-filter operator. Additional AdvancedFilterOperatorType types may be added over time.",
+            "enum": [
+                "NumberIn",
+                "NumberNotIn",
+                "NumberLessThan",
+                "NumberLessThanOrEquals",
+                "NumberGreaterThan",
+                "NumberGreaterThanOrEquals",
+                "NumberInRange",
+                "NumberNotInRange",
+                "BoolEquals",
+                "StringIn",
+                "StringNotIn",
+                "StringBeginsWith",
+                "StringNotBeginsWith",
+                "StringEndsWith",
+                "StringNotEndsWith",
+                "StringContains",
+                "StringNotContains",
+                "IsNullOrUndefined",
+                "IsNotNull"
+            ],
+            "x-ms-enum": {
+                "name": "AdvancedFilterOperatorType",
+                "modelAsString": true,
+                "values": [
+                    {
+                        "value": "NumberIn",
+                        "description": "The NumberIn advanced-filter operator."
+                    },
+                    {
+                        "value": "NumberNotIn",
+                        "description": "The NumberNotIn advanced-filter operator."
+                    },
+                    {
+                        "value": "NumberLessThan",
+                        "description": "The NumberLessThan advanced-filter operator."
+                    },
+                    {
+                        "value": "NumberLessThanOrEquals",
+                        "description": "The NumberLessThanOrEquals advanced-filter operator."
+                    },
+                    {
+                        "value": "NumberGreaterThan",
+                        "description": "The NumberGreaterThan advanced-filter operator."
+                    },
+                    {
+                        "value": "NumberGreaterThanOrEquals",
+                        "description": "The NumberGreaterThanOrEquals advanced-filter operator."
+                    },
+                    {
+                        "value": "NumberInRange",
+                        "description": "The NumberInRange advanced-filter operator."
+                    },
+                    {
+                        "value": "NumberNotInRange",
+                        "description": "The NumberNotInRange advanced-filter operator."
+                    },
+                    {
+                        "value": "BoolEquals",
+                        "description": "The BoolEquals advanced-filter operator."
+                    },
+                    {
+                        "value": "StringIn",
+                        "description": "The StringIn advanced-filter operator."
+                    },
+                    {
+                        "value": "StringNotIn",
+                        "description": "The StringNotIn advanced-filter operator."
+                    },
+                    {
+                        "value": "StringBeginsWith",
+                        "description": "The StringBeginsWith advanced-filter operator."
+                    },
+                    {
+                        "value": "StringNotBeginsWith",
+                        "description": "The StringNotBeginsWith advanced-filter operator."
+                    },
+                    {
+                        "value": "StringEndsWith",
+                        "description": "The StringEndsWith advanced-filter operator."
+                    },
+                    {
+                        "value": "StringNotEndsWith",
+                        "description": "The StringNotEndsWith advanced-filter operator."
+                    },
+                    {
+                        "value": "StringContains",
+                        "description": "The StringContains advanced-filter operator."
+                    },
+                    {
+                        "value": "StringNotContains",
+                        "description": "The StringNotContains advanced-filter operator."
+                    },
+                    {
+                        "value": "IsNullOrUndefined",
+                        "description": "The IsNullOrUndefined advanced-filter operator."
+                    },
+                    {
+                        "value": "IsNotNull",
+                        "description": "The IsNotNull advanced-filter operator."
+                    }
+                ]
+            }
+        },
+        "AdvancedFilter": {
+            "type": "object",
+            "description": "An advanced condition applied to incoming business events.",
+            "required": [
+                "operatorType",
+                "key"
+            ],
+            "properties": {
+                "operatorType": {
+                    "description": "The advanced-filter comparison operator.",
+                    "$ref": "#/definitions/AdvancedFilterOperatorType",
+                    "readOnly": true
+                },
+                "key": {
+                    "type": "string",
+                    "description": "The event attribute or nested event-data path examined by the condition, such as `subject` or `data.order.total`.",
+                    "readOnly": true
+                }
+            },
+            "discriminator": "operatorType"
+        },
+        "NumberInAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the numeric key value equals any of the specified numbers.",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The alternatives accepted by numeric equality.",
+                    "items": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "NumberIn"
+        },
+        "NumberNotInAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the numeric key value does not equal any of the specified numbers.",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The alternatives excluded by numeric equality.",
+                    "items": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "NumberNotIn"
+        },
+        "NumberLessThanAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the numeric key value is strictly less than the specified threshold.",
+            "required": [
+                "value"
+            ],
+            "properties": {
+                "value": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "The exclusive upper numeric threshold.",
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "NumberLessThan"
+        },
+        "NumberLessThanOrEqualsAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the numeric key value is less than or equal to the specified threshold.",
+            "required": [
+                "value"
+            ],
+            "properties": {
+                "value": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "The inclusive upper numeric threshold.",
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "NumberLessThanOrEquals"
+        },
+        "NumberGreaterThanAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the numeric key value is strictly greater than the specified threshold.",
+            "required": [
+                "value"
+            ],
+            "properties": {
+                "value": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "The exclusive lower numeric threshold.",
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "NumberGreaterThan"
+        },
+        "NumberGreaterThanOrEqualsAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the numeric key value is greater than or equal to the specified threshold.",
+            "required": [
+                "value"
+            ],
+            "properties": {
+                "value": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "The inclusive lower numeric threshold.",
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "NumberGreaterThanOrEquals"
+        },
+        "NumberInRangeAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the numeric key value falls within any of the specified inclusive ranges.",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 25,
+                    "description": "The inclusive lower/upper ranges accepted by the condition.",
+                    "items": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                            "type": "number",
+                            "format": "double"
+                        }
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "NumberInRange"
+        },
+        "NumberNotInRangeAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the numeric key value does not fall within any of the specified inclusive ranges.",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 25,
+                    "description": "The inclusive lower/upper ranges excluded by the condition.",
+                    "items": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                            "type": "number",
+                            "format": "double"
+                        }
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "NumberNotInRange"
+        },
+        "BoolEqualsAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the Boolean key value equals the specified Boolean value.",
+            "required": [
+                "value"
+            ],
+            "properties": {
+                "value": {
+                    "type": "boolean",
+                    "description": "The Boolean value required by the condition.",
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "BoolEquals"
+        },
+        "StringInAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the string key value equals any of the specified strings (case-insensitive).",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The alternatives accepted by text equality.",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 512
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "StringIn"
+        },
+        "StringNotInAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the string key value does not equal any of the specified strings (case-insensitive).",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The alternatives excluded by text equality.",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 512
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "StringNotIn"
+        },
+        "StringBeginsWithAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the string key value begins with any of the specified prefixes (case-insensitive).",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The accepted text prefixes.",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 512
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "StringBeginsWith"
+        },
+        "StringNotBeginsWithAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the string key value does not begin with any of the specified prefixes (case-insensitive).",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The excluded text prefixes.",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 512
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "StringNotBeginsWith"
+        },
+        "StringEndsWithAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the string key value ends with any of the specified suffixes (case-insensitive).",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The accepted text suffixes.",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 512
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "StringEndsWith"
+        },
+        "StringNotEndsWithAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the string key value does not end with any of the specified suffixes (case-insensitive).",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The excluded text suffixes.",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 512
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "StringNotEndsWith"
+        },
+        "StringContainsAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the string key value contains any of the specified substrings (case-insensitive).",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The accepted text substrings.",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 512
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "StringContains"
+        },
+        "StringNotContainsAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the string key value does not contain any of the specified substrings (case-insensitive).",
+            "required": [
+                "values"
+            ],
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "maxItems": 25,
+                    "description": "The excluded text substrings.",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 512
+                    },
+                    "readOnly": true
+                }
+            },
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "StringNotContains"
+        },
+        "IsNullOrUndefinedAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the target key is null, missing, or undefined in the event.",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "IsNullOrUndefined"
+        },
+        "IsNotNullAdvancedFilter": {
+            "type": "object",
+            "description": "An advanced filter that matches when the target key exists and is not null in the event.",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/AdvancedFilter"
+                }
+            ],
+            "x-ms-discriminator-value": "IsNotNull"
         }
     }
 }

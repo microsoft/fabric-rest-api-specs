@@ -1,0 +1,197 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ShareSubscription data types",
+    "version": "v1"
+  },
+  "paths": {},
+  "definitions": {
+    "ShareSubscription": {
+      "description": "Represents a Share Subscription.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/Item"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "Contains the Share Subscription properties.",
+          "$ref": "#/definitions/ShareSubscriptionProperties",
+          "readOnly": true
+        }
+      }
+    },
+    "ShareSubscriptionProperties": {
+      "description": "The Share Subscription properties.",
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "description": "The consumer-side lifecycle status of the Share Subscription. Additional ShareSubscriptionStatus types may be added over time.",
+          "type": "string",
+          "enum": [
+            "Pending",
+            "Active",
+            "Revoked",
+            "Expired"
+          ],
+          "x-ms-enum": {
+            "name": "ShareSubscriptionStatus",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "Pending",
+                "description": "The subscription is bound to the producer offer, but its shared content is not yet provisioned."
+              },
+              {
+                "value": "Active",
+                "description": "The shared content is provisioned and accessible."
+              },
+              {
+                "value": "Revoked",
+                "description": "The producer withdrew the share."
+              },
+              {
+                "value": "Expired",
+                "description": "The invitation or share is no longer valid."
+              }
+            ]
+          },
+          "readOnly": true
+        },
+        "producerTenantDetails": {
+          "description": "The identity details of the producer tenant offering the shared content. This property is returned only when getting a Share Subscription and is excluded when listing Share Subscriptions.",
+          "$ref": "#/definitions/ProducerTenantDetails",
+          "readOnly": true
+        },
+        "shareVersion": {
+          "description": "The zero-padded producer content version that the subscription last synchronized. The value is null until the first synchronization.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ProducerTenantDetails": {
+      "description": "Contains the identity details of the producer tenant.",
+      "type": "object",
+      "required": [
+        "tenantId",
+        "displayName",
+        "verifiedDomainName"
+      ],
+      "properties": {
+        "tenantId": {
+          "description": "The producer tenant ID.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "displayName": {
+          "description": "The producer tenant display name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "verifiedDomainName": {
+          "description": "The producer tenant verified domain name.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ShareSubscriptions": {
+      "description": "Contains a list of Share Subscriptions.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "A list of Share Subscriptions.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShareSubscription"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "CreateShareSubscriptionRequest": {
+      "description": "Contains the request payload for creating a Share Subscription.",
+      "type": "object",
+      "required": [
+        "displayName",
+        "creationPayload"
+      ],
+      "properties": {
+        "displayName": {
+          "description": "The Share Subscription display name.",
+          "type": "string",
+          "readOnly": false
+        },
+        "description": {
+          "description": "The Share Subscription description. Maximum length is 256 characters.",
+          "type": "string",
+          "readOnly": false
+        },
+        "folderId": {
+          "description": "The folder ID. If not specified or null, the Share Subscription is created with the workspace as its folder.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        },
+        "sensitivityLabelSettings": {
+          "description": "The sensitivity label settings for the Share Subscription.",
+          "$ref": "../common/definitions.json#/definitions/SensitivityLabelSettings",
+          "readOnly": false
+        },
+        "creationPayload": {
+          "description": "The payload that binds the Share Subscription to a producer invitation.",
+          "$ref": "#/definitions/ShareSubscriptionCreationPayload",
+          "readOnly": false
+        }
+      }
+    },
+    "ShareSubscriptionCreationPayload": {
+      "description": "Contains the creation payload for a Share Subscription.",
+      "type": "object",
+      "required": [
+        "invitationUrl"
+      ],
+      "properties": {
+        "invitationUrl": {
+          "description": "The IQShare invitation URL used to bind the Share Subscription to the producer offer.",
+          "type": "string",
+          "format": "uri",
+          "readOnly": false
+        }
+      }
+    },
+    "UpdateShareSubscriptionRequest": {
+      "description": "Contains the request payload for updating a Share Subscription.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "The Share Subscription display name.",
+          "type": "string",
+          "readOnly": false
+        },
+        "description": {
+          "description": "The Share Subscription description. Maximum length is 256 characters.",
+          "type": "string",
+          "readOnly": false
+        }
+      }
+    }
+  }
+}

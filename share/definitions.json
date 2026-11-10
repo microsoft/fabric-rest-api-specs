@@ -1,0 +1,221 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Share data types",
+    "version": "v1"
+  },
+  "paths": {},
+  "definitions": {
+    "Share": {
+      "description": "A share object.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/Item"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "The share properties.",
+          "$ref": "#/definitions/ShareProperties",
+          "readOnly": true
+        }
+      }
+    },
+    "ShareProperties": {
+      "description": "The system-generated share properties.",
+      "type": "object",
+      "required": [
+        "shareStatus",
+        "shareVersion"
+      ],
+      "properties": {
+        "invitationUrl": {
+          "description": "The service-generated invitation URL. This property is available once the share has content and may be omitted for a newly created empty share.",
+          "type": "string",
+          "readOnly": true
+        },
+        "shareStatus": {
+          "description": "The current status of the share. Additional ShareStatus values may be added over time.",
+          "type": "string",
+          "enum": [
+            "Active",
+            "Expired"
+          ],
+          "x-ms-enum": {
+            "name": "ShareStatus",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "Active",
+                "description": "The share is in its normal, non-expired lifecycle state. A share is active from creation, including when it is empty and doesn't have an invitation URL."
+              },
+              {
+                "value": "Expired",
+                "description": "The share's expiration policy elapsed and the share no longer grants access."
+              }
+            ]
+          },
+          "readOnly": true
+        },
+        "shareVersion": {
+          "description": "The sequential, monotonically increasing share revision. The revision starts as the four-digit, zero-padded value `0001`, may grow beyond four digits, and increments whenever assets, recipients, or policies change.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Shares": {
+      "description": "A list of shares.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "A list of shares.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Share"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "CreateShareRequest": {
+      "description": "The request payload for creating a share.",
+      "type": "object",
+      "required": [
+        "displayName"
+      ],
+      "properties": {
+        "displayName": {
+          "description": "The share display name.",
+          "type": "string",
+          "readOnly": false
+        },
+        "description": {
+          "description": "The share description. Maximum length is 256 characters.",
+          "type": "string",
+          "readOnly": false
+        },
+        "folderId": {
+          "description": "The folder ID. If not specified or null, the share is created with the workspace as its folder.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        },
+        "sensitivityLabelSettings": {
+          "description": "The sensitivity label settings for the share.",
+          "$ref": "../common/definitions.json#/definitions/SensitivityLabelSettings",
+          "readOnly": false
+        },
+        "definition": {
+          "description": "The share public definition.",
+          "$ref": "#/definitions/ShareDefinition",
+          "readOnly": false
+        }
+      }
+    },
+    "ShareDefinition": {
+      "description": "The share public definition object. Refer to this [article](/rest/api/fabric/articles/item-management/definitions/share-definition) for more details on the structure of the Share definition.",
+      "type": "object",
+      "required": [
+        "parts"
+      ],
+      "properties": {
+        "parts": {
+          "description": "A list of definition parts.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShareDefinitionPart"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "ShareDefinitionPart": {
+      "description": "A share definition part object.",
+      "type": "object",
+      "required": [
+        "path",
+        "payload",
+        "payloadType"
+      ],
+      "properties": {
+        "path": {
+          "description": "The share definition part path.",
+          "type": "string",
+          "readOnly": false
+        },
+        "payload": {
+          "description": "The share definition part payload.",
+          "type": "string",
+          "readOnly": false
+        },
+        "payloadType": {
+          "description": "The payload type.",
+          "$ref": "../common/definitions.json#/definitions/PayloadType",
+          "readOnly": false
+        }
+      }
+    },
+    "ShareDefinitionResponse": {
+      "description": "The share public definition response.",
+      "type": "object",
+      "required": [
+        "definition"
+      ],
+      "properties": {
+        "definition": {
+          "description": "The share public definition.",
+          "$ref": "#/definitions/ShareDefinition",
+          "readOnly": true
+        }
+      }
+    },
+    "UpdateShareDefinitionRequest": {
+      "description": "The request payload for updating a share public definition.",
+      "type": "object",
+      "required": [
+        "definition"
+      ],
+      "properties": {
+        "definition": {
+          "description": "The share public definition to apply.",
+          "$ref": "#/definitions/ShareDefinition",
+          "readOnly": false
+        }
+      }
+    },
+    "UpdateShareRequest": {
+      "description": "The request payload for updating a share.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "The share display name.",
+          "type": "string",
+          "readOnly": false
+        },
+        "description": {
+          "description": "The share description. Maximum length is 256 characters.",
+          "type": "string",
+          "readOnly": false
+        },
+        "sensitivityLabelSettings": {
+          "description": "The sensitivity label settings for the share.",
+          "$ref": "../common/definitions.json#/definitions/SensitivityLabelSettings",
+          "readOnly": false
+        }
+      }
+    }
+  }
+}

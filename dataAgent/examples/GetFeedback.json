@@ -1,0 +1,46 @@
+{
+    "parameters": {
+        "workspaceId": "00000000-0000-0000-0000-000000000001",
+        "dataAgentId": "00000000-0000-0000-0000-000000000002",
+        "feedbackId": "fb_2026-07-15:001",
+        "beta": true
+    },
+    "responses": {
+        "200": {
+            "body": {
+                "id": "fb_2026-07-15:001",
+                "comment": "The answer used an outdated value.",
+                "app": "Fabric",
+                "submittedDateTime": "2026-07-15T14:32:10Z",
+                "feedbackType": "Frown",
+                "feedbackSubType": "IncorrectAnswer",
+                "submitter": {
+                    "id": "8f6b2d41-3c5a-4e19-9b7f-1a2c3d4e5f60",
+                    "displayName": "Alex Wilber",
+                    "type": "User",
+                    "userDetails": {
+                        "userPrincipalName": "AlexW@example.com"
+                    }
+                },
+                "channel": "Fabric",
+                "platform": "Web",
+                "product": "DataAgent",
+                "aiContext": {
+                    "prompt": "What were last quarter's sales?",
+                    "responseMessage": "The total was ...",
+                    "chatHistory": [
+                        {
+                            "user": "User",
+                            "message": "Show last quarter's sales."
+                        },
+                        {
+                            "user": "Copilot",
+                            "message": "The total was ..."
+                        }
+                    ]
+                },
+                "hasAttachments": true
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Enable file soft-delete with a custom retention period example",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff227",
+    "modifyOneLakeFileSoftDeleteRequest": {
+      "status": "Enabled",
+      "retentionPeriodInDays": 14
+    }
+  },
+  "responses": {
+    "200": {}
+  }
+}

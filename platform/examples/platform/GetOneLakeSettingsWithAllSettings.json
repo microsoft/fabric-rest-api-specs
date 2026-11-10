@@ -26,6 +26,10 @@
           "defaultTier": "Cool",
           "policy": "Active",
           "accessTimeTracking": "Enabled"
+        },
+        "fileSoftDelete": {
+          "status": "Enabled",
+          "retentionPeriodInDays": 7
         }
       }
     }

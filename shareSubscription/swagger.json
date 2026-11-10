@@ -1,0 +1,375 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ShareSubscription REST APIs",
+    "version": "v1"
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "api.fabric.microsoft.com",
+  "basePath": "/v1",
+  "paths": {
+    "/workspaces/{workspaceId}/shareSubscriptions": {
+      "get": {
+        "summary": "Lists Share Subscriptions in the specified workspace.",
+        "description": "> [!NOTE]\n> Share Subscription item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must have a *viewer* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *Enable Share Subscription*, *Users can accept external data shares*, and *Enable Share Item* admin switches for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_ListShareSubscriptions",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "recursive",
+            "description": "Lists items in a folder and its nested folders, or just a folder only. True - All items in the folder and its nested folders are listed, False - Only items in the folder are listed. The default value is true.",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rootFolderId",
+            "description": "This parameter allows users to filter items based on a specific root folder. If not provided, the workspace is used as the root folder.",
+            "type": "string",
+            "format": "uuid",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ShareSubscriptions"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidItemType - Invalid item type.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List Share Subscriptions in workspace example": {
+            "$ref": "./examples/ListShareSubscriptionsInWorkspace.json"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a Share Subscription in the specified workspace.",
+        "description": "> [!NOTE]\n> Share Subscription item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must have a *contributor* workspace role.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *Enable Share Subscription*, *Users can accept external data shares*, and *Enable Share Item* admin switches for the calling principal.\n\n## Limitations\n\n- To create a Share Subscription, the workspace must be on a supported Fabric capacity. For more information, see [Microsoft Fabric license types](/fabric/enterprise/licenses#microsoft-fabric-license-types).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_CreateShareSubscription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "createShareSubscriptionRequest",
+            "description": "Create item request payload.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CreateShareSubscriptionRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully created.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ShareSubscription"
+            }
+          },
+          "202": {
+            "description": "Request accepted, Share Subscription provisioning is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "description": "The number of seconds to wait before retrying the request.",
+                "type": "integer"
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidShareInvitation - The invitation URL is missing, malformed, or not a recognized IQShare invitation link.\n\n* ShareInvitationExpired - The invitation expired or the producer revoked the underlying share.\n\n* ShareInvitationAlreadyConsumed - A Share Subscription was already created from the invitation.\n\n* ItemDisplayNameAlreadyInUse - The item display name is already in use.\n\n* WorkspaceItemsLimitExceeded - The workspace item limit was exceeded.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create a Share Subscription example": {
+            "$ref": "./examples/CreateShareSubscription.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shareSubscriptions/{shareSubscriptionId}": {
+      "get": {
+        "summary": "Gets the specified Share Subscription.",
+        "description": "> [!NOTE]\n> Share Subscription item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\n## Permissions\n\nThe caller must have *read* permissions for the Share Subscription.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *Enable Share Subscription*, *Users can accept external data shares*, and *Enable Share Item* admin switches for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_GetShareSubscription",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareSubscriptionId",
+            "description": "The Share Subscription ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ShareSubscription"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a Share Subscription example": {
+            "$ref": "./examples/GetShareSubscription.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates the specified Share Subscription.",
+        "description": "> [!NOTE]\n> Share Subscription item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\n## Permissions\n\nThe caller must have *read and write* permissions for the Share Subscription.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *Enable Share Subscription*, *Users can accept external data shares*, and *Enable Share Item* admin switches for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_UpdateShareSubscription",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareSubscriptionId",
+            "description": "The Share Subscription ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateShareSubscriptionRequest",
+            "description": "Update Share Subscription request payload.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdateShareSubscriptionRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ShareSubscription"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found. \n\n* InvalidRequest - Invalid update request.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update a Share Subscription example": {
+            "$ref": "./examples/UpdateShareSubscription.json"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes the specified Share Subscription.",
+        "description": "> [!NOTE]\n> Share Subscription item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\n## Permissions\n\nThe caller must have *write* permissions for the Share Subscription.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *Enable Share Subscription*, *Users can accept external data shares*, and *Enable Share Item* admin switches for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_DeleteShareSubscription",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareSubscriptionId",
+            "description": "The Share Subscription ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a Share Subscription example": {
+            "$ref": "./examples/DeleteShareSubscription.json"
+          }
+        }
+      }
+    }
+  },
+  "responses": {},
+  "security": [],
+  "tags": []
+}

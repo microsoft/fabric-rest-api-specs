@@ -624,6 +624,9 @@
         "x-ms-examples": {
           "Get an eventstream topology example": {
             "$ref": "./examples/GetEventstreamTopology.json"
+          },
+          "Get an eventstream topology with a Business Events source example": {
+            "$ref": "./examples/GetEventstreamBusinessEventsTopology.json"
           }
         }
       }
@@ -827,6 +830,9 @@
           },
           "Get a Reference Lakehouse eventstream source example": {
             "$ref": "./examples/GetEventstreamReferenceLakehouseSource.json"
+          },
+          "Get a Business Events eventstream source example": {
+            "$ref": "./examples/GetEventstreamBusinessEventsSource.json"
           }
         }
       }

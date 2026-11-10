@@ -1,0 +1,42 @@
+{
+    "parameters": {
+        "workspaceId": "00000000-0000-0000-0000-000000000001",
+        "dataAgentId": "00000000-0000-0000-0000-000000000002",
+        "beta": true,
+        "continuationToken": "opaque-token"
+    },
+    "responses": {
+        "200": {
+            "body": {
+                "value": [
+                    {
+                        "id": "fb-2025-0043",
+                        "comment": "The response answered my question.",
+                        "submittedDateTime": "2025-06-10T12:00:00Z",
+                        "feedbackType": "ThumbsUp",
+                        "feedbackSubType": "Accurate",
+                        "channel": "Fabric",
+                        "platform": "Web",
+                        "product": "DataAgent",
+                        "app": "Fabric",
+                        "submitter": {
+                            "id": "b18d9f6a-2a4d-4b6e-9d0c-3e2f1a7c8b55",
+                            "displayName": "Sam Rivera",
+                            "type": "User",
+                            "userDetails": {
+                                "userPrincipalName": "SamR@example.com"
+                            }
+                        },
+                        "aiContext": {
+                            "prompt": "Summarize expenses by department.",
+                            "responseMessage": "Here is the expense summary ..."
+                        },
+                        "hasAttachments": false
+                    }
+                ],
+                "continuationToken": null,
+                "continuationUri": null
+            }
+        }
+    }
+}

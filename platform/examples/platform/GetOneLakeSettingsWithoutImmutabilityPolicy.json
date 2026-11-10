@@ -11,6 +11,10 @@
         "lifecycle": {
           "defaultTier": "Hot",
           "policy": "Inactive"
+        },
+        "fileSoftDelete": {
+          "status": "Enabled",
+          "retentionPeriodInDays": 7
         }
       }
     }

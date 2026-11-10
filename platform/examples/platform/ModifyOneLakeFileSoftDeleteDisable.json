@@ -1,0 +1,12 @@
+{
+  "title": "Disable file soft-delete example",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff227",
+    "modifyOneLakeFileSoftDeleteRequest": {
+      "status": "Disabled"
+    }
+  },
+  "responses": {
+    "200": {}
+  }
+}

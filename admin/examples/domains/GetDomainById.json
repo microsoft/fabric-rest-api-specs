@@ -1,7 +1,6 @@
 {
     "parameters": {
-        "domainId": "f2f6a374-789e-4d1d-9cc7-6e0b934fc529",
-        "preview": "false"
+        "domainId": "f2f6a374-789e-4d1d-9cc7-6e0b934fc529"
     },
     "responses": {
         "200": {

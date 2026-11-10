@@ -4,8 +4,7 @@
             "displayName": "Finance",
             "description": "This domain is used for identifying financial data and reports.",
             "parentDomainId": "5f6552c3-816c-43e7-8289-842f8b35f9df"
-        },
-        "preview": "false"
+        }
     },
     "responses": {
         "201": {
