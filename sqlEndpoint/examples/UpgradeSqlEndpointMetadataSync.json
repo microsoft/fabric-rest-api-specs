@@ -1,0 +1,32 @@
+{
+  "parameters": {
+    "workspaceId": "41ce06d1-d81b-4ea0-bc6d-2ce3dd2f8e87",
+    "itemId": "9b1e77c2-6a4e-4f0b-bd3a-1f2c0d4e5a6b"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "syncArchitectureVersion": "V2",
+        "itemMigrationStatus": "PartiallySucceeded",
+        "tableStatuses": [
+          {
+            "schema": "dbo",
+            "tableName": "Orders",
+            "syncArchitectureVersion": "V2",
+            "lastSuccessfulSyncDateTime": "2026-06-09T14:31:25Z"
+          },
+          {
+            "schema": "dbo",
+            "tableName": "OrderDetails",
+            "syncArchitectureVersion": "V1",
+            "lastSuccessfulSyncDateTime": "2026-06-08T10:15:02Z",
+            "error": {
+              "errorCode": "DeltaTableNotFound",
+              "message": "Delta table 'Tables\\OrderDetails\\_delta_log' was not found."
+            }
+          }
+        ]
+      }
+    }
+  }
+}

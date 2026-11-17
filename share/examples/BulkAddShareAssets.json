@@ -1,0 +1,46 @@
+{
+  "title": "Add share assets example",
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "shareId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "beta": true,
+    "addShareAssetsRequest": {
+      "assets": [
+        {
+          "item": {
+            "referenceType": "ById",
+            "itemId": "d1e2f3a4-5b6c-7d8e-9f0a-1b2c3d4e5f60",
+            "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229"
+          },
+          "shareAs": "MirroredOneLake"
+        }
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "value": [
+          {
+            "item": {
+              "referenceType": "ById",
+              "itemId": "d1e2f3a4-5b6c-7d8e-9f0a-1b2c3d4e5f60",
+              "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229"
+            },
+            "itemType": "Lakehouse",
+            "displayName": "Contoso Sales Lakehouse",
+            "shareAs": "MirroredOneLake",
+            "addedDateTime": "2026-08-01T14:30:00Z"
+          }
+        ]
+      }
+    },
+    "202": {
+      "headers": {
+        "Location": "https://api.fabric.microsoft.com/v1/operations/8e1f2a3b-4c5d-6e7f-8091-a2b3c4d5e6f7",
+        "x-ms-operation-id": "8e1f2a3b-4c5d-6e7f-8091-a2b3c4d5e6f7",
+        "Retry-After": 30
+      }
+    }
+  }
+}

@@ -1,0 +1,1212 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "Playbook data types"
+  },
+  "paths": {},
+  "definitions": {
+    "Playbooks": {
+      "description": "A list of Playbooks.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "A list of Playbooks.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Playbook"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "Playbook": {
+      "description": "A Playbook object.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/Item"
+        }
+      ]
+    },
+    "CreatePlaybookRequest": {
+      "description": "The request payload for creating a Playbook.",
+      "type": "object",
+      "required": [
+        "displayName"
+      ],
+      "properties": {
+        "displayName": {
+          "description": "The Playbook display name.",
+          "type": "string",
+          "readOnly": false
+        },
+        "description": {
+          "description": "The Playbook description. Maximum length is 256 characters.",
+          "type": "string",
+          "maxLength": 256,
+          "readOnly": false
+        },
+        "folderId": {
+          "description": "The folder identifier. If not specified or null, the Playbook is created in the workspace root.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        },
+        "definition": {
+          "description": "The Playbook public definition. If omitted, an empty Playbook is created.",
+          "$ref": "#/definitions/PlaybookDefinition",
+          "readOnly": false
+        },
+        "sensitivityLabelSettings": {
+          "description": "The sensitivity label settings for the Playbook.",
+          "$ref": "../common/definitions.json#/definitions/SensitivityLabelSettings",
+          "readOnly": false
+        }
+      }
+    },
+    "UpdatePlaybookRequest": {
+      "description": "The request payload for updating a Playbook.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "The Playbook display name. Because it is the root segment of every section and content-group path, a new value that would place an existing path or stored descendant beyond the OneLake storage path limits is rejected.",
+          "type": "string",
+          "readOnly": false
+        },
+        "description": {
+          "description": "The Playbook description. Maximum length is 256 characters.",
+          "type": "string",
+          "maxLength": 256,
+          "readOnly": false
+        }
+      }
+    },
+    "PlaybookDefinition": {
+      "description": "The Playbook public definition object. Refer to this [article](/rest/api/fabric/articles/item-management/definitions/playbook-definition) for more details on the structure of the Playbook definition.",
+      "type": "object",
+      "required": [
+        "parts"
+      ],
+      "properties": {
+        "format": {
+          "description": "The format of the Playbook definition. The only supported value is `PlaybookV1`. Additional Playbook definition formats may be added over time.",
+          "type": "string",
+          "enum": [
+            "PlaybookV1"
+          ],
+          "x-ms-enum": {
+            "name": "PlaybookDefinitionFormat",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "PlaybookV1",
+                "description": "The Playbook definition format for the complete section hierarchy."
+              }
+            ]
+          },
+          "readOnly": false
+        },
+        "parts": {
+          "description": "A list of definition parts. Exactly one `PlaybookV1.json` part is required, and an optional `.platform` part can also be included.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlaybookDefinitionPart"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "PlaybookDefinitionPart": {
+      "description": "A Playbook definition part object.",
+      "type": "object",
+      "required": [
+        "path",
+        "payload",
+        "payloadType"
+      ],
+      "properties": {
+        "path": {
+          "description": "The definition part path. Use `PlaybookV1.json` for the complete section hierarchy or `.platform` for standard item metadata.",
+          "type": "string",
+          "readOnly": false
+        },
+        "payload": {
+          "description": "The definition part payload, encoded according to `payloadType`.",
+          "type": "string",
+          "readOnly": false
+        },
+        "payloadType": {
+          "description": "The payload encoding type. Playbook definition parts use `InlineBase64`.",
+          "$ref": "../common/definitions.json#/definitions/PayloadType",
+          "readOnly": false
+        }
+      }
+    },
+    "PlaybookDefinitionResponse": {
+      "description": "The response payload for a Playbook public definition.",
+      "type": "object",
+      "required": [
+        "definition"
+      ],
+      "properties": {
+        "definition": {
+          "description": "The Playbook public definition.",
+          "$ref": "#/definitions/PlaybookDefinition",
+          "readOnly": true
+        }
+      }
+    },
+    "UpdatePlaybookDefinitionRequest": {
+      "description": "The request payload for updating a Playbook public definition.",
+      "type": "object",
+      "required": [
+        "definition"
+      ],
+      "properties": {
+        "definition": {
+          "description": "The complete desired Playbook public definition.",
+          "$ref": "#/definitions/PlaybookDefinition",
+          "readOnly": false
+        }
+      }
+    },
+    "PutSectionResourceRequest": {
+      "description": "The request payload for creating or replacing a section or group.",
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "The description. Omitting this property resets the description to an empty string.",
+          "type": "string",
+          "maxLength": 4000,
+          "readOnly": false
+        }
+      }
+    },
+    "GetSectionResourceResponse": {
+      "description": "The response payload for a section or group.",
+      "type": "object",
+      "required": [
+        "description",
+        "children"
+      ],
+      "properties": {
+        "description": {
+          "description": "The exact description of the addressed resource. An empty string indicates that no description was authored.",
+          "type": "string",
+          "readOnly": true
+        },
+        "children": {
+          "description": "The immediate children of the addressed resource.",
+          "$ref": "#/definitions/SectionResourceChildren",
+          "readOnly": true
+        }
+      }
+    },
+    "GetContextRootResponse": {
+      "description": "The response payload for a section context root.",
+      "type": "object",
+      "required": [
+        "children"
+      ],
+      "properties": {
+        "children": {
+          "description": "The section's groups in the section's group order.",
+          "$ref": "#/definitions/SectionResourceChildren",
+          "readOnly": true
+        }
+      }
+    },
+    "SectionResourceChildren": {
+      "description": "A list of immediate section resources.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "The immediate section resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SectionResourceChild"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "SectionResourceChild": {
+      "description": "An immediate child of a section resource.",
+      "type": "object",
+      "required": [
+        "type",
+        "path"
+      ],
+      "properties": {
+        "type": {
+          "description": "The kind of section resource child.",
+          "$ref": "#/definitions/SectionResourceChildType",
+          "readOnly": true
+        },
+        "path": {
+          "description": "The complete unescaped logical path without a leading slash.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "SectionResourceChildType": {
+      "description": "The kind of section resource child. Additional kinds may be added over time.",
+      "type": "string",
+      "enum": [
+        "section",
+        "contextRoot",
+        "group",
+        "context"
+      ],
+      "x-ms-enum": {
+        "name": "SectionResourceChildType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "section",
+            "description": "A child section."
+          },
+          {
+            "value": "contextRoot",
+            "description": "The context root that holds a section's groups."
+          },
+          {
+            "value": "group",
+            "description": "A group within a section's context root."
+          },
+          {
+            "value": "context",
+            "description": "A context held by a group."
+          }
+        ]
+      }
+    },
+    "SectionRole": {
+      "description": "The role held on a section. Additional section roles may be added over time.",
+      "type": "string",
+      "enum": [
+        "User",
+        "Curator"
+      ],
+      "x-ms-enum": {
+        "name": "SectionRole",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "User",
+            "description": "Grants access to the section without curation rights."
+          },
+          {
+            "value": "Curator",
+            "description": "Grants access and the ability to configure the section and its descendants."
+          }
+        ]
+      }
+    },
+    "SectionRoleAssignment": {
+      "description": "A direct role assignment on a section.",
+      "type": "object",
+      "required": [
+        "principal",
+        "role"
+      ],
+      "properties": {
+        "principal": {
+          "description": "The assigned identity. The `id` and `type` properties are populated; `displayName` is not returned.",
+          "$ref": "../common/definitions.json#/definitions/Principal",
+          "readOnly": true
+        },
+        "role": {
+          "description": "The role the identity holds on the section.",
+          "$ref": "#/definitions/SectionRole",
+          "readOnly": true
+        }
+      }
+    },
+    "SectionRoleAssignmentList": {
+      "description": "A list of direct role assignments on a section.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "The direct role assignments. The order is not guaranteed.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SectionRoleAssignment"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "AddSectionRoleAssignmentRequest": {
+      "description": "The request payload for adding a direct section role assignment.",
+      "type": "object",
+      "required": [
+        "principal",
+        "role"
+      ],
+      "properties": {
+        "principal": {
+          "description": "The identity to assign. The caller supplies `id` and `type`; supported types are `User`, `Group`, and `ServicePrincipal`.",
+          "$ref": "../common/definitions.json#/definitions/Principal",
+          "readOnly": false
+        },
+        "role": {
+          "description": "The role to grant.",
+          "$ref": "#/definitions/SectionRole",
+          "readOnly": false
+        }
+      }
+    },
+    "UpdateSectionRoleAssignmentRequest": {
+      "description": "The request payload for updating a direct section role assignment.",
+      "type": "object",
+      "required": [
+        "role"
+      ],
+      "properties": {
+        "role": {
+          "description": "The new role.",
+          "$ref": "#/definitions/SectionRole",
+          "readOnly": false
+        }
+      }
+    },
+    "CreateOrUpdateContextRequest": {
+      "description": "The request payload for creating or replacing a context.",
+      "type": "object",
+      "required": [
+        "summary"
+      ],
+      "properties": {
+        "summary": {
+          "description": "What the context holds, in the caller's words. It must not be empty or whitespace only, and it can contain at most 2,048 bytes in UTF-8. It is stored and returned exactly as supplied.",
+          "type": "string",
+          "readOnly": false
+        },
+        "content": {
+          "description": "Uploaded content. Supplying both content and reference is invalid.",
+          "$ref": "#/definitions/ContextContent",
+          "readOnly": false
+        },
+        "reference": {
+          "description": "A reference to an external knowledge source. Supplying both content and reference is invalid.",
+          "$ref": "#/definitions/ContextReference",
+          "readOnly": false
+        }
+      }
+    },
+    "UpdateContextRequest": {
+      "description": "The request payload for replacing a context's summary.",
+      "type": "object",
+      "required": [
+        "summary"
+      ],
+      "properties": {
+        "summary": {
+          "description": "The replacement summary. It must not be empty or whitespace only, and it can contain at most 2,048 bytes in UTF-8.",
+          "type": "string",
+          "readOnly": false
+        }
+      }
+    },
+    "Context": {
+      "description": "A stored Playbook section context.",
+      "type": "object",
+      "required": [
+        "summary"
+      ],
+      "properties": {
+        "summary": {
+          "description": "The stored summary.",
+          "type": "string",
+          "readOnly": true
+        },
+        "reference": {
+          "description": "The stored reference. Present only for a reference context.",
+          "$ref": "#/definitions/ContextReference",
+          "readOnly": true
+        },
+        "content": {
+          "description": "The stored ZIP package. Present only when content was requested for an uploaded-content context.",
+          "$ref": "#/definitions/ContextContent",
+          "readOnly": true
+        }
+      }
+    },
+    "ContextContentType": {
+      "description": "The media type of context content. Additional content types may be added over time.",
+      "type": "string",
+      "enum": [
+        "application/zip",
+        "text/markdown",
+        "text/plain"
+      ],
+      "x-ms-enum": {
+        "name": "ContextContentType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "application/zip",
+            "description": "A ZIP package."
+          },
+          {
+            "value": "text/markdown",
+            "description": "A Markdown document."
+          },
+          {
+            "value": "text/plain",
+            "description": "A plain-text document."
+          }
+        ]
+      }
+    },
+    "ContextContent": {
+      "description": "Uploaded or stored context content.",
+      "type": "object",
+      "required": [
+        "type",
+        "data"
+      ],
+      "properties": {
+        "type": {
+          "description": "The media type of the content data.",
+          "$ref": "#/definitions/ContextContentType",
+          "readOnly": false
+        },
+        "data": {
+          "description": "The base64-encoded content. Request data decodes to between 1 byte and 5 MiB. Markdown and plain-text content must be valid UTF-8.",
+          "type": "string",
+          "format": "byte",
+          "readOnly": false
+        }
+      }
+    },
+    "ContextReferenceSourceType": {
+      "description": "The context reference source family. Additional source families may be added over time.",
+      "type": "string",
+      "enum": [
+        "FabricIQ",
+        "WorkIQ",
+        "FoundryIQ",
+        "ConnectorIQ",
+        "WebIQ"
+      ],
+      "x-ms-enum": {
+        "name": "ContextReferenceSourceType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "FabricIQ",
+            "description": "A Fabric IQ source."
+          },
+          {
+            "value": "WorkIQ",
+            "description": "A Work IQ source."
+          },
+          {
+            "value": "FoundryIQ",
+            "description": "A Foundry IQ source."
+          },
+          {
+            "value": "ConnectorIQ",
+            "description": "A Connector IQ source."
+          },
+          {
+            "value": "WebIQ",
+            "description": "A Web IQ source."
+          }
+        ]
+      }
+    },
+    "ContextReferenceItemType": {
+      "description": "The context reference source kind and polymorphic discriminator. Additional source kinds may be added over time.",
+      "type": "string",
+      "enum": [
+        "Report",
+        "SemanticModel",
+        "DataAgent",
+        "Ontology",
+        "Person",
+        "Mail",
+        "Meeting",
+        "Chat",
+        "Channel",
+        "File",
+        "Site",
+        "KnowledgeBase",
+        "ConnectorItem",
+        "WebIQItem"
+      ],
+      "x-ms-enum": {
+        "name": "ContextReferenceItemType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Report",
+            "description": "A Fabric report."
+          },
+          {
+            "value": "SemanticModel",
+            "description": "A Fabric semantic model."
+          },
+          {
+            "value": "DataAgent",
+            "description": "A Fabric data agent."
+          },
+          {
+            "value": "Ontology",
+            "description": "A Fabric ontology."
+          },
+          {
+            "value": "Person",
+            "description": "A Microsoft 365 person."
+          },
+          {
+            "value": "Mail",
+            "description": "A Microsoft 365 mail message."
+          },
+          {
+            "value": "Meeting",
+            "description": "A Microsoft 365 calendar event."
+          },
+          {
+            "value": "Chat",
+            "description": "A Microsoft Teams chat."
+          },
+          {
+            "value": "Channel",
+            "description": "A Microsoft Teams channel."
+          },
+          {
+            "value": "File",
+            "description": "A OneDrive or SharePoint file."
+          },
+          {
+            "value": "Site",
+            "description": "A SharePoint site."
+          },
+          {
+            "value": "KnowledgeBase",
+            "description": "A Foundry knowledge base backed by Azure AI Search."
+          },
+          {
+            "value": "ConnectorItem",
+            "description": "Content surfaced by a Connectors Runtime plugin."
+          },
+          {
+            "value": "WebIQItem",
+            "description": "A public web page."
+          }
+        ]
+      }
+    },
+    "ContextReference": {
+      "description": "A polymorphic reference to an external knowledge source.",
+      "type": "object",
+      "required": [
+        "sourceType",
+        "itemType"
+      ],
+      "discriminator": "itemType",
+      "properties": {
+        "sourceType": {
+          "description": "The source family. It must match the family of the selected item type.",
+          "$ref": "#/definitions/ContextReferenceSourceType",
+          "readOnly": false
+        },
+        "itemType": {
+          "description": "The source kind and polymorphic discriminator.",
+          "$ref": "#/definitions/ContextReferenceItemType",
+          "readOnly": false
+        },
+        "locator": {
+          "description": "An absolute HTTPS address of the source, recorded but never visited. It can contain at most 2,048 characters and must not contain user information, a query, or a fragment.",
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048,
+          "readOnly": false
+        }
+      }
+    },
+    "FabricItemIdentifiers": {
+      "description": "Identifiers for a referenced Fabric item.",
+      "type": "object",
+      "required": [
+        "workspaceId",
+        "itemId"
+      ],
+      "properties": {
+        "workspaceId": {
+          "description": "The ID of the workspace that holds the item. It can differ from the Playbook workspace.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        },
+        "itemId": {
+          "description": "The item ID.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        }
+      }
+    },
+    "PersonIdentifiers": {
+      "description": "Identifiers for a referenced Microsoft 365 person.",
+      "type": "object",
+      "required": [
+        "personId"
+      ],
+      "properties": {
+        "personId": {
+          "description": "The person as `<objectId>@<tenantId>`, with each component a non-zero GUID.",
+          "type": "string",
+          "maxLength": 256,
+          "readOnly": false
+        }
+      }
+    },
+    "MailIdentifiers": {
+      "description": "Identifiers for a referenced Microsoft 365 mail message.",
+      "type": "object",
+      "required": [
+        "itemId"
+      ],
+      "properties": {
+        "itemId": {
+          "description": "The opaque, case-sensitive Microsoft Graph message ID.",
+          "type": "string",
+          "maxLength": 256,
+          "readOnly": false
+        }
+      }
+    },
+    "MeetingIdentifiers": {
+      "description": "Identifiers for a referenced Microsoft 365 calendar event.",
+      "type": "object",
+      "required": [
+        "organizerAddress",
+        "iCalUId"
+      ],
+      "properties": {
+        "organizerAddress": {
+          "description": "The organizer's email address without a display name.",
+          "type": "string",
+          "format": "email",
+          "maxLength": 320,
+          "readOnly": false
+        },
+        "iCalUId": {
+          "description": "The iCalendar UID, which survives across mailboxes and series edits.",
+          "type": "string",
+          "maxLength": 256,
+          "readOnly": false
+        },
+        "isSeries": {
+          "description": "Whether the meeting is recurring. When supplied, the value is stored and returned exactly as supplied.",
+          "type": "boolean",
+          "readOnly": false
+        }
+      }
+    },
+    "ChatIdentifiers": {
+      "description": "Identifiers for a referenced Microsoft Teams chat.",
+      "type": "object",
+      "required": [
+        "chatId"
+      ],
+      "properties": {
+        "chatId": {
+          "description": "The Microsoft Graph chat ID.",
+          "type": "string",
+          "maxLength": 256,
+          "readOnly": false
+        }
+      }
+    },
+    "ChannelIdentifiers": {
+      "description": "Identifiers for a referenced Microsoft Teams channel.",
+      "type": "object",
+      "required": [
+        "teamId",
+        "channelId"
+      ],
+      "properties": {
+        "teamId": {
+          "description": "The Microsoft Graph team ID.",
+          "type": "string",
+          "maxLength": 256,
+          "readOnly": false
+        },
+        "channelId": {
+          "description": "The Microsoft Graph channel ID.",
+          "type": "string",
+          "maxLength": 256,
+          "readOnly": false
+        }
+      }
+    },
+    "FileIdentifiers": {
+      "description": "Identifiers for a referenced OneDrive or SharePoint file.",
+      "type": "object",
+      "required": [
+        "itemId"
+      ],
+      "properties": {
+        "itemId": {
+          "description": "The Microsoft Graph drive item ID.",
+          "type": "string",
+          "maxLength": 256,
+          "readOnly": false
+        },
+        "fileExtension": {
+          "description": "The file extension, without a leading dot. It contains 1 to 10 ASCII letters or digits.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "pattern": "^[A-Za-z0-9]{1,10}$",
+          "readOnly": false
+        }
+      }
+    },
+    "SiteIdentifiers": {
+      "description": "Identifiers for a referenced SharePoint site.",
+      "type": "object",
+      "required": [
+        "siteId"
+      ],
+      "properties": {
+        "siteId": {
+          "description": "The SharePoint site ID in its Work IQ form.",
+          "type": "string",
+          "maxLength": 512,
+          "readOnly": false
+        }
+      }
+    },
+    "KnowledgeBaseIdentifiers": {
+      "description": "Identifiers for a referenced Foundry knowledge base.",
+      "type": "object",
+      "required": [
+        "foundryIQService",
+        "knowledgeBaseName",
+        "api-version"
+      ],
+      "properties": {
+        "foundryIQService": {
+          "description": "The name of the Foundry IQ service that hosts the knowledge base.",
+          "type": "string",
+          "maxLength": 64,
+          "readOnly": false
+        },
+        "knowledgeBaseName": {
+          "description": "The knowledge base name.",
+          "type": "string",
+          "maxLength": 90,
+          "readOnly": false
+        },
+        "api-version": {
+          "description": "The API version with which the knowledge base is addressed.",
+          "type": "string",
+          "maxLength": 32,
+          "readOnly": false
+        }
+      }
+    },
+    "ConnectorItemIdentifiers": {
+      "description": "Identifiers for content surfaced by a Connectors Runtime plugin.",
+      "type": "object",
+      "required": [
+        "pluginName"
+      ],
+      "properties": {
+        "pluginName": {
+          "description": "The display name of the plugin that surfaced the content.",
+          "type": "string",
+          "maxLength": 256,
+          "readOnly": false
+        }
+      }
+    },
+    "WebIQItemIdentifiers": {
+      "description": "Identifiers for a referenced public web page.",
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "description": "The absolute HTTPS address of the page, without user information or a fragment.",
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048,
+          "readOnly": false
+        }
+      }
+    },
+    "ReportReference": {
+      "description": "A Fabric report.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the Fabric report.",
+          "$ref": "#/definitions/FabricItemIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "Report"
+    },
+    "SemanticModelReference": {
+      "description": "A Fabric semantic model.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the Fabric semantic model.",
+          "$ref": "#/definitions/FabricItemIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "SemanticModel"
+    },
+    "DataAgentReference": {
+      "description": "A Fabric data agent.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the Fabric data agent.",
+          "$ref": "#/definitions/FabricItemIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "DataAgent"
+    },
+    "OntologyReference": {
+      "description": "A Fabric ontology.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the Fabric ontology.",
+          "$ref": "#/definitions/FabricItemIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "Ontology"
+    },
+    "PersonReference": {
+      "description": "A Microsoft 365 person.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the Microsoft 365 person.",
+          "$ref": "#/definitions/PersonIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "Person"
+    },
+    "MailReference": {
+      "description": "A Microsoft 365 mail message.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the Microsoft 365 mail message.",
+          "$ref": "#/definitions/MailIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "Mail"
+    },
+    "MeetingReference": {
+      "description": "A Microsoft 365 calendar event.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the Microsoft 365 calendar event.",
+          "$ref": "#/definitions/MeetingIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "Meeting"
+    },
+    "ChatReference": {
+      "description": "A Microsoft Teams chat.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the Microsoft Teams chat.",
+          "$ref": "#/definitions/ChatIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "Chat"
+    },
+    "ChannelReference": {
+      "description": "A Microsoft Teams channel.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the Microsoft Teams channel.",
+          "$ref": "#/definitions/ChannelIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "Channel"
+    },
+    "FileReference": {
+      "description": "A OneDrive or SharePoint file.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the OneDrive or SharePoint file.",
+          "$ref": "#/definitions/FileIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "File"
+    },
+    "SiteReference": {
+      "description": "A SharePoint site.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the SharePoint site.",
+          "$ref": "#/definitions/SiteIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "Site"
+    },
+    "KnowledgeBaseReference": {
+      "description": "A Foundry knowledge base backed by Azure AI Search.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the Foundry knowledge base backed by Azure AI Search.",
+          "$ref": "#/definitions/KnowledgeBaseIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "KnowledgeBase"
+    },
+    "ConnectorItemReference": {
+      "description": "Content surfaced by a Connectors Runtime plugin.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the content surfaced by a Connectors Runtime plugin.",
+          "$ref": "#/definitions/ConnectorItemIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "ConnectorItem"
+    },
+    "WebIQItemReference": {
+      "description": "A public web page.",
+      "type": "object",
+      "required": [
+        "identifiers"
+      ],
+      "properties": {
+        "identifiers": {
+          "description": "The identifiers for the public web page.",
+          "$ref": "#/definitions/WebIQItemIdentifiers",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContextReference"
+        }
+      ],
+      "x-ms-discriminator-value": "WebIQItem"
+    },
+    "LockState": {
+      "description": "Whether and why the caller's preference is locked. Additional policy-driven lock reasons may be added over time.",
+      "type": "string",
+      "enum": [
+        "Unlocked",
+        "LockedByPolicy"
+      ],
+      "x-ms-enum": {
+        "name": "LockState",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Unlocked",
+            "description": "The caller can change the preference."
+          },
+          {
+            "value": "LockedByPolicy",
+            "description": "The preference is locked by policy."
+          }
+        ]
+      }
+    },
+    "UserPreference": {
+      "description": "The resolved calling identity's preference for a Playbook.",
+      "type": "object",
+      "required": [
+        "active",
+        "lockState"
+      ],
+      "properties": {
+        "active": {
+          "description": "Whether the Playbook participates in the caller's Microsoft IQ agent-query context after applying defaults and policy.",
+          "type": "boolean",
+          "readOnly": true
+        },
+        "lockState": {
+          "description": "Whether and why the caller can change the preference.",
+          "$ref": "#/definitions/LockState",
+          "readOnly": true
+        }
+      }
+    },
+    "UpdateUserPreferenceRequest": {
+      "description": "The request payload for changing the calling identity's Playbook preference.",
+      "type": "object",
+      "required": [
+        "active"
+      ],
+      "properties": {
+        "active": {
+          "description": "The desired state. `true` includes the Playbook in the caller's agent-query context; `false` excludes it.",
+          "type": "boolean",
+          "readOnly": false
+        }
+      }
+    }
+  }
+}

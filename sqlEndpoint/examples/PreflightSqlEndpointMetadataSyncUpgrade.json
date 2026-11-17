@@ -1,0 +1,26 @@
+{
+  "parameters": {
+    "workspaceId": "41ce06d1-d81b-4ea0-bc6d-2ce3dd2f8e87",
+    "itemId": "9b1e77c2-6a4e-4f0b-bd3a-1f2c0d4e5a6b"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "evaluatedTableCount": 1250,
+        "eligibleTableCount": 1248,
+        "blockers": [
+          {
+            "schema": "dbo",
+            "tableName": "LegacyAudit",
+            "correctiveAction": "Remove the unsupported column type before upgrading, then rerun preflight."
+          },
+          {
+            "schema": "sales",
+            "tableName": "ArchivedOrders",
+            "correctiveAction": "Recreate the table with a supported Delta writer version, then rerun preflight."
+          }
+        ]
+      }
+    }
+  }
+}

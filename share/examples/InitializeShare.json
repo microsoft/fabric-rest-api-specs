@@ -1,0 +1,57 @@
+{
+  "title": "Initialize a share example",
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "shareId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "beta": true,
+    "initializeShareRequest": {
+      "assets": [
+        {
+          "item": {
+            "referenceType": "ById",
+            "itemId": "d1e2f3a4-5b6c-7d8e-9f0a-1b2c3d4e5f60",
+            "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229"
+          },
+          "shareAs": "MirroredOneLake"
+        }
+      ],
+      "recipients": [
+        {
+          "type": "User",
+          "userPrincipalName": "dana@fabrikam.com",
+          "tenantId": "9f8e7d6c-5b4a-3210-fedc-ba9876543210"
+        }
+      ],
+      "sharePolicies": [
+        {
+          "type": "ShareExpiration",
+          "properties": {
+            "expirationDateTime": "2026-12-31T23:59:59Z"
+          }
+        }
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+        "displayName": "Contoso Sales Q3 Share",
+        "type": "Share",
+        "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+        "properties": {
+          "invitationUrl": "https://app.fabric.microsoft.com/share/invite/cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+          "shareStatus": "Active",
+          "shareVersion": "0003"
+        }
+      }
+    },
+    "202": {
+      "headers": {
+        "Location": "https://api.fabric.microsoft.com/v1/operations/8e1f2a3b-4c5d-6e7f-8091-a2b3c4d5e6f7",
+        "x-ms-operation-id": "8e1f2a3b-4c5d-6e7f-8091-a2b3c4d5e6f7",
+        "Retry-After": 30
+      }
+    }
+  }
+}

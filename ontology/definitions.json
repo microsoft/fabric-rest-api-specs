@@ -154,6 +154,140 @@
           "readOnly": false
         }
       }
+    },
+    "ItemVersions": {
+      "description": "A list of item versions.",
+      "required": [ "value" ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "A list of item versions in the current result page, ordered from newest to oldest.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemVersion"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "ItemVersion": {
+      "description": "An item version object.",
+      "type": "object",
+      "required": [ "id", "displayName", "createdDateTime", "createdBy", "creationSource" ],
+      "properties": {
+        "id": {
+          "description": "The version ID.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "displayName": {
+          "description": "The display name of the version.",
+          "type": "string",
+          "maxLength": 100,
+          "readOnly": false
+        },
+        "description": {
+          "description": "The description of the version.",
+          "type": "string",
+          "maxLength": 500,
+          "readOnly": false
+        },
+        "createdDateTime": {
+          "description": "The time when the version was captured, in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "createdBy": {
+          "description": "The identity that created the version.",
+          "$ref": "../common/definitions.json#/definitions/Principal",
+          "readOnly": true
+        },
+        "creationSource": {
+          "description": "The source that created the version.",
+          "$ref": "#/definitions/ItemVersionCreationSource",
+          "readOnly": false
+        }
+      }
+    },
+    "CreateItemVersionRequest": {
+      "description": "The request payload for creating an item version.",
+      "type": "object",
+      "required": [ "displayName" ],
+      "properties": {
+        "displayName": {
+          "description": "The display name of the version. The name does not need to be unique.",
+          "type": "string",
+          "maxLength": 100,
+          "readOnly": false
+        },
+        "description": {
+          "description": "The description of the version.",
+          "type": "string",
+          "maxLength": 500,
+          "readOnly": false
+        },
+        "creationSource": {
+          "description": "The source creating the version. The default value is `Manual`.",
+          "$ref": "#/definitions/ItemVersionCreationSource",
+          "readOnly": false
+        }
+      }
+    },
+    "UpdateItemVersionRequest": {
+      "description": "The request payload for updating an item version.",
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "displayName": {
+          "description": "The new display name of the version.",
+          "type": "string",
+          "maxLength": 100,
+          "readOnly": false
+        },
+        "description": {
+          "description": "The new description of the version.",
+          "type": "string",
+          "maxLength": 500,
+          "readOnly": false
+        }
+      }
+    },
+    "RestoreItemVersionRequest": {
+      "description": "The request payload for restoring an item version.",
+      "type": "object",
+      "properties": {
+        "options": {
+          "description": "The item-type-defined import options controlling how the stored definition is applied.",
+          "type": "object",
+          "readOnly": false
+        }
+      }
+    },
+    "ItemVersionCreationSource": {
+      "description": "The source that created an item version. Additional item version creation source types may be added over time.",
+      "type": "string",
+      "enum": [ "Manual", "Automatic" ],
+      "x-ms-enum": {
+        "name": "ItemVersionCreationSource",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Manual",
+            "description": "The caller created the version as a manual action."
+          },
+          {
+            "value": "Automatic",
+            "description": "The caller created the version as part of an automated flow."
+          }
+        ]
+      }
     }
   }
 }

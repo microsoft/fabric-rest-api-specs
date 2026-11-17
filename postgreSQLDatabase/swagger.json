@@ -1,0 +1,533 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "PostgreSQLDatabase REST APIs",
+    "version": "v1"
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "api.fabric.microsoft.com",
+  "basePath": "/v1",
+  "paths": {
+    "/workspaces/{workspaceId}/postgreSQLDatabases": {
+      "get": {
+        "summary": "Lists PostgreSQL databases in the specified workspace.",
+        "description": "> [!NOTE]\n> PostgreSQLDatabase item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must have a *viewer* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *PostgreSQL database (preview)* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_ListPostgreSQLDatabases",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "recursive",
+            "description": "Lists items in a folder and its nested folders, or just a folder only. True - All items in the folder and its nested folders are listed, False - Only items in the folder are listed. The default value is true.",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rootFolderId",
+            "description": "This parameter allows users to filter items based on a specific root folder. If not provided, the workspace is used as the root folder.",
+            "type": "string",
+            "format": "uuid",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/PostgreSQLDatabases"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidItemType - Invalid item type.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List PostgreSQL databases in workspace example": {
+            "$ref": "./examples/ListPostgreSQLDatabasesInWorkspace.json"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a PostgreSQL database in the specified workspace.",
+        "description": "> [!NOTE]\n> PostgreSQLDatabase item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nTo create a PostgreSQL database with a definition, refer to the [PostgreSQL database definition](/rest/api/fabric/articles/item-management/definitions/postgresql-database-definition) article.\n\n## Permissions\n\nThe caller must have a *contributor* workspace role.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *PostgreSQL database (preview)* admin switch for the calling principal.\n\n## Limitations\n\n- To create a PostgreSQL database, the workspace must be on a supported Fabric capacity. For more information, see [Microsoft Fabric license types](/fabric/enterprise/licenses#microsoft-fabric-license-types).\n- The display name can't exceed 63 characters, including a display name supplied in the `.platform` part of the definition.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_CreatePostgreSQLDatabase",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "createPostgreSQLDatabaseRequest",
+            "description": "Create item request payload.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CreatePostgreSQLDatabaseRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully created.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/PostgreSQLDatabase"
+            }
+          },
+          "202": {
+            "description": "Request accepted, PostgreSQL database provisioning is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidItemType - Item type is invalid.\n\n* ItemDisplayNameAlreadyInUse - Item display name is already used.\n\n* InvalidItemDisplayName - Item display name is invalid.\n\n* CorruptedPayload - The provided payload is corrupted.\n\n* InvalidWorkloadPayload - The database creation payload is invalid.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create a PostgreSQL database without a definition example": {
+            "$ref": "./examples/CreatePostgreSQLDatabaseWithoutDefinition.json"
+          },
+          "Create a PostgreSQL database with a definition example": {
+            "$ref": "./examples/CreatePostgreSQLDatabaseWithDefinition.json"
+          },
+          "Create a PostgreSQL database with origin metadata example": {
+            "$ref": "./examples/CreatePostgreSQLDatabaseWithCreationPayload.json"
+          },
+          "Create a PostgreSQL database with null origin metadata example": {
+            "$ref": "./examples/CreatePostgreSQLDatabaseWithNullOriginatingProduct.json"
+          }
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/workspaces/{workspaceId}/postgreSQLDatabases/{postgreSQLDatabaseId}": {
+      "get": {
+        "summary": "Gets the specified PostgreSQL database.",
+        "description": "> [!NOTE]\n> PostgreSQLDatabase item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\n## Permissions\n\nThe caller must have *read* permissions for the PostgreSQL database.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *PostgreSQL database (preview)* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_GetPostgreSQLDatabase",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "postgreSQLDatabaseId",
+            "description": "The PostgreSQL database ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/PostgreSQLDatabase"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a PostgreSQL database example": {
+            "$ref": "./examples/GetPostgreSQLDatabase.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates the specified PostgreSQL database.",
+        "description": "> [!NOTE]\n> PostgreSQLDatabase item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nUpdates the display name, description, or both for the specified PostgreSQL database.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the PostgreSQL database.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *PostgreSQL database (preview)* admin switch for the calling principal.\n\n## Limitations\n\nThe display name can't exceed 63 UTF-16 code units. A character outside the Basic Multilingual Plane, such as most emoji, counts as two.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_UpdatePostgreSQLDatabase",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "postgreSQLDatabaseId",
+            "description": "The PostgreSQL database ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updatePostgreSQLDatabaseRequest",
+            "description": "Update PostgreSQL database request payload.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdatePostgreSQLDatabaseRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/PostgreSQLDatabase"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.\n\n* InvalidRequest - The update request is invalid.\n\n* InvalidItemDisplayName - Item display name is invalid.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update a PostgreSQL database example": {
+            "$ref": "./examples/UpdatePostgreSQLDatabase.json"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes the specified PostgreSQL database.",
+        "description": "> [!NOTE]\n> PostgreSQLDatabase item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nDeletes the specified PostgreSQL database immediately and permanently. The `hardDelete` parameter does not change this behavior for this item type.\n\n## Permissions\n\nThe caller must have *write* permissions for the PostgreSQL database.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *PostgreSQL database (preview)* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_DeletePostgreSQLDatabase",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "postgreSQLDatabaseId",
+            "description": "The PostgreSQL database ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "hardDelete",
+            "description": "Specifies whether to perform a hard delete. PostgreSQL databases are always deleted immediately and permanently, so `false` behaves the same as `true`.",
+            "type": "boolean",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a PostgreSQL database example": {
+            "$ref": "./examples/DeletePostgreSQLDatabase.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/postgreSQLDatabases/{postgreSQLDatabaseId}/getDefinition": {
+      "post": {
+        "summary": "Gets the PostgreSQL database definition.",
+        "description": "> [!NOTE]\n> PostgreSQLDatabase item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nGets the authored PostgreSQL schema in the `pgschema` definition format. The exported definition does not include table data, credentials, connection details, the item display name, the item description, or the sensitivity label.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the PostgreSQL database.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *PostgreSQL database (preview)* admin switch for the calling principal.\n\n## Limitations\n\nTo retrieve the definition of a PostgreSQL database item protected by an encrypted sensitivity label, the caller must have sufficient [usage rights](/fabric/enterprise/powerbi/service-security-sensitivity-label-change-enforcement) to remove the label, as configured in [Microsoft Purview](/purview/purview).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_GetPostgreSQLDatabaseDefinition",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "postgreSQLDatabaseId",
+            "description": "The PostgreSQL database ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "description": "The format of the PostgreSQL database public definition. The supported value is `pgschema`.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/PostgreSQLDatabaseDefinitionResponse"
+            }
+          },
+          "202": {
+            "description": "Request accepted. Retrieving the definition is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* OperationNotSupportedForItem - Operation not supported for requested item.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a PostgreSQL database definition example": {
+            "$ref": "./examples/GetPostgreSQLDatabaseDefinition.json"
+          }
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/workspaces/{workspaceId}/postgreSQLDatabases/{postgreSQLDatabaseId}/updateDefinition": {
+      "post": {
+        "summary": "Updates the PostgreSQL database definition.",
+        "description": "> [!NOTE]\n> PostgreSQLDatabase item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nOverrides the authored PostgreSQL schema with the submitted `pgschema` definition. Any schema change requires `options.allowTableRebuild` to be `true`; an identical schema succeeds as a no-op without consent. Applying a definition does not change the item's sensitivity label.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the PostgreSQL database.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *PostgreSQL database (preview)* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_UpdatePostgreSQLDatabaseDefinition",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "postgreSQLDatabaseId",
+            "description": "The PostgreSQL database ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "updateMetadata",
+            "description": "When set to `true` and the `.platform` file is provided as part of the definition, the item's display name and description are updated using the metadata in the `.platform` file.",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "body",
+            "name": "updatePostgreSQLDatabaseDefinitionRequest",
+            "description": "Update PostgreSQL database definition request payload.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdatePostgreSQLDatabaseDefinitionRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. Updating the definition is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* OperationNotSupportedForItem - The operation isn't supported for the requested item.\n\n* CorruptedPayload - The provided payload is corrupted.\n\n* RequiredOptionsMissing - A required definition application option is missing.\n\n* InvalidItemDisplayName - Item display name is invalid.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update a PostgreSQL database definition example": {
+            "$ref": "./examples/UpdatePostgreSQLDatabaseDefinition.json"
+          }
+        },
+        "x-ms-long-running-operation": true
+      }
+    }
+  },
+  "responses": {},
+  "security": [],
+  "tags": []
+}

@@ -1,0 +1,35 @@
+{
+  "title": "List share recipients example",
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "shareId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "beta": true
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "value": [
+          {
+            "recipient": {
+              "type": "User",
+              "userPrincipalName": "dana@fabrikam.com",
+              "tenantId": "9f8e7d6c-5b4a-3210-fedc-ba9876543210"
+            },
+            "invitationAcceptanceStatus": "Pending",
+            "addedDateTime": "2026-08-01T14:31:00Z"
+          },
+          {
+            "recipient": {
+              "type": "ServicePrincipal",
+              "principalId": "11112222-3333-4444-5555-666677778888",
+              "tenantId": "9f8e7d6c-5b4a-3210-fedc-ba9876543210"
+            },
+            "invitationAcceptanceStatus": "Active",
+            "addedDateTime": "2026-08-01T14:31:00Z",
+            "invitationAcceptedDateTime": "2026-08-02T09:15:00Z"
+          }
+        ]
+      }
+    }
+  }
+}

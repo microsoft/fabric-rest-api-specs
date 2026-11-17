@@ -1,0 +1,24 @@
+{
+  "title": "Create Report reference context",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "7e528b21-3d0f-4b79-9451-b7f67905e35d",
+    "path": "Contoso/Sales/_context/Sources/report.md",
+    "resource": "context",
+    "createOrUpdateContextRequest": {
+      "summary": "A Fabric report used for sales analysis.",
+      "reference": {
+        "sourceType": "FabricIQ",
+        "itemType": "Report",
+        "identifiers": {
+          "workspaceId": "9a2f6c1e-4b7d-4e2a-8f3c-5d6e7f8a9b0c",
+          "itemId": "11111111-1111-4111-8111-111111111111"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {},
+    "201": {}
+  }
+}

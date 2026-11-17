@@ -387,6 +387,179 @@
         }
       }
     },
+    "/workspaces/{workspaceId}/lakehouses/{lakehouseId}/semanticViews?beta=true": {
+      "get": {
+        "summary": "Lists the semantic views in the specified lakehouse.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Semantic Views is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\nReturns a paginated list of semantic views authored inside the specified lakehouse. Each entry includes the semantic view name used by the publish operation.\n\n## Permissions\n\nThe caller must have *read* permission on the lakehouse.\n\n## Required Delegated Scopes\n\nLakehouse.Read.All or Lakehouse.ReadWrite.All or Item.Read.All or Item.ReadWrite.All\n\n## Limitations\n\nOnly lakehouse items are supported.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "SemanticViews"
+        ],
+        "operationId": "SemanticViews_List_(beta)",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "lakehouseId",
+            "description": "The lakehouse ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "maxResults",
+            "description": "The maximum number of results per page to return.",
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/SemanticViews"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested lakehouse was not found.\n\n* InvalidItemType - The requested item is not a lakehouse.\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to list semantic views.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List semantic views example": {
+            "$ref": "./examples/ListSemanticViews.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/lakehouses/{lakehouseId}/semanticViews/{semanticViewName}/publish?beta=true": {
+      "post": {
+        "summary": "Publishes the specified semantic view in the specified lakehouse.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Semantic Views is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nCompiles the named semantic view authored inside the specified lakehouse into a governed, read-only Direct Lake semantic model. The authored semantic view remains the source of truth, and republishing the same view updates the same derived semantic model without creating duplicates.\n\n## Permissions\n\nThe caller must have *read and write* permissions on the lakehouse.\n\n## Required Delegated Scopes\n\nLakehouse.ReadWrite.All or Item.ReadWrite.All\n\n## Limitations\n\nOnly lakehouse items are supported. In this release, the operation always completes synchronously with a `200` response. Clients must also support the `202` response for future asynchronous completion.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "SemanticViews"
+        ],
+        "operationId": "SemanticViews_Publish_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "lakehouseId",
+            "description": "The lakehouse ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "semanticViewName",
+            "description": "The name of the authored semantic view to publish.",
+            "type": "string",
+            "minLength": 1,
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "beta",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta.",
+            "type": "boolean",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/PublishSemanticViewResponse"
+            }
+          },
+          "202": {
+            "description": "Request accepted, semantic view publishing is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested lakehouse was not found.\n\n* InvalidItemType - The requested item is not a lakehouse.\n\n* SemanticViewNotFoundOrEmpty - The semantic view does not exist or has no publishable content.\n\n* UnsupportedSemanticViewContent - The semantic view contains unsupported authored content that prevents publishing.\n\n* SemanticModelNameConflict - The target semantic model name is already used by a user-owned model.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Publish semantic view example": {
+            "$ref": "./examples/PublishSemanticView.json"
+          }
+        }
+      }
+    },
     "/workspaces/{workspaceId}/lakehouses/{lakehouseId}/tables": {
       "get": {
         "summary": "Returns a list of lakehouse Tables.",

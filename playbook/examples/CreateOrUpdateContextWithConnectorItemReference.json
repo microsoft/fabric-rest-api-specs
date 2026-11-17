@@ -1,0 +1,23 @@
+{
+  "title": "Create ConnectorItem reference context",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "7e528b21-3d0f-4b79-9451-b7f67905e35d",
+    "path": "Contoso/Sales/_context/Sources/connectorItem.md",
+    "resource": "context",
+    "createOrUpdateContextRequest": {
+      "summary": "HR tickets surfaced through the Contoso HR connector.",
+      "reference": {
+        "sourceType": "ConnectorIQ",
+        "itemType": "ConnectorItem",
+        "identifiers": {
+          "pluginName": "Contoso HR"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {},
+    "201": {}
+  }
+}

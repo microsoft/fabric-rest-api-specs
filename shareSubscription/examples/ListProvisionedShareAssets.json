@@ -1,0 +1,36 @@
+{
+  "title": "List provisioned share assets example",
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "shareSubscriptionId": "e3c9a7b2-5d4f-4a81-9c62-7b0e1d3f8a45",
+    "beta": true
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "value": [
+          {
+            "item": {
+              "referenceType": "ById",
+              "itemId": "c9d8e7f6-1a2b-3c4d-5e6f-7a8b9c0d1e2f",
+              "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229"
+            },
+            "displayName": "Contoso Sales (Mirrored)",
+            "itemType": "MirroredOneLake",
+            "addedDateTime": "2026-08-20T14:32:00Z"
+          },
+          {
+            "item": {
+              "referenceType": "ById",
+              "itemId": "1f2e3d4c-5b6a-7980-1234-56789abcdef0",
+              "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229"
+            },
+            "displayName": "Contoso Marketing (Mirrored)",
+            "itemType": "MirroredOneLake",
+            "addedDateTime": "2026-08-21T09:05:00Z"
+          }
+        ]
+      }
+    }
+  }
+}

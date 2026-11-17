@@ -1,0 +1,2487 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Playbook REST APIs",
+    "version": "v1"
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "api.fabric.microsoft.com",
+  "basePath": "/v1",
+  "paths": {
+    "/workspaces/{workspaceId}/playbooks": {
+      "get": {
+        "summary": "Lists Playbooks in the specified workspace.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must have a *viewer* workspace role.\n\n## Required Delegated Scopes\n\nWorkspace.Read.All or Workspace.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_ListPlaybooks",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "recursive",
+            "description": "Whether to include items in nested folders. The default value is `true`; when `false`, only items directly in the selected folder are listed.",
+            "type": "boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rootFolderId",
+            "description": "The folder used as the listing root. If not specified, the workspace is used as the root.",
+            "type": "string",
+            "format": "uuid",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/Playbooks"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidItemType - The item type is invalid.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List Playbooks in a workspace": {
+            "$ref": "./examples/ListPlaybooksInWorkspace.json"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a Playbook in the specified workspace.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nCreates an empty Playbook when no definition is supplied. When a definition is supplied, the complete desired section hierarchy is created.\n\n## Permissions\n\nThe caller must have a *contributor* workspace role.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Limitations\n\n- The workspace must be on a supported Fabric capacity.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_CreatePlaybook",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "createPlaybookRequest",
+            "description": "The request payload for creating a Playbook.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CreatePlaybookRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/Playbook"
+            }
+          },
+          "202": {
+            "description": "Request accepted, Playbook provisioning is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation identifier, which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation identifier, which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "description": "The number of seconds to wait before retrying the request.",
+                "type": "integer"
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidItemType - The item type is invalid.\n\n* ItemDisplayNameAlreadyInUse - The item display name is already in use.\n\n* CorruptedPayload - The provided payload is corrupted.\n\n* WorkspaceItemsLimitExceeded - The workspace item limit was exceeded.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create an empty Playbook": {
+            "$ref": "./examples/CreatePlaybookWithoutDefinition.json"
+          },
+          "Create a Playbook with a definition": {
+            "$ref": "./examples/CreatePlaybookWithDefinition.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/playbooks/{playbookId}": {
+      "get": {
+        "summary": "Gets the specified Playbook.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\n## Permissions\n\nThe caller must have *read* permissions for the Playbook.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_GetPlaybook",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/Playbook"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a Playbook": {
+            "$ref": "./examples/GetPlaybook.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates the specified Playbook.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nUpdates standard mutable item metadata. Omitted fields remain unchanged.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the Playbook.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_UpdatePlaybook",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updatePlaybookRequest",
+            "description": "The request payload for updating a Playbook.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdatePlaybookRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/Playbook"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.\n\n* InvalidRequest - The update request is invalid.\n\n* InvalidSectionPath - The new display name would make an existing section, content-group path, or stored descendant exceed the storage path limits.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update a Playbook": {
+            "$ref": "./examples/UpdatePlaybook.json"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes the specified Playbook.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\n## Permissions\n\nThe caller must have *write* permissions for the Playbook.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_DeletePlaybook",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a Playbook": {
+            "$ref": "./examples/DeletePlaybook.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/playbooks/{playbookId}/getDefinition": {
+      "post": {
+        "summary": "Gets the specified Playbook public definition.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nReturns the complete current section hierarchy in the `PlaybookV1.json` definition part.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the Playbook.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Limitations\n\nTo retrieve the definition of a Playbook item protected by an encrypted sensitivity label, the caller must have sufficient [usage rights](/fabric/enterprise/powerbi/service-security-sensitivity-label-change-enforcement) to remove the label, as configured in [Microsoft Purview](/purview/purview).\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_GetPlaybookDefinition",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "description": "The requested definition format. The only supported value is `PlaybookV1`; if omitted, `PlaybookV1` is returned. Additional formats may be added over time.",
+            "type": "string",
+            "enum": [
+              "PlaybookV1"
+            ],
+            "x-ms-enum": {
+              "name": "PlaybookDefinitionFormat",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "PlaybookV1",
+                  "description": "Playbook version 1 definition format."
+                }
+              ]
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/PlaybookDefinitionResponse"
+            }
+          },
+          "202": {
+            "description": "Request accepted. Retrieving the definition is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation identifier, which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation identifier, which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "description": "The number of seconds to wait before retrying the request.",
+                "type": "integer"
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* OperationNotSupportedForItem - The operation is not supported for the requested item.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a Playbook definition": {
+            "$ref": "./examples/GetPlaybookDefinition.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/playbooks/{playbookId}/updateDefinition": {
+      "post": {
+        "summary": "Updates the specified Playbook public definition.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nReconciles the Playbook to the complete desired section hierarchy in the supplied definition. Sections omitted from the definition and the content under them are removed.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the Playbook.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_UpdatePlaybookDefinition",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "updateMetadata",
+            "description": "Whether to update the item's standard metadata when a `.platform` part is included. This parameter does not affect the section hierarchy.",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "body",
+            "name": "updatePlaybookDefinitionRequest",
+            "description": "The request payload for updating a Playbook public definition.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdatePlaybookDefinitionRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. Updating the definition is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation identifier, which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation identifier, which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "description": "The number of seconds to wait before retrying the request.",
+                "type": "integer"
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* OperationNotSupportedForItem - The operation is not supported for the requested item.\n\n* CorruptedPayload - The provided payload is corrupted.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update a Playbook definition": {
+            "$ref": "./examples/UpdatePlaybookDefinition.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/playbooks/{playbookId}/sections/{path}?resource=section": {
+      "put": {
+        "summary": "Creates, updates, or renames a section.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nCreates or replaces a section when `x-ms-rename-source` is omitted. Renames a section within its current parent when the header is supplied.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the section or an ancestor.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Limitations\n\n- A rename can change only the leaf name within the same parent.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Sections"
+        ],
+        "operationId": "Sections_CreateOrUpdateSection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `section`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-ms-rename-source",
+            "description": "The current complete logical path in rename mode. The value is ASCII percent-encoded, includes the root, and uses literal `/` separators.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "body",
+            "name": "putSectionResourceRequest",
+            "description": "The section request payload. Required for create or update mode and omitted for rename mode.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/PutSectionResourceRequest"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The existing section was updated successfully."
+          },
+          "201": {
+            "description": "The section was created or renamed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRequest - The request is invalid.\n\n* InvalidSectionPath - The section path is invalid.\n\n* SectionNotFound - The requested section was not found.\n\n* SectionLimitExceeded - A section resource limit was exceeded.\n\n* SectionOperationInProgress - A conflicting section operation is in progress.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create or update a section": {
+            "$ref": "./examples/CreateOrUpdateSection.json"
+          },
+          "Rename a section": {
+            "$ref": "./examples/RenameSection.json"
+          }
+        },
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "summary": "Gets a section.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nGets the section description and its immediate children. The context root is always the first child.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the section or an ancestor, or an effective *User* or *Curator* role on the section or a descendant. Each child is filtered independently by the same rule.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Sections"
+        ],
+        "operationId": "Sections_GetSection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `section`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/GetSectionResourceResponse"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidSectionPath - The section path is invalid.\n\n* SectionNotFound - The requested section was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a section": {
+            "$ref": "./examples/GetSection.json"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a section.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nDeletes the section. By default, the section must contain no child section or stored context. When `recursive` is `true`, the section and everything beneath it are deleted.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the section.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Sections"
+        ],
+        "operationId": "Sections_DeleteSection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `section`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "recursive",
+            "description": "Whether to delete the resource and everything beneath it. The default value is `false`.",
+            "type": "boolean",
+            "default": false,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The section was deleted successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRequest - The request is invalid.\n\n* InvalidSectionPath - The section path is invalid.\n\n* SectionNotFound - The requested section was not found.\n\n* SectionNotEmpty - The section is not empty.\n\n* SectionOperationInProgress - A conflicting section operation is in progress.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a section recursively": {
+            "$ref": "./examples/DeleteSection.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/playbooks/{playbookId}/sections/{path}?resource=contextRoot": {
+      "get": {
+        "summary": "Lists groups in a section.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\nLists every group in the section's group order. Pagination is not currently active, so the continuation properties are omitted.\n\n## Permissions\n\nThe caller must have an effective *User* or *Curator* role on the section.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Groups"
+        ],
+        "operationId": "Groups_ListGroups",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `contextRoot`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/GetContextRootResponse"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidSectionPath - The section path is invalid.\n\n* SectionNotFound - The requested section was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List groups": {
+            "$ref": "./examples/ListGroups.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/playbooks/{playbookId}/sections/{path}?resource=group": {
+      "put": {
+        "summary": "Creates, updates, or renames a group.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nCreates or replaces a group when `x-ms-rename-source` is omitted. Renames a group when the header is supplied.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the section.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Groups"
+        ],
+        "operationId": "Groups_CreateOrUpdateGroup",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `group`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-ms-rename-source",
+            "description": "The current complete logical path in rename mode. The value is ASCII percent-encoded, includes the root, and uses literal `/` separators.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "body",
+            "name": "putSectionResourceRequest",
+            "description": "The group request payload. Required for create or update mode and omitted for rename mode.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/PutSectionResourceRequest"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The existing group was updated successfully."
+          },
+          "201": {
+            "description": "The group was created or renamed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRequest - The request is invalid.\n\n* InvalidSectionPath - The group path is invalid.\n\n* SectionNotFound - The containing section was not found.\n\n* SectionGroupAlreadyExists - The target group already exists.\n\n* SectionOperationInProgress - A conflicting section operation is in progress.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create or update a group": {
+            "$ref": "./examples/CreateOrUpdateGroup.json"
+          },
+          "Rename a group": {
+            "$ref": "./examples/RenameGroup.json"
+          }
+        },
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "summary": "Gets a group.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nGets the group description and the contexts it holds. Pagination is not currently active, so the continuation properties are omitted.\n\n## Permissions\n\nThe caller must have an effective *User* or *Curator* role on the section.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Groups"
+        ],
+        "operationId": "Groups_GetGroup",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `group`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/GetSectionResourceResponse"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidSectionPath - The group path is invalid.\n\n* SectionNotFound - The containing section was not found.\n\n* SectionGroupNotFound - The requested group was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a group": {
+            "$ref": "./examples/GetGroup.json"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a group.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nDeletes the group. By default, the group must be empty. When `recursive` is `true`, the group and every context it holds are deleted.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the section.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Groups"
+        ],
+        "operationId": "Groups_DeleteGroup",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `group`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "recursive",
+            "description": "Whether to delete the resource and everything beneath it. The default value is `false`.",
+            "type": "boolean",
+            "default": false,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The group was deleted successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidSectionPath - The group path is invalid.\n\n* SectionNotFound - The containing section was not found.\n\n* SectionGroupNotFound - The requested group was not found.\n\n* SectionGroupNotEmpty - The group is not empty.\n\n* SectionOperationInProgress - A conflicting section operation is in progress.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a group recursively": {
+            "$ref": "./examples/DeleteGroup.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/playbooks/{playbookId}/sections/roleAssignments/{sectionPath}": {
+      "get": {
+        "summary": "Lists direct section role assignments.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\nLists role assignments made directly on the section. Inherited access is not returned. Pagination is not currently active, so the continuation properties are omitted.\n\n## Permissions\n\nThe caller must have an effective *User* or *Curator* role on the section.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "SectionRoleAssignments"
+        ],
+        "operationId": "SectionRoleAssignments_ListSectionRoleAssignments",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "sectionPath",
+            "description": "The complete logical section path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/SectionRoleAssignmentList"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidSectionPath - The section path is invalid.\n\n* SectionNotFound - The requested section was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List direct section role assignments": {
+            "$ref": "./examples/ListSectionRoleAssignments.json"
+          }
+        }
+      },
+      "post": {
+        "summary": "Adds a direct section role assignment.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nAdds one direct role assignment for a user, security group, service principal, or managed identity.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the section.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "SectionRoleAssignments"
+        ],
+        "operationId": "SectionRoleAssignments_AddSectionRoleAssignment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "sectionPath",
+            "description": "The complete logical section path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "addSectionRoleAssignmentRequest",
+            "description": "The request payload for adding a direct section role assignment.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/AddSectionRoleAssignmentRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The direct section role assignment was added successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/SectionRoleAssignment"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidSectionPath - The section path is invalid.\n\n* InvalidRole - The requested section role is invalid.\n\n* PrincipalNotFound - The principal was not found.\n\n* PrincipalTypeMismatch - The principal type is invalid or does not match the identity.\n\n* SectionRoleAssignmentAlreadyExists - A direct role assignment for the principal already exists.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Add a direct section role assignment": {
+            "$ref": "./examples/AddSectionRoleAssignment.json"
+          }
+        },
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "patch": {
+        "summary": "Updates a direct section role assignment.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nChanges the role held by a principal that already has a direct assignment on the section.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the section.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "SectionRoleAssignments"
+        ],
+        "operationId": "SectionRoleAssignments_UpdateSectionRoleAssignment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "sectionPath",
+            "description": "The complete logical section path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "principalId",
+            "description": "The principal identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateSectionRoleAssignmentRequest",
+            "description": "The request payload for updating a direct section role assignment.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdateSectionRoleAssignmentRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The direct section role assignment was updated successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/SectionRoleAssignment"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidSectionPath - The section path is invalid.\n\n* InvalidRole - The requested section role is invalid.\n\n* SectionNotFound - The requested section was not found.\n\n* SectionRoleAssignmentNotFound - The direct role assignment was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update a direct section role assignment": {
+            "$ref": "./examples/UpdateSectionRoleAssignment.json"
+          }
+        },
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "summary": "Deletes a direct section role assignment.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nRemoves the direct role assignment for the specified principal.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the section.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "SectionRoleAssignments"
+        ],
+        "operationId": "SectionRoleAssignments_DeleteSectionRoleAssignment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "sectionPath",
+            "description": "The complete logical section path rooted at the Playbook display name. The value can contain slash-separated segments and matches to the end of the route.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "principalId",
+            "description": "The principal identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The direct section role assignment was deleted successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidSectionPath - The section path is invalid.\n\n* SectionNotFound - The requested section was not found.\n\n* SectionRoleAssignmentNotFound - The direct role assignment was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a direct section role assignment": {
+            "$ref": "./examples/DeleteSectionRoleAssignment.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/playbooks/{playbookId}/sections/{path}?resource=context": {
+      "put": {
+        "summary": "Creates or replaces a context.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nCreates the context, or replaces an existing context entirely. The section and group must already exist. Uploaded Markdown and plain text are stored as ZIP packages, and every read returns the stored package.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the owning section or an ancestor.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section. The resource is always scoped to the calling identity where applicable.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Contexts"
+        ],
+        "operationId": "Contexts_CreateOrUpdateContext",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path to the context, rooted at the Playbook display name. It includes the section, context root, group, and context name, is case-sensitive, and can contain slash-separated segments.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `context`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "createOrUpdateContextRequest",
+            "description": "The context to create or replace.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CreateOrUpdateContextRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The existing context was replaced successfully."
+          },
+          "201": {
+            "description": "The context was created successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRequest - The request is malformed or not permitted.\n\n* InvalidSectionPath - The context path is invalid.\n\n* InvalidContextSummary - The context summary is invalid.\n\n* InvalidContextPackage - The context package is invalid.\n\n* SectionNotFound - The requested section was not found.",
+            "x-ms-error-response": true,
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create context from Markdown content": {
+            "$ref": "./examples/CreateOrUpdateContextWithMarkdownContent.json"
+          },
+          "Create context from a skill package": {
+            "$ref": "./examples/CreateOrUpdateContextWithSkillPackage.json"
+          },
+          "Create summary-only context": {
+            "$ref": "./examples/CreateOrUpdateContextSummaryOnly.json"
+          },
+          "Create Report reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithReportReference.json"
+          },
+          "Create SemanticModel reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithSemanticModelReference.json"
+          },
+          "Create DataAgent reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithDataAgentReference.json"
+          },
+          "Create Ontology reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithOntologyReference.json"
+          },
+          "Create Person reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithPersonReference.json"
+          },
+          "Create Mail reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithMailReference.json"
+          },
+          "Create Meeting reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithMeetingReference.json"
+          },
+          "Create Chat reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithChatReference.json"
+          },
+          "Create Channel reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithChannelReference.json"
+          },
+          "Create File reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithFileReference.json"
+          },
+          "Create Site reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithSiteReference.json"
+          },
+          "Create KnowledgeBase reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithKnowledgeBaseReference.json"
+          },
+          "Create ConnectorItem reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithConnectorItemReference.json"
+          },
+          "Create WebIQItem reference context": {
+            "$ref": "./examples/CreateOrUpdateContextWithWebIQItemReference.json"
+          }
+        },
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "summary": "Gets a context.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nReturns the context. `include=content` adds the stored ZIP package for an uploaded-content context. Reference and summary-only contexts omit content.\n\n## Permissions\n\nThe caller must have an effective *User* or *Curator* role on the owning section. Curator access inherits from an ancestor; User access does not.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section. The resource is always scoped to the calling identity where applicable.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Contexts"
+        ],
+        "operationId": "Contexts_GetContext",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path to the context, rooted at the Playbook display name. It includes the section, context root, group, and context name, is case-sensitive, and can contain slash-separated segments.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `context`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "description": "The optional context properties to include. The value `content` includes stored uploaded content. Additional values may be added over time.",
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "string",
+              "enum": [
+                "content"
+              ],
+              "x-ms-enum": {
+                "name": "ContextIncludeOption",
+                "modelAsString": true,
+                "values": [
+                  {
+                    "value": "content",
+                    "description": "Includes the stored content package."
+                  }
+                ]
+              }
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/Context"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRequest - The request is malformed or not permitted.\n\n* InvalidSectionPath - The context path is invalid.\n\n* SectionNotFound - The requested section was not found.\n\n* SectionGroupNotFound - The requested group was not found.\n\n* ContextNotFound - The requested context was not found.",
+            "x-ms-error-response": true,
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get context with content": {
+            "$ref": "./examples/GetContextWithContent.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates a context's summary.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nReplaces the context's summary. Its uploaded content or external reference is unchanged.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the owning section or an ancestor.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section. The resource is always scoped to the calling identity where applicable.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Contexts"
+        ],
+        "operationId": "Contexts_UpdateContext",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path to the context, rooted at the Playbook display name. It includes the section, context root, group, and context name, is case-sensitive, and can contain slash-separated segments.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `context`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateContextRequest",
+            "description": "The replacement summary.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdateContextRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The context summary was updated successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/Context"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRequest - The request is malformed or not permitted.\n\n* InvalidSectionPath - The context path is invalid.\n\n* InvalidContextSummary - The context summary is invalid.\n\n* SectionNotFound - The requested section was not found.\n\n* ContextNotFound - The requested context was not found.",
+            "x-ms-error-response": true,
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update context summary": {
+            "$ref": "./examples/UpdateContext.json"
+          }
+        },
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "summary": "Deletes a context.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nDeletes the context. The section and group remain unchanged.\n\n## Permissions\n\nThe caller must have an effective *Curator* role on the owning section or an ancestor.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section. The resource is always scoped to the calling identity where applicable.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Contexts"
+        ],
+        "operationId": "Contexts_DeleteContext",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path to the context, rooted at the Playbook display name. It includes the section, context root, group, and context name, is case-sensitive, and can contain slash-separated segments.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `context`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The context was deleted successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRequest - The request is malformed or not permitted.\n\n* InvalidSectionPath - The context path is invalid.\n\n* SectionNotFound - The requested section was not found.\n\n* SectionGroupNotFound - The requested group was not found.\n\n* ContextNotFound - The requested context was not found.",
+            "x-ms-error-response": true,
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete context": {
+            "$ref": "./examples/DeleteContext.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/playbooks/{playbookId}/sections/{path}?resource=content": {
+      "get": {
+        "summary": "Downloads context content.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nDownloads the stored ZIP package for an uploaded-content context. A reference or summary-only context has no downloadable content.\n\n## Permissions\n\nThe caller must have an effective *User* or *Curator* role on the owning section. Curator access inherits from an ancestor; User access does not.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section. The resource is always scoped to the calling identity where applicable.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Contexts"
+        ],
+        "operationId": "Contexts_GetContextContent",
+        "produces": [
+          "application/zip"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "path",
+            "description": "The complete logical path to the context, rooted at the Playbook display name. It includes the section, context root, group, and context name, is case-sensitive, and can contain slash-separated segments.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resource",
+            "description": "The resource kind. This operation requires the value `content`. Additional resource kinds may be added over time.",
+            "type": "string",
+            "enum": [
+              "section",
+              "contextRoot",
+              "group",
+              "context",
+              "content"
+            ],
+            "x-ms-enum": {
+              "name": "SectionResourceKind",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "section",
+                  "description": "A section."
+                },
+                {
+                  "value": "contextRoot",
+                  "description": "The context root that holds a section's groups."
+                },
+                {
+                  "value": "group",
+                  "description": "A group within a section's context root."
+                },
+                {
+                  "value": "context",
+                  "description": "A context held by a group."
+                },
+                {
+                  "value": "content",
+                  "description": "A context's stored content package."
+                }
+              ]
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully. The response body is the stored ZIP package.\n\n---\n**Headers:**\n\n**Content-Disposition** `string` - Marks the response as a file download and names the file `attachment; filename=\"<context-name-without-.md>.zip\"`.",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRequest - The request is malformed or not permitted.\n\n* InvalidSectionPath - The context path is invalid.\n\n* SectionNotFound - The requested section was not found.\n\n* ContextNotFound - The requested context was not found.\n\n* ContextContentNotFound - The requested context has no stored content.",
+            "x-ms-error-response": true,
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Download context content": {
+            "$ref": "./examples/GetContextContent.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/playbooks/{playbookId}/userPreference": {
+      "get": {
+        "summary": "Gets the user preference.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nReturns the calling identity's resolved preference for the Playbook after applying defaults and certification policy.\n\n## Permissions\n\nThe caller must have an effective *User* or *Curator* role on at least one section of the Playbook. No Fabric workspace or item RBAC role applies.\n\n## Required Delegated Scopes\n\nItem.Read.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section. The resource is always scoped to the calling identity where applicable.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "UserPreference"
+        ],
+        "operationId": "UserPreference_GetUserPreference",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UserPreference"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The Playbook does not exist or the caller has no access to it.",
+            "x-ms-error-response": true,
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get user preference": {
+            "$ref": "./examples/GetUserPreference.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates the user preference.",
+        "description": "> [!NOTE]\n> Playbook item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nSets the calling identity's own preference and returns the resolved state after applying the change. Applying the same value repeatedly is idempotent. A certification policy can lock the preference.\n\n## Permissions\n\nThe caller must have an effective *User* or *Curator* role on at least one section of the Playbook. No Fabric workspace or item RBAC role applies.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section. The resource is always scoped to the calling identity where applicable.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "UserPreference"
+        ],
+        "operationId": "UserPreference_UpdateUserPreference",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "playbookId",
+            "description": "The Playbook identifier.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateUserPreferenceRequest",
+            "description": "The desired calling-identity preference.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdateUserPreferenceRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The preference was updated successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UserPreference"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The Playbook does not exist or the caller has no access to it.\n\n* UserPreferenceNotChangeable - The preference is locked by policy.",
+            "x-ms-error-response": true,
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update user preference": {
+            "$ref": "./examples/UpdateUserPreference.json"
+          }
+        },
+        "consumes": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "responses": {},
+  "security": [],
+  "tags": []
+}

@@ -1,0 +1,25 @@
+{
+  "title": "Create File reference context",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "7e528b21-3d0f-4b79-9451-b7f67905e35d",
+    "path": "Contoso/Sales/_context/Sources/file.md",
+    "resource": "context",
+    "createOrUpdateContextRequest": {
+      "summary": "Workbook holding current list prices.",
+      "reference": {
+        "sourceType": "WorkIQ",
+        "itemType": "File",
+        "identifiers": {
+          "itemId": "01BYE5RZ6QN3ZWBTUFOFD3GSPGOHDJD36K",
+          "fileExtension": "xlsx"
+        },
+        "locator": "https://example.invalid/sites/pricing/pricing-workbook.xlsx"
+      }
+    }
+  },
+  "responses": {
+    "200": {},
+    "201": {}
+  }
+}

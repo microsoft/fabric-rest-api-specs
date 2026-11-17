@@ -1,0 +1,25 @@
+{
+  "title": "Create KnowledgeBase reference context",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "7e528b21-3d0f-4b79-9451-b7f67905e35d",
+    "path": "Contoso/Sales/_context/Sources/knowledgeBase.md",
+    "resource": "context",
+    "createOrUpdateContextRequest": {
+      "summary": "Azure AI Search knowledge base of support articles.",
+      "reference": {
+        "sourceType": "FoundryIQ",
+        "itemType": "KnowledgeBase",
+        "identifiers": {
+          "foundryIQService": "contoso-search",
+          "knowledgeBaseName": "support-kb",
+          "api-version": "2025-11-01-preview"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {},
+    "201": {}
+  }
+}

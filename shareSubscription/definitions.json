@@ -192,6 +192,141 @@
           "readOnly": false
         }
       }
+    },
+    "ProvisionedShareAssets": {
+      "description": "A list of assets provisioned for a Share Subscription.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "A list of assets provisioned for a Share Subscription.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProvisionedShareAsset"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "ProvisionedShareAsset": {
+      "description": "An asset provisioned for a Share Subscription.",
+      "type": "object",
+      "required": [
+        "item",
+        "displayName",
+        "itemType",
+        "addedDateTime"
+      ],
+      "properties": {
+        "item": {
+          "description": "The consumer-side Fabric item created in the caller's workspace.",
+          "$ref": "../common/definitions.json#/definitions/ItemReference",
+          "readOnly": true
+        },
+        "displayName": {
+          "description": "The consumer-side display name of the provisioned item, which may include a uniqueness suffix when it conflicts with an existing item in the caller's workspace.",
+          "type": "string",
+          "readOnly": true
+        },
+        "itemType": {
+          "description": "The Fabric item type of the provisioned item.",
+          "$ref": "../common/definitions.json#/definitions/ItemType",
+          "readOnly": true
+        },
+        "addedDateTime": {
+          "description": "The date and time when the asset was added to the subscription, in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ProvisionedSharePolicies": {
+      "description": "A list of policies provisioned for a Share Subscription.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "A list of policies provisioned for a Share Subscription.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShareSubscriptionPolicy"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "ShareSubscriptionPolicy": {
+      "description": "A governance policy for a Share Subscription.",
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "discriminator": "type",
+      "properties": {
+        "id": {
+          "description": "The policy ID.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "type": {
+          "description": "The policy type.",
+          "$ref": "#/definitions/ShareSubscriptionPolicyType",
+          "readOnly": true
+        }
+      }
+    },
+    "ShareSubscriptionPolicyType": {
+      "description": "The Share Subscription policy type. Additional ShareSubscriptionPolicyType types may be added over time.",
+      "type": "string",
+      "enum": [
+        "Expiration"
+      ],
+      "x-ms-enum": {
+        "name": "ShareSubscriptionPolicyType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Expiration",
+            "description": "The subscription's access to the shared content ends at a specific UTC point in time."
+          }
+        ]
+      }
+    },
+    "ShareSubscriptionExpirationPolicy": {
+      "description": "An expiration policy for a Share Subscription.",
+      "type": "object",
+      "required": [
+        "expirationDateTime"
+      ],
+      "properties": {
+        "expirationDateTime": {
+          "description": "The point in time, strictly in the future, at which the caller's access to the shared content ends, in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShareSubscriptionPolicy"
+        }
+      ],
+      "x-ms-discriminator-value": "Expiration"
     }
   }
 }

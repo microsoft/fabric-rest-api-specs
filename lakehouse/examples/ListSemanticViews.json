@@ -1,0 +1,25 @@
+{
+  "parameters": {
+    "workspaceId": "b1c2d3e4-f5a6-7b8c-9d0e-1f2a3b4c5d6e",
+    "lakehouseId": "a6b7c8d9-e0f1-2a3b-4c5d-6e7f8a9b0c1d",
+    "maxResults": 100,
+    "continuationToken": "",
+    "beta": true
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "value": [
+          {
+            "name": "sales_overview"
+          },
+          {
+            "name": "finance_monthly"
+          }
+        ],
+        "continuationToken": "eyJza2lwVG9rZW4iOiJzYWxlc19vdmVydmlldyJ9",
+        "continuationUri": "https://api.fabric.microsoft.com/v1/workspaces/b1c2d3e4-f5a6-7b8c-9d0e-1f2a3b4c5d6e/lakehouses/a6b7c8d9-e0f1-2a3b-4c5d-6e7f8a9b0c1d/semanticViews?continuationToken=eyJza2lwVG9rZW4iOiJzYWxlc19vdmVydmlldyJ9&beta=true"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "title": "List share policies example",
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "shareId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "beta": true
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "value": [
+          {
+            "id": "e5f60718-2934-4a5b-8c6d-7e8f90112233",
+            "type": "ShareExpiration",
+            "properties": {
+              "expirationDateTime": "2026-12-31T23:59:59Z"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

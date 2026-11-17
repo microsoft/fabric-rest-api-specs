@@ -216,6 +216,702 @@
           "readOnly": false
         }
       }
+    },
+    "ShareAsset": {
+      "description": "An asset included in a share.",
+      "type": "object",
+      "required": [
+        "item",
+        "itemType",
+        "displayName",
+        "shareAs",
+        "addedDateTime"
+      ],
+      "properties": {
+        "item": {
+          "description": "A reference to the shared Fabric item.",
+          "$ref": "../common/definitions.json#/definitions/ItemReference",
+          "readOnly": true
+        },
+        "itemType": {
+          "description": "The resolved type of the shared Fabric item.",
+          "$ref": "../common/definitions.json#/definitions/ItemType",
+          "readOnly": true
+        },
+        "displayName": {
+          "description": "The resolved display name of the shared Fabric item.",
+          "type": "string",
+          "readOnly": true
+        },
+        "shareAs": {
+          "description": "The representation in which the asset is shared.",
+          "$ref": "#/definitions/ShareAsType",
+          "readOnly": true
+        },
+        "addedDateTime": {
+          "description": "The date and time when the asset was added, in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "ShareAssetForCreation": {
+      "description": "An asset to add to a share.",
+      "type": "object",
+      "required": [
+        "item"
+      ],
+      "properties": {
+        "item": {
+          "description": "A reference to the Fabric item to share. The item must be in the share's workspace.",
+          "$ref": "../common/definitions.json#/definitions/ItemReferenceById",
+          "readOnly": false
+        },
+        "shareAs": {
+          "description": "The representation in which to share the asset. The default is `Self`.",
+          "$ref": "#/definitions/ShareAsType",
+          "readOnly": false
+        }
+      }
+    },
+    "ShareAsType": {
+      "description": "The representation in which an asset is shared. Additional ShareAsType values may be added over time.",
+      "type": "string",
+      "enum": [
+        "MirroredOneLake",
+        "Self"
+      ],
+      "x-ms-enum": {
+        "name": "ShareAsType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "MirroredOneLake",
+            "description": "The asset is shared as a OneLake mirrored item."
+          },
+          {
+            "value": "Self",
+            "description": "The asset is shared as its own native Fabric item type."
+          }
+        ]
+      }
+    },
+    "AddShareAssetsRequest": {
+      "description": "The request payload for adding assets to a share.",
+      "type": "object",
+      "required": [
+        "assets"
+      ],
+      "properties": {
+        "assets": {
+          "description": "The assets to add to the share.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/ShareAssetForCreation"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "RemoveShareAssetsRequest": {
+      "description": "The request payload for removing assets from a share.",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "description": "The item references for the assets to remove.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "../common/definitions.json#/definitions/ItemReferenceById"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "ShareAssets": {
+      "description": "A list of share assets.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "A list of share assets.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShareAsset"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "ShareRecipientIdentity": {
+      "description": "The identity of a share recipient.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "discriminator": "type",
+      "properties": {
+        "type": {
+          "description": "The share recipient type.",
+          "$ref": "#/definitions/ShareRecipientType",
+          "readOnly": false
+        }
+      }
+    },
+    "ShareRecipientType": {
+      "description": "The type of a share recipient. Additional ShareRecipientType values may be added over time.",
+      "type": "string",
+      "enum": [
+        "User",
+        "ServicePrincipal"
+      ],
+      "x-ms-enum": {
+        "name": "ShareRecipientType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "User",
+            "description": "The recipient is a Microsoft Entra user."
+          },
+          {
+            "value": "ServicePrincipal",
+            "description": "The recipient is a Microsoft Entra service principal."
+          }
+        ]
+      }
+    },
+    "ShareUserRecipient": {
+      "description": "A user recipient identified by either a user principal name or an email address.",
+      "type": "object",
+      "x-ms-discriminator-value": "User",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShareRecipientIdentity"
+        }
+      ],
+      "properties": {
+        "userPrincipalName": {
+          "description": "The recipient's Microsoft Entra user principal name. Supply either this property or `email`, but not both.",
+          "type": "string",
+          "readOnly": false
+        },
+        "email": {
+          "description": "The recipient's email address. Supply either this property or `userPrincipalName`, but not both.",
+          "type": "string",
+          "readOnly": false
+        },
+        "tenantId": {
+          "description": "The recipient's home tenant ID.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        }
+      }
+    },
+    "ShareServicePrincipalRecipient": {
+      "description": "A service principal recipient identified by principal ID and tenant ID.",
+      "type": "object",
+      "required": [
+        "principalId",
+        "tenantId"
+      ],
+      "x-ms-discriminator-value": "ServicePrincipal",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShareRecipientIdentity"
+        }
+      ],
+      "properties": {
+        "principalId": {
+          "description": "The object ID of the service principal.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        },
+        "tenantId": {
+          "description": "The service principal's home tenant ID.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        }
+      }
+    },
+    "InvitationAcceptanceStatus": {
+      "description": "The invitation acceptance status of a share recipient. Additional InvitationAcceptanceStatus values may be added over time.",
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Active"
+      ],
+      "x-ms-enum": {
+        "name": "InvitationAcceptanceStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Pending",
+            "description": "The invitation is awaiting acceptance."
+          },
+          {
+            "value": "Active",
+            "description": "The recipient accepted the invitation."
+          }
+        ]
+      }
+    },
+    "ShareRecipient": {
+      "description": "A recipient of a share.",
+      "type": "object",
+      "required": [
+        "recipient",
+        "invitationAcceptanceStatus",
+        "addedDateTime"
+      ],
+      "properties": {
+        "recipient": {
+          "description": "The recipient identity.",
+          "$ref": "#/definitions/ShareRecipientIdentity",
+          "readOnly": true
+        },
+        "invitationAcceptanceStatus": {
+          "description": "The recipient's invitation acceptance status.",
+          "$ref": "#/definitions/InvitationAcceptanceStatus",
+          "readOnly": true
+        },
+        "addedDateTime": {
+          "description": "The date and time when the recipient was added, in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+          "type": "string",
+          "readOnly": true
+        },
+        "invitationAcceptedDateTime": {
+          "description": "The date and time when the recipient accepted the invitation, in UTC, using the YYYY-MM-DDTHH:mm:ssZ format. Omitted until the invitation is accepted.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "AddShareRecipientsRequest": {
+      "description": "The request payload for adding recipients to a share.",
+      "type": "object",
+      "required": [
+        "recipients"
+      ],
+      "properties": {
+        "recipients": {
+          "description": "The recipient identities to add.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/ShareRecipientIdentity"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "RemoveShareRecipientsRequest": {
+      "description": "The request payload for removing recipients from a share.",
+      "type": "object",
+      "required": [
+        "recipients"
+      ],
+      "properties": {
+        "recipients": {
+          "description": "The recipient identities to remove.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/ShareRecipientIdentity"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "ShareRecipients": {
+      "description": "A list of share recipients.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "A list of share recipients.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShareRecipient"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "SharePolicyType": {
+      "description": "The type of a share policy. Additional SharePolicyType values may be added over time.",
+      "type": "string",
+      "enum": [
+        "ShareExpiration"
+      ],
+      "x-ms-enum": {
+        "name": "SharePolicyType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "ShareExpiration",
+            "description": "The policy sets an expiration date and time for the share."
+          }
+        ]
+      }
+    },
+    "ShareExpirationPolicyProperties": {
+      "description": "The properties of a share expiration policy.",
+      "type": "object",
+      "required": [
+        "expirationDateTime"
+      ],
+      "properties": {
+        "expirationDateTime": {
+          "description": "The expiration date and time for the share, in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+          "type": "string",
+          "readOnly": false
+        }
+      }
+    },
+    "SharePolicy": {
+      "description": "A policy governing a share.",
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "discriminator": "type",
+      "properties": {
+        "id": {
+          "description": "The system-assigned policy ID.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "type": {
+          "description": "The policy type.",
+          "$ref": "#/definitions/SharePolicyType",
+          "readOnly": true
+        }
+      }
+    },
+    "ShareExpirationPolicy": {
+      "description": "A share expiration policy.",
+      "type": "object",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "description": "The expiration policy properties.",
+          "$ref": "#/definitions/ShareExpirationPolicyProperties",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SharePolicy"
+        }
+      ],
+      "x-ms-discriminator-value": "ShareExpiration"
+    },
+    "SharePolicyForCreation": {
+      "description": "A policy to add to a share.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "discriminator": "type",
+      "properties": {
+        "type": {
+          "description": "The policy type.",
+          "$ref": "#/definitions/SharePolicyType",
+          "readOnly": false
+        }
+      }
+    },
+    "ShareExpirationPolicyForCreation": {
+      "description": "A share expiration policy to add to a share.",
+      "type": "object",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "description": "The expiration policy properties.",
+          "$ref": "#/definitions/ShareExpirationPolicyProperties",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SharePolicyForCreation"
+        }
+      ],
+      "x-ms-discriminator-value": "ShareExpiration"
+    },
+    "AddSharePoliciesRequest": {
+      "description": "The request payload for adding policies to a share.",
+      "type": "object",
+      "required": [
+        "sharePolicies"
+      ],
+      "properties": {
+        "sharePolicies": {
+          "description": "The policies to add to the share.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/SharePolicyForCreation"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "UpdateSharePolicyRequest": {
+      "description": "The request payload for updating a share policy.",
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "discriminator": "type",
+      "properties": {
+        "id": {
+          "description": "The policy ID. This value must match the policy ID in the request path.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        },
+        "type": {
+          "description": "The policy type. This value must match the existing policy type.",
+          "$ref": "#/definitions/SharePolicyType",
+          "readOnly": false
+        }
+      }
+    },
+    "UpdateShareExpirationPolicyRequest": {
+      "description": "The request payload for updating a share expiration policy.",
+      "type": "object",
+      "required": [
+        "properties"
+      ],
+      "properties": {
+        "properties": {
+          "description": "The full explicit payload of the mutable expiration policy properties.",
+          "$ref": "#/definitions/ShareExpirationPolicyProperties",
+          "readOnly": false
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/UpdateSharePolicyRequest"
+        }
+      ],
+      "x-ms-discriminator-value": "ShareExpiration"
+    },
+    "RemoveSharePoliciesRequest": {
+      "description": "The request payload for removing policies from a share.",
+      "type": "object",
+      "required": [
+        "sharePolicyIds"
+      ],
+      "properties": {
+        "sharePolicyIds": {
+          "description": "The policy IDs to remove.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "SharePolicies": {
+      "description": "A list of share policies.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "A list of share policies.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SharePolicy"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "InitializeShareRequest": {
+      "description": "The request payload for initializing a share.",
+      "type": "object",
+      "required": [
+        "assets",
+        "recipients"
+      ],
+      "properties": {
+        "assets": {
+          "description": "The assets with which to initialize the share.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/ShareAssetForCreation"
+          },
+          "readOnly": false
+        },
+        "recipients": {
+          "description": "The recipients with which to initialize the share.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/ShareRecipientIdentity"
+          },
+          "readOnly": false
+        },
+        "sharePolicies": {
+          "description": "The optional policies with which to initialize the share.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SharePolicyForCreation"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "SharePreview": {
+      "description": "A recipient's preview of a share.",
+      "type": "object",
+      "required": [
+        "shareId",
+        "recipient",
+        "items",
+        "producerTenantDetails",
+        "sharePolicies",
+        "sharedDateTime"
+      ],
+      "properties": {
+        "shareId": {
+          "description": "The producer share ID.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "recipient": {
+          "description": "The recipient identity matched to the caller.",
+          "$ref": "#/definitions/ShareRecipientIdentity",
+          "readOnly": true
+        },
+        "items": {
+          "description": "The items included in the share.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SharePreviewItem"
+          },
+          "readOnly": true
+        },
+        "producerTenantDetails": {
+          "description": "The producer tenant details.",
+          "$ref": "#/definitions/ProducerTenantDetails",
+          "readOnly": true
+        },
+        "sharePolicies": {
+          "description": "The policies attached to the share.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SharePolicy"
+          },
+          "readOnly": true
+        },
+        "sharedDateTime": {
+          "description": "The date and time when the share was shared with the recipient, in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "SharePreviewItem": {
+      "description": "An item included in a share preview.",
+      "type": "object",
+      "required": [
+        "item",
+        "itemType",
+        "displayName",
+        "shareAs"
+      ],
+      "properties": {
+        "item": {
+          "description": "A reference to the shared Fabric item.",
+          "$ref": "../common/definitions.json#/definitions/ItemReference",
+          "readOnly": true
+        },
+        "itemType": {
+          "description": "The type of the shared Fabric item.",
+          "$ref": "../common/definitions.json#/definitions/ItemType",
+          "readOnly": true
+        },
+        "displayName": {
+          "description": "The display name of the shared Fabric item.",
+          "type": "string",
+          "readOnly": true
+        },
+        "shareAs": {
+          "description": "The representation in which the asset is shared.",
+          "$ref": "#/definitions/ShareAsType",
+          "readOnly": true
+        }
+      }
+    },
+    "ProducerTenantDetails": {
+      "description": "The producer tenant details for a share.",
+      "type": "object",
+      "required": [
+        "tenantId",
+        "displayName",
+        "verifiedDomainName"
+      ],
+      "properties": {
+        "tenantId": {
+          "description": "The producer tenant ID.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "displayName": {
+          "description": "The producer tenant display name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "verifiedDomainName": {
+          "description": "The producer tenant verified domain name.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
     }
   }
 }

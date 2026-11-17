@@ -1,0 +1,38 @@
+{
+  "title": "Update RunCustomLivePool schedule example",
+  "parameters": {
+    "workspaceId": "aaaaaaaa-1111-2222-3333-444444444444",
+    "environmentId": "bbbbbbbb-5555-6666-7777-888888888888",
+    "scheduleId": "dddddddd-1234-5678-9abc-def000000000",
+    "updateScheduleRequest": {
+      "enabled": false,
+      "configuration": {
+        "type": "Cron",
+        "startDateTime": "2026-10-01T00:00:00Z",
+        "endDateTime": "2027-10-01T00:00:00Z",
+        "localTimeZoneId": "Central Standard Time",
+        "interval": 720
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "dddddddd-1234-5678-9abc-def000000000",
+        "enabled": false,
+        "createdDateTime": "2026-09-29T21:27:45Z",
+        "configuration": {
+          "type": "Cron",
+          "startDateTime": "2026-10-01T00:00:00Z",
+          "endDateTime": "2027-10-01T00:00:00Z",
+          "localTimeZoneId": "Central Standard Time",
+          "interval": 720
+        },
+        "owner": {
+          "id": "eeeeeeee-aaaa-bbbb-cccc-dddddddddddd",
+          "type": "User"
+        }
+      }
+    }
+  }
+}

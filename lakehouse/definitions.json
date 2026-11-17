@@ -25,6 +25,92 @@
         }
       ]
     },
+    "SemanticViews": {
+      "description": "A list of semantic views.",
+      "required": ["value"],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "The semantic views under the lakehouse on this page.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SemanticView"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "SemanticView": {
+      "description": "A semantic view authored inside a lakehouse.",
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "description": "The name of the semantic view.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "PublishSemanticViewResponse": {
+      "description": "The response returned after publishing a semantic view.",
+      "type": "object",
+      "required": ["semanticModel", "warnings"],
+      "properties": {
+        "semanticModel": {
+          "description": "A reference to the semantic model produced or updated by publishing the semantic view.",
+          "$ref": "../common/definitions.json#/definitions/ItemReference",
+          "readOnly": true
+        },
+        "warnings": {
+          "description": "The non-fatal issues encountered while publishing the semantic view.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SemanticViewPublishWarning"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "SemanticViewPublishWarning": {
+      "description": "A non-fatal issue encountered while publishing a semantic view.",
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "description": "The stable, machine-readable warning code.",
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "description": "The human-readable, localizable description of the warning.",
+          "type": "string",
+          "readOnly": true
+        },
+        "sourcePath": {
+          "description": "The authored source file related to the warning.",
+          "type": "string",
+          "readOnly": true
+        },
+        "line": {
+          "description": "The line within the authored source file related to the warning.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true
+        },
+        "column": {
+          "description": "The column within the authored source file line related to the warning.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true
+        }
+      }
+    },
     "Lakehouse": {
       "description": "A lakehouse item.",
       "type": "object",

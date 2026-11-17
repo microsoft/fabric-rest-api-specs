@@ -567,6 +567,515 @@
           }
         }
       }
+    },
+    "/workspaces/{workspaceId}/ontologies/{ontologyId}/versions?beta=true": {
+      "get": {
+        "summary": "Lists versions of the specified ontology.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Ontology item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\nReturns the ontology versions in descending order by creation time. Snapshot content is not returned.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the ontology.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_List_Ontology_Versions_(beta)",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "ontologyId",
+            "description": "The ontology ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ItemVersions"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested ontology does not exist or the caller does not have access.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List ontology versions example": {
+            "$ref": "./examples/ListOntologyVersions.json"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a version of the specified ontology.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Ontology item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nCaptures the ontology's current definition as a new version. Each request creates a distinct version, even when the request has the same name and content as an existing version.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the ontology.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Limitations\n\nAn ontology can contain a maximum of 50 versions.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_Create_Ontology_Version_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "ontologyId",
+            "description": "The ontology ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "createItemVersionRequest",
+            "description": "The request payload for creating an item version.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CreateItemVersionRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully created.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ItemVersion"
+            }
+          },
+          "202": {
+            "description": "Request accepted, item version creation is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested ontology does not exist or the caller does not have access.\n\n* ItemVersionLimitExceeded - The ontology already contains the maximum of 50 versions.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create ontology version example": {
+            "$ref": "./examples/CreateOntologyVersion.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/ontologies/{ontologyId}/versions/{versionId}?beta=true": {
+      "get": {
+        "summary": "Gets the specified ontology version.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Ontology item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nReturns the version's metadata. Snapshot content is not returned.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the ontology.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_Get_Ontology_Version_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "ontologyId",
+            "description": "The ontology ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "description": "The version ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ItemVersion"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested ontology does not exist or the caller does not have access.\n\n* ItemVersionNotFound - The requested version does not exist.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get ontology version example": {
+            "$ref": "./examples/GetOntologyVersion.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates the specified ontology version.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Ontology item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nUpdates the version's display name, description, or both. Snapshot content is not changed.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the ontology.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_Update_Ontology_Version_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "ontologyId",
+            "description": "The ontology ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "description": "The version ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateItemVersionRequest",
+            "description": "The request payload for updating an item version.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdateItemVersionRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ItemVersion"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested ontology does not exist or the caller does not have access.\n\n* ItemVersionNotFound - The requested version does not exist.\n\n* InvalidInput - The update request is empty or invalid.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update ontology version example": {
+            "$ref": "./examples/UpdateOntologyVersion.json"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes the specified ontology version.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Ontology item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nPermanently deletes the version.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the ontology.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_Delete_Ontology_Version_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "ontologyId",
+            "description": "The ontology ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "description": "The version ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested ontology does not exist or the caller does not have access.\n\n* ItemVersionNotFound - The requested version does not exist.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete ontology version example": {
+            "$ref": "./examples/DeleteOntologyVersion.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/ontologies/{ontologyId}/versions/{versionId}/restore?beta=true": {
+      "post": {
+        "summary": "Restores the specified ontology version.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Ontology item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nOverwrites the ontology's current definition with the snapshot stored in the selected version. If required import options are missing, the error response identifies them and the caller can submit the restore request again with those options.\n\n## Permissions\n\nThe caller must have *read and write* permissions for the ontology.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_Restore_Ontology_Version_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "ontologyId",
+            "description": "The ontology ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "description": "The version ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "restoreItemVersionRequest",
+            "description": "The request payload for restoring an item version.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/RestoreItemVersionRequest"
+            },
+            "required": false
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted, item version restoration is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested ontology does not exist or the caller does not have access.\n\n* ItemVersionNotFound - The requested version does not exist.\n\n* RequiredOptionsMissing - The restore operation requires additional import options.\n\n* InvalidOptions - An import option name or value is invalid.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Restore ontology version example": {
+            "$ref": "./examples/RestoreOntologyVersion.json"
+          }
+        }
+      }
     }
   },
   "responses": {},

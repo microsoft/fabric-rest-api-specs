@@ -1,0 +1,41 @@
+{
+  "parameters": {
+    "workspaceId": "11111111-2222-3333-4444-555555555555",
+    "createPostgreSQLDatabaseRequest": {
+      "displayName": "SalesDb",
+      "description": "Sales application database.",
+      "definition": {
+        "format": "pgschema",
+        "parts": [
+          {
+            "path": "definition.pgschema",
+            "payload": "UEsDBBQAAAAAAAAAISgN3c61pgAAAKYAAAANAAAAbWFuaWZlc3QuanNvbnsiJHNjaGVtYSI6Imh0dHBzOi8vZGV2ZWxvcGVyLm1pY3Jvc29mdC5jb20vanNvbi1zY2hlbWFzL2ZhYnJpYy9pdGVtL3Bvc3RncmVTUUxEYXRhYmFzZS9kZWZpbml0aW9uL21hbmlmZXN0LzEuMC4wL3NjaGVtYS5qc29uIiwiZm9ybWF0IjoicGdzY2hlbWEiLCJ2ZXJzaW9uIjoiMS4wLjAifQpQSwMEFAAAAAAAAAAhKABjSJNSAAAAUgAAAAgAAABtYWluLnNxbENSRUFURSBTQ0hFTUEgSUYgTk9UIEVYSVNUUyBzYWxlczsKXGkgdGFibGVzL29yZGVycy5zcWwKXGkgdmlld3Mvb3JkZXJfdG90YWxzLnNxbApQSwMEFAAAAAAAAAAhKJvoLSGkAAAApAAAABEAAAB0YWJsZXMvb3JkZXJzLnNxbENSRUFURSBUQUJMRSBzYWxlcy5vcmRlcnMgKAogICAgb3JkZXJfaWQgYmlnaW50IFBSSU1BUlkgS0VZLAogICAgY3VzdG9tZXJfaWQgYmlnaW50IE5PVCBOVUxMLAogICAgdG90YWxfYW1vdW50IG51bWVyaWMoMTIsIDIpIE5PVCBOVUxMIENIRUNLICh0b3RhbF9hbW91bnQgPj0gMCkKKTsKUEsDBBQAAAAAAAAAISijct55gAAAAIAAAAAWAAAAdmlld3Mvb3JkZXJfdG90YWxzLnNxbENSRUFURSBWSUVXIHNhbGVzLm9yZGVyX3RvdGFscyBBUwpTRUxFQ1QgY3VzdG9tZXJfaWQsIHN1bSh0b3RhbF9hbW91bnQpIEFTIHRvdGFsX2Ftb3VudApGUk9NIHNhbGVzLm9yZGVycwpHUk9VUCBCWSBjdXN0b21lcl9pZDsKUEsBAhQAFAAAAAAAAAAhKA3dzrWmAAAApgAAAA0AAAAAAAAAAAAAAAAAAAAAAG1hbmlmZXN0Lmpzb25QSwECFAAUAAAAAAAAACEoAGNIk1IAAABSAAAACAAAAAAAAAAAAAAAAADRAAAAbWFpbi5zcWxQSwECFAAUAAAAAAAAACEom+gtIaQAAACkAAAAEQAAAAAAAAAAAAAAAABJAQAAdGFibGVzL29yZGVycy5zcWxQSwECFAAUAAAAAAAAACEoo3LeeYAAAACAAAAAFgAAAAAAAAAAAAAAAAAcAgAAdmlld3Mvb3JkZXJfdG90YWxzLnNxbFBLBQYAAAAABAAEAPQAAADQAgAAAAA=",
+            "payloadType": "InlineBase64"
+          }
+        ]
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "body": {
+        "id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+        "displayName": "SalesDb",
+        "description": "Sales application database.",
+        "type": "PostgreSQLDatabase",
+        "workspaceId": "11111111-2222-3333-4444-555555555555",
+        "properties": {
+          "databaseName": "salesdb_a1b2c3",
+          "serverFqdn": "salesdb-a1b2c3.postgres.fabric.microsoft.com"
+        }
+      }
+    },
+    "202": {
+      "headers": {
+        "Location": "https://api.fabric.microsoft.com/v1/operations/9bf413a7-b1eb-47c7-a682-35180bfe5c10",
+        "x-ms-operation-id": "9bf413a7-b1eb-47c7-a682-35180bfe5c10",
+        "Retry-After": 30
+      }
+    }
+  }
+}

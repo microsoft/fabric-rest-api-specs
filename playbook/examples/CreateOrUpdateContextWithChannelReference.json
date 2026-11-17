@@ -1,0 +1,24 @@
+{
+  "title": "Create Channel reference context",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "7e528b21-3d0f-4b79-9451-b7f67905e35d",
+    "path": "Contoso/Sales/_context/Sources/channel.md",
+    "resource": "context",
+    "createOrUpdateContextRequest": {
+      "summary": "Teams channel where service incidents are triaged.",
+      "reference": {
+        "sourceType": "WorkIQ",
+        "itemType": "Channel",
+        "identifiers": {
+          "teamId": "fbe2bf47-16c8-47cf-b4a5-4b9b187c508b",
+          "channelId": "19:4a95f7d8db4c4e7fae857bcebe0623e6@thread.tacv2"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {},
+    "201": {}
+  }
+}

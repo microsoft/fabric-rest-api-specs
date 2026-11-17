@@ -1,0 +1,23 @@
+{
+  "title": "Create Site reference context",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "7e528b21-3d0f-4b79-9451-b7f67905e35d",
+    "path": "Contoso/Sales/_context/Sources/site.md",
+    "resource": "context",
+    "createOrUpdateContextRequest": {
+      "summary": "SharePoint site hosting the engineering handbook.",
+      "reference": {
+        "sourceType": "WorkIQ",
+        "itemType": "Site",
+        "identifiers": {
+          "siteId": "SPO_MmM3MTI2MDQtMTM3MC00NGU3LWExZjUtNDI2NTczZmRhODBhLDJkMjI0NGMzLTI1MWEtNDllYS05M2E4LTM5ZTFjM2EwNjBmZSwwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDA_01EXAMPLEAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {},
+    "201": {}
+  }
+}

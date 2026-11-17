@@ -12407,6 +12407,65 @@
         }
       }
     },
+    "/microsoftIQ/retrieve": {
+      "post": {
+        "summary": "Retrieves organizational context relevant to a natural-language query.",
+        "description": "> [!NOTE]\n> Microsoft IQ is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nSubmits a natural-language query and returns the organization's Microsoft IQ context most relevant to it, ranked by relevance, for grounding applications and agents. Retrieval names no Playbook; it searches across all of the caller's Microsoft IQ context and returns only the items the caller is entitled to. Each result is included only when the caller holds an effective Microsoft IQ section role on the section from which it was drawn. The operation is synchronous and read-only. When no relevant, permitted context is found, the response is `200 OK` with an empty `results` array.\n\n## Permissions\n\nNo resource role is required to invoke this API. Each result is returned only when the caller holds an effective Microsoft IQ section role of *User* or *Curator* on the section from which the context was drawn. A caller with no qualifying section role receives an empty result set.\n\n## Required Delegated Scopes\n\nMicrosoftIQ.Read.All\n\n## Limitations\n\n* The service returns a maximum of 50 results.\n\n* The API does not support pagination, caller-controlled result counts, filtering, sorting, or Playbook, section, or workspace scoping.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "MicrosoftIQ"
+        ],
+        "operationId": "MicrosoftIQ_Retrieve",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "retrieveRequest",
+            "description": "The organizational context retrieval request payload.",
+            "schema": {
+              "$ref": "./definitions/microsoftIQ.json#/definitions/RetrieveRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the relevant organizational context.",
+            "schema": {
+              "$ref": "./definitions/microsoftIQ.json#/definitions/RetrieveResponse"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InternalError - An unexpected service failure occurred.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Retrieve organizational context example": {
+            "$ref": "./examples/platform/RetrieveOrganizationalContext.json"
+          }
+        }
+      }
+    },
     "/catalog/search": {
       "post": {
         "summary": "The Catalog Search API enables programmatic discovery of OneLake catalog entries across workspaces. It supports cross-workspace search over catalog metadata and returns results filtered to entries the calling principal is authorized to access. Search results include stable identifiers that are intended to be used with complementary Fabric APIs to retrieve additional details or perform supported actions.",
@@ -12465,6 +12524,55 @@
           },
           "Search within a workspace example": {
             "$ref": "./examples/platform/CatalogSearchByWorkspace.json"
+          }
+        }
+      }
+    },
+    "/microsoftIQ/amIInScope": {
+      "post": {
+        "summary": "Checks whether Microsoft IQ holds organizational context that the caller is entitled to see.",
+        "description": "> [!NOTE]\n> Microsoft IQ is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nReturns whether Microsoft IQ holds at least one piece of organizational context that the caller is entitled to see. Callers can use this answer to skip a Retrieve call that would return no context. Here, \"in scope\" refers to Microsoft IQ context the caller can see, not to the OAuth scopes on the caller's token. The check names no Playbook and takes no input other than the caller's identity. It covers context from every Playbook in the tenant, counting only context in sections where the caller holds an effective Microsoft IQ section role (User or Curator). `inScope` is `true` when at least one such piece of context exists, and `false` when none exists. A caller with no section role anywhere, or a tenant with no Playbooks, gets `false`, not an error. A `true` answer doesn't guarantee that a particular query will match anything. The amount of context is not exposed. The check is fail-closed: if the answer can't be determined, the API returns an error, never `false`.\n\n## Permissions\n\nNo resource role is required to call this API. Only context in sections where the caller holds an effective Microsoft IQ section role of *User* or *Curator* counts toward the response. A caller with no qualifying section role gets `false`, not an error.\n\n## Required Delegated Scopes\n\nMicrosoftIQ.Read.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "MicrosoftIQ"
+        ],
+        "operationId": "MicrosoftIQ_AmIInScope",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The check completed successfully.",
+            "schema": {
+              "$ref": "./definitions/microsoftIQ.json#/definitions/AmIInScopeResponse"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* Unauthorized - The caller's identity couldn't be established because the access token is missing, invalid, or expired.\n\n* InsufficientScopes - The caller's token doesn't carry the `MicrosoftIQ.Read.All` scope required to call this API.\n\n* InternalError - An unexpected service failure prevented Microsoft IQ from determining whether the caller is in scope.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Caller is in scope example": {
+            "$ref": "./examples/platform/AmIInScopeTrue.json"
+          },
+          "Caller is not in scope example": {
+            "$ref": "./examples/platform/AmIInScopeFalse.json"
           }
         }
       }

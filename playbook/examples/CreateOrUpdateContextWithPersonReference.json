@@ -1,0 +1,23 @@
+{
+  "title": "Create Person reference context",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "7e528b21-3d0f-4b79-9451-b7f67905e35d",
+    "path": "Contoso/Sales/_context/Sources/person.md",
+    "resource": "context",
+    "createOrUpdateContextRequest": {
+      "summary": "Account owner accountable for the Contoso customer relationship.",
+      "reference": {
+        "sourceType": "WorkIQ",
+        "itemType": "Person",
+        "identifiers": {
+          "personId": "6c3873b7-2b8d-4bd2-8212-9228dc55c95b@54c79d0c-655c-454e-b83d-ca7468dc80e8"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {},
+    "201": {}
+  }
+}

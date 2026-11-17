@@ -268,7 +268,7 @@
       "ItemType": {
         "description": "The type of the item. Additional item types may be added over time.",
         "type": "string",
-        "enum": [ "Dashboard", "Report", "SemanticModel", "PaginatedReport", "Datamart", "Lakehouse", "Eventhouse", "Environment", "KQLDatabase", "KQLQueryset", "KQLDashboard", "DataPipeline", "Notebook", "SparkJobDefinition", "MLExperiment", "MLModel", "Warehouse", "Eventstream", "SQLEndpoint", "MirroredWarehouse", "MirroredDatabase", "Reflex", "GraphQLApi", "MountedDataFactory", "SQLDatabase", "CopyJob", "VariableLibrary", "Dataflow", "ApacheAirflowJob", "WarehouseSnapshot", "DigitalTwinBuilder", "DigitalTwinBuilderFlow", "MirroredAzureDatabricksCatalog", "Map", "AnomalyDetector", "UserDataFunction", "GraphModel", "GraphQuerySet", "SnowflakeDatabase", "OperationsAgent", "CosmosDBDatabase", "Ontology", "EventSchemaSet", "DataAgent", "MirroredCatalog", "PolicySet", "AppBackend", "OrgApp", "OrgAppAudience", "DataBuildToolJob", "AzureDatabricksStorage", "Plan", "Monitoring", "DeploymentPlan", "ShareSubscription", "Share" ],
+        "enum": [ "Dashboard", "Report", "SemanticModel", "PaginatedReport", "Datamart", "Lakehouse", "Eventhouse", "Environment", "KQLDatabase", "KQLQueryset", "KQLDashboard", "DataPipeline", "Notebook", "SparkJobDefinition", "MLExperiment", "MLModel", "Warehouse", "Eventstream", "SQLEndpoint", "MirroredWarehouse", "MirroredDatabase", "Reflex", "GraphQLApi", "MountedDataFactory", "SQLDatabase", "CopyJob", "VariableLibrary", "Dataflow", "ApacheAirflowJob", "WarehouseSnapshot", "DigitalTwinBuilder", "DigitalTwinBuilderFlow", "MirroredAzureDatabricksCatalog", "Map", "AnomalyDetector", "UserDataFunction", "GraphModel", "GraphQuerySet", "SnowflakeDatabase", "OperationsAgent", "CosmosDBDatabase", "Ontology", "EventSchemaSet", "DataAgent", "MirroredCatalog", "PolicySet", "AppBackend", "OrgApp", "OrgAppAudience", "DataBuildToolJob", "AzureDatabricksStorage", "Plan", "Monitoring", "DeploymentPlan", "ShareSubscription", "Share", "Playbook", "MirroredOneLake", "PostgreSQLDatabase", "CustomStreamConnector" ],
         "x-ms-enum": {
           "name": "ItemType",
           "modelAsString": true,
@@ -496,6 +496,22 @@
             {
               "value": "Share",
               "description": "A share."
+            },
+            {
+              "value": "Playbook",
+              "description": "A Playbook."
+            },
+            {
+              "value": "MirroredOneLake",
+              "description": "A mirrored OneLake item."
+            },
+            {
+              "value": "PostgreSQLDatabase",
+              "description": "A PostgreSQL database item in Microsoft Fabric."
+            },
+            {
+              "value": "CustomStreamConnector",
+              "description": "A Custom Stream Connector item in Microsoft Fabric."
             }
           ]
         }

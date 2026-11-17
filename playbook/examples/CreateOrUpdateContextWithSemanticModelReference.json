@@ -1,0 +1,24 @@
+{
+  "title": "Create SemanticModel reference context",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "7e528b21-3d0f-4b79-9451-b7f67905e35d",
+    "path": "Contoso/Sales/_context/Sources/semanticModel.md",
+    "resource": "context",
+    "createOrUpdateContextRequest": {
+      "summary": "Booked and forecast revenue by segment for the FY26 planning cycle.",
+      "reference": {
+        "sourceType": "FabricIQ",
+        "itemType": "SemanticModel",
+        "identifiers": {
+          "workspaceId": "9a2f6c1e-4b7d-4e2a-8f3c-5d6e7f8a9b0c",
+          "itemId": "5b218778-e7a5-4d73-8187-f10824047715"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {},
+    "201": {}
+  }
+}

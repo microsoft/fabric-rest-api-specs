@@ -1,0 +1,519 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Microsoft IQ data types",
+    "version": "v1"
+  },
+  "paths": {},
+  "definitions": {
+    "AmIInScopeResponse": {
+      "description": "The response indicating whether Microsoft IQ holds organizational context that the caller is entitled to see.",
+      "type": "object",
+      "required": [
+        "inScope"
+      ],
+      "properties": {
+        "inScope": {
+          "description": "Whether Microsoft IQ holds at least one piece of organizational context that the caller is entitled to see. A value of `true` doesn't guarantee that a particular query will match anything. A value of `false` means no such context exists and is never returned because of an error.",
+          "type": "boolean",
+          "readOnly": true
+        }
+      }
+    },
+    "RetrieveRequest": {
+      "description": "The request payload for retrieving organizational context.",
+      "type": "object",
+      "required": [
+        "query"
+      ],
+      "properties": {
+        "query": {
+          "description": "The query to retrieve organizational context for.",
+          "$ref": "#/definitions/RetrieveQuery",
+          "readOnly": false
+        },
+        "tokenBudget": {
+          "description": "The maximum total token count of the returned summaries. Only results that fit within the budget are returned. The minimum is 1 and the default is 2048.",
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "default": 2048,
+          "readOnly": false
+        }
+      }
+    },
+    "RetrieveQuery": {
+      "description": "The natural-language query used to retrieve organizational context.",
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "description": "The non-empty natural-language query text.",
+          "type": "string",
+          "minLength": 1,
+          "readOnly": false
+        }
+      }
+    },
+    "RetrieveResponse": {
+      "description": "The response containing relevance-ranked organizational context.",
+      "type": "object",
+      "required": [
+        "results"
+      ],
+      "properties": {
+        "results": {
+          "description": "The relevance-ranked context items the caller is entitled to see. The array is empty when no relevant, permitted context is found and contains at most 50 items.",
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/definitions/RetrieveResult"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "RetrieveResult": {
+      "description": "A relevance-ranked organizational context result.",
+      "type": "object",
+      "required": [
+        "identifier",
+        "type",
+        "score",
+        "tokenCount",
+        "rank",
+        "lexicalMatch",
+        "data"
+      ],
+      "properties": {
+        "identifier": {
+          "description": "The stable SHA-256 hexadecimal digest of the context's normalized source path, which callers can use to correlate or de-duplicate context across repeated queries.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "The content media type, such as `application/agent-instructions`.",
+          "type": "string",
+          "readOnly": true
+        },
+        "score": {
+          "description": "The opaque, service-assigned relevance score, where a higher value indicates greater relevance. The score is relative and is not guaranteed to be comparable across different queries.",
+          "type": "number",
+          "format": "double",
+          "x-nullable": true,
+          "readOnly": true
+        },
+        "tokenCount": {
+          "description": "The size of the context summary, expressed as a token count.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true
+        },
+        "rank": {
+          "description": "The zero-based position in the relevance-ordered results, where zero identifies the most relevant result.",
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "readOnly": true
+        },
+        "lexicalMatch": {
+          "description": "Whether the context matched the query terms textually rather than only semantically.",
+          "type": "boolean",
+          "x-nullable": true,
+          "readOnly": true
+        },
+        "data": {
+          "description": "The context payload for the result.",
+          "$ref": "#/definitions/RetrieveResultData",
+          "readOnly": true
+        }
+      }
+    },
+    "RetrieveResultData": {
+      "description": "The organizational context payload for a retrieval result.",
+      "type": "object",
+      "required": [
+        "summary",
+        "uri"
+      ],
+      "properties": {
+        "summary": {
+          "description": "The instruction summary text.",
+          "type": "string",
+          "readOnly": true
+        },
+        "uri": {
+          "description": "A typed pointer to the fuller primary content described by the summary, or null when no pointer is available.",
+          "$ref": "#/definitions/ReferenceUri",
+          "x-nullable": true,
+          "readOnly": true
+        }
+      }
+    },
+    "ReferenceUri": {
+      "description": "A typed pointer to the primary content described by a context summary. Additional reference URI types may be added over time.",
+      "type": "object",
+      "required": [
+        "$type"
+      ],
+      "discriminator": "$type",
+      "properties": {
+        "$type": {
+          "description": "The reference URI type.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "MicrosoftIqSkillUri": {
+      "description": "A reference to content uploaded to a Microsoft IQ Playbook.",
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "description": "The Fabric API URL of the Playbook content.",
+          "type": "string",
+          "format": "uri",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "MicrosoftIQSkillReference"
+    },
+    "FabricIqSemanticModelUri": {
+      "description": "A reference to a Fabric semantic model.",
+      "type": "object",
+      "required": [
+        "workspaceId",
+        "itemId"
+      ],
+      "properties": {
+        "workspaceId": {
+          "description": "The workspace identifier.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "itemId": {
+          "description": "The semantic model item identifier.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "FabricIQSemanticModelReference"
+    },
+    "FabricIqReportUri": {
+      "description": "A reference to a Fabric report.",
+      "type": "object",
+      "required": [
+        "workspaceId",
+        "itemId"
+      ],
+      "properties": {
+        "workspaceId": {
+          "description": "The workspace identifier.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "itemId": {
+          "description": "The report item identifier.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "FabricIQReportReference"
+    },
+    "FabricIqDataAgentUri": {
+      "description": "A reference to a Fabric data agent.",
+      "type": "object",
+      "required": [
+        "workspaceId",
+        "itemId"
+      ],
+      "properties": {
+        "workspaceId": {
+          "description": "The workspace identifier.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "itemId": {
+          "description": "The data agent item identifier.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "FabricIQDataAgentReference"
+    },
+    "FabricIqOntologyUri": {
+      "description": "A reference to a Fabric ontology.",
+      "type": "object",
+      "required": [
+        "workspaceId",
+        "itemId"
+      ],
+      "properties": {
+        "workspaceId": {
+          "description": "The workspace identifier.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "itemId": {
+          "description": "The ontology item identifier.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "FabricIQOntologyReference"
+    },
+    "FoundryIqKnowledgeBaseUri": {
+      "description": "A reference to a Foundry IQ knowledge base.",
+      "type": "object",
+      "required": [
+        "foundryIQService",
+        "knowledgeBaseName",
+        "apiVersion"
+      ],
+      "properties": {
+        "foundryIQService": {
+          "description": "The name of the Foundry IQ service that hosts the knowledge base.",
+          "type": "string",
+          "readOnly": true
+        },
+        "knowledgeBaseName": {
+          "description": "The knowledge base name.",
+          "type": "string",
+          "readOnly": true
+        },
+        "apiVersion": {
+          "description": "The Foundry IQ API version used to address the knowledge base.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "FoundryIQKnowledgeBaseReference"
+    },
+    "WorkIqFileUri": {
+      "description": "A reference to a OneDrive or SharePoint file.",
+      "type": "object",
+      "required": [
+        "itemId"
+      ],
+      "properties": {
+        "itemId": {
+          "description": "The drive item identifier.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "WorkIQFileReference"
+    },
+    "WorkIqMailUri": {
+      "description": "A reference to a Microsoft 365 mail message.",
+      "type": "object",
+      "required": [
+        "internetMessageId"
+      ],
+      "properties": {
+        "internetMessageId": {
+          "description": "The internet message identifier.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "WorkIQMailReference"
+    },
+    "WorkIqMeetingUri": {
+      "description": "A reference to a Microsoft 365 meeting.",
+      "type": "object",
+      "required": [
+        "iCalUId"
+      ],
+      "properties": {
+        "iCalUId": {
+          "description": "The meeting iCalendar unique identifier.",
+          "type": "string",
+          "readOnly": true
+        },
+        "isSeries": {
+          "description": "Whether the meeting is a recurring series. The property is omitted when not specified.",
+          "type": "boolean",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "WorkIQMeetingReference"
+    },
+    "WorkIqPersonUri": {
+      "description": "A reference to a person.",
+      "type": "object",
+      "required": [
+        "personId"
+      ],
+      "properties": {
+        "personId": {
+          "description": "The Microsoft Entra object identifier of the person.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "WorkIQPersonReference"
+    },
+    "WorkIqChatUri": {
+      "description": "A reference to a Microsoft Teams chat.",
+      "type": "object",
+      "required": [
+        "chatId"
+      ],
+      "properties": {
+        "chatId": {
+          "description": "The chat identifier.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "WorkIQChatReference"
+    },
+    "WorkIqChannelUri": {
+      "description": "A reference to a Microsoft Teams channel.",
+      "type": "object",
+      "required": [
+        "channelId"
+      ],
+      "properties": {
+        "channelId": {
+          "description": "The channel identifier.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "WorkIQChannelReference"
+    },
+    "WorkIqSiteUri": {
+      "description": "A reference to a SharePoint site.",
+      "type": "object",
+      "required": [
+        "siteId"
+      ],
+      "properties": {
+        "siteId": {
+          "description": "The site identifier.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "WorkIQSiteReference"
+    },
+    "ConnectorIqItemUri": {
+      "description": "A reference to an item surfaced by a connector plugin.",
+      "type": "object",
+      "required": [
+        "pluginName"
+      ],
+      "properties": {
+        "pluginName": {
+          "description": "The name of the connector plugin that surfaced the content.",
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "ConnectorIQReference"
+    },
+    "WebIqItemUri": {
+      "description": "A reference to a public web page.",
+      "type": "object",
+      "required": [
+        "webUrl"
+      ],
+      "properties": {
+        "webUrl": {
+          "description": "The public web page URL.",
+          "type": "string",
+          "format": "uri",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ReferenceUri"
+        }
+      ],
+      "x-ms-discriminator-value": "WebIQReference"
+
+    }
+  }
+}

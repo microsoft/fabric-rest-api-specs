@@ -1,0 +1,242 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "PostgreSQLDatabase data types",
+    "version": "v1"
+  },
+  "paths": {},
+  "definitions": {
+    "PostgreSQLDatabase": {
+      "description": "A PostgreSQL database object.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/Item"
+        }
+      ],
+      "properties": {
+        "properties": {
+          "description": "The PostgreSQL database properties.",
+          "$ref": "#/definitions/PostgreSQLDatabaseProperties",
+          "readOnly": true
+        }
+      }
+    },
+    "PostgreSQLDatabaseProperties": {
+      "description": "The properties of a PostgreSQL database.",
+      "type": "object",
+      "required": [
+        "databaseName",
+        "serverFqdn"
+      ],
+      "properties": {
+        "databaseName": {
+          "description": "The service-assigned name of the underlying PostgreSQL database. This name is distinct from the item display name and is needed to connect.",
+          "type": "string",
+          "readOnly": true
+        },
+        "serverFqdn": {
+          "description": "The fully qualified domain name (FQDN) of the server hosting the PostgreSQL database. This name is needed to connect.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "PostgreSQLDatabases": {
+      "description": "A list of PostgreSQL databases.",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "A list of PostgreSQL databases.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostgreSQLDatabase"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "CreatePostgreSQLDatabaseRequest": {
+      "description": "The request payload for creating a PostgreSQL database.",
+      "type": "object",
+      "required": [
+        "displayName"
+      ],
+      "properties": {
+        "displayName": {
+          "description": "The PostgreSQL database display name. The display name must follow naming rules according to item type and can't exceed 63 characters.",
+          "type": "string",
+          "maxLength": 63,
+          "readOnly": false
+        },
+        "description": {
+          "description": "The PostgreSQL database description. Maximum length is 256 characters.",
+          "type": "string",
+          "readOnly": false
+        },
+        "folderId": {
+          "description": "The folder ID. If not specified or null, the PostgreSQL database is created with the workspace as its folder.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": false
+        },
+        "definition": {
+          "description": "The PostgreSQL database definition. Use `definition` or `creationPayload`. You can't use both at the same time.",
+          "$ref": "#/definitions/PostgreSQLDatabaseDefinition",
+          "readOnly": false
+        },
+        "creationPayload": {
+          "description": "The optional provisioning information for the PostgreSQL database. Use `definition` or `creationPayload`. You can't use both at the same time.",
+          "$ref": "#/definitions/PostgreSQLDatabaseCreationPayload",
+          "x-nullable": true,
+          "readOnly": false
+        }
+      }
+    },
+    "PostgreSQLDatabaseCreationPayload": {
+      "description": "The optional provisioning information for creating a PostgreSQL database.",
+      "type": "object",
+      "properties": {
+        "originatingProduct": {
+          "description": "The caller-declared, unverified product that initiated database creation. This value is informational provisioning input only and is not an identity or authorization claim.",
+          "type": "string",
+          "x-nullable": true,
+          "readOnly": false
+        }
+      }
+    },
+    "UpdatePostgreSQLDatabaseRequest": {
+      "description": "The request payload for updating a PostgreSQL database.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "The PostgreSQL database display name. The display name must follow naming rules according to item type and can't exceed 63 UTF-16 code units. A character outside the Basic Multilingual Plane, such as most emoji, counts as two.",
+          "type": "string",
+          "maxLength": 63,
+          "readOnly": false
+        },
+        "description": {
+          "description": "The PostgreSQL database description. Maximum length is 256 characters.",
+          "type": "string",
+          "readOnly": false
+        }
+      }
+    },
+    "UpdatePostgreSQLDatabaseDefinitionRequest": {
+      "description": "The request payload for updating a PostgreSQL database definition.",
+      "type": "object",
+      "required": [
+        "definition"
+      ],
+      "properties": {
+        "definition": {
+          "description": "The PostgreSQL database definition to apply.",
+          "$ref": "#/definitions/PostgreSQLDatabaseDefinition",
+          "readOnly": false
+        },
+        "options": {
+          "description": "The options that apply when updating the PostgreSQL database definition.",
+          "$ref": "#/definitions/PostgreSQLDatabaseDefinitionOptions",
+          "readOnly": false
+        }
+      }
+    },
+    "PostgreSQLDatabaseDefinitionResponse": {
+      "description": "The response payload for a PostgreSQL database definition.",
+      "type": "object",
+      "required": [
+        "definition"
+      ],
+      "properties": {
+        "definition": {
+          "description": "The PostgreSQL database definition.",
+          "$ref": "#/definitions/PostgreSQLDatabaseDefinition",
+          "readOnly": true
+        }
+      }
+    },
+    "PostgreSQLDatabaseDefinition": {
+      "description": "The PostgreSQL database public definition object in the `pgschema` format. Refer to this [article](/rest/api/fabric/articles/item-management/definitions/postgresql-database-definition) for more details on the structure of the PostgreSQL database definition.",
+      "type": "object",
+      "required": [
+        "parts"
+      ],
+      "properties": {
+        "format": {
+          "description": "The format of the PostgreSQL database definition. Additional `format` types may be added over time.",
+          "type": "string",
+          "enum": [
+            "pgschema"
+          ],
+          "x-ms-enum": {
+            "name": "PostgreSqlDatabaseDefinitionFormat",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "pgschema",
+                "description": "The `pgschema` format for PostgreSQL database definitions."
+              }
+            ]
+          },
+          "readOnly": false
+        },
+        "parts": {
+          "description": "A list containing exactly one required `definition.pgschema` workload part and an optional `.platform` metadata part.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostgreSQLDatabaseDefinitionPart"
+          },
+          "readOnly": false
+        }
+      }
+    },
+    "PostgreSQLDatabaseDefinitionPart": {
+      "description": "A PostgreSQL database definition part object.",
+      "type": "object",
+      "required": [
+        "path",
+        "payload",
+        "payloadType"
+      ],
+      "properties": {
+        "path": {
+          "description": "The PostgreSQL database definition part path. The workload part path is `definition.pgschema`; an optional `.platform` part carries Fabric item metadata.",
+          "type": "string",
+          "readOnly": false
+        },
+        "payload": {
+          "description": "The Base64-encoded PostgreSQL database definition part payload.",
+          "type": "string",
+          "readOnly": false
+        },
+        "payloadType": {
+          "description": "The payload type.",
+          "$ref": "../common/definitions.json#/definitions/PayloadType",
+          "readOnly": false
+        }
+      }
+    },
+    "PostgreSQLDatabaseDefinitionOptions": {
+      "description": "The options that apply when updating a PostgreSQL database definition.",
+      "type": "object",
+      "properties": {
+        "allowTableRebuild": {
+          "description": "Whether to consent to any schema change, including a purely additive change. When absent or false, a submitted schema that differs from the current schema fails without making changes. When true, the service may alter or rebuild objects, without guaranteeing atomic application or preservation of data in affected objects. An identical schema succeeds as a no-op without this consent. The default value is false.",
+          "type": "boolean",
+          "readOnly": false
+        }
+      }
+    }
+  }
+}

@@ -100,7 +100,8 @@
         "startDateTime",
         "endDateTime",
         "status",
-        "lastSuccessfulSyncDateTime"
+        "lastSuccessfulSyncDateTime",
+        "syncArchitectureVersion"
       ],
       "properties": {
         "tableName": {
@@ -129,6 +130,11 @@
           "description": "The date and time when the table synchronization was successful in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
           "type": "string",
           "format": "date-time"
+        },
+        "syncArchitectureVersion": {
+          "description": "> [!NOTE]\n> Metadata sync architecture version reporting is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThe synchronization architecture version used to synchronize this table.",
+          "$ref": "#/definitions/SyncArchitectureVersion",
+          "readOnly": true
         }
       }
     },
@@ -155,6 +161,292 @@
           {
             "value": "NotRun",
             "description": "Indicates that the operation did not run."
+          }
+        ]
+      }
+    },
+    "MetadataSyncMigrationStatus": {
+      "description": "The metadata sync migration status of a SQL analytics endpoint.",
+      "type": "object",
+      "required": [
+        "syncArchitectureVersion",
+        "tableFailures"
+      ],
+      "properties": {
+        "syncArchitectureVersion": {
+          "description": "The current synchronization architecture version of the endpoint. While a migration is in progress, this property remains at the source version and changes to the target version only when the migration reaches a terminal state.",
+          "$ref": "#/definitions/SyncArchitectureVersion",
+          "readOnly": true
+        },
+        "itemMigrationDirection": {
+          "description": "The direction in which the endpoint is currently migrating. This property is omitted when no migration is in progress.",
+          "$ref": "#/definitions/ItemMigrationDirection",
+          "readOnly": true
+        },
+        "tableFailures": {
+          "description": "The tables that failed in the most recent completed migration attempt.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetadataSyncTableFailure"
+          },
+          "readOnly": true
+        },
+        "lastMigrationAttempt": {
+          "description": "A summary of the most recent completed migration attempt. This property is omitted when no migration has been attempted.",
+          "$ref": "#/definitions/MetadataSyncMigrationAttempt",
+          "readOnly": true
+        }
+      }
+    },
+    "MetadataSyncTableFailure": {
+      "description": "A table that failed in a completed metadata sync migration attempt.",
+      "type": "object",
+      "required": [
+        "schema",
+        "tableName",
+        "error"
+      ],
+      "properties": {
+        "schema": {
+          "description": "The schema name of the failed table.",
+          "type": "string",
+          "readOnly": true
+        },
+        "tableName": {
+          "description": "The unqualified name of the failed table.",
+          "type": "string",
+          "readOnly": true
+        },
+        "error": {
+          "description": "The error that caused the table migration to fail.",
+          "$ref": "../common/definitions.json#/definitions/ErrorResponseDetails",
+          "readOnly": true
+        }
+      }
+    },
+    "MetadataSyncMigrationAttempt": {
+      "description": "A summary of a completed metadata sync migration attempt.",
+      "type": "object",
+      "required": [
+        "sourceSyncArchitectureVersion",
+        "targetSyncArchitectureVersion",
+        "itemMigrationStatus",
+        "completedDateTime"
+      ],
+      "properties": {
+        "sourceSyncArchitectureVersion": {
+          "description": "The synchronization architecture version from which the attempt migrated.",
+          "$ref": "#/definitions/SyncArchitectureVersion",
+          "readOnly": true
+        },
+        "targetSyncArchitectureVersion": {
+          "description": "The synchronization architecture version to which the attempt migrated.",
+          "$ref": "#/definitions/SyncArchitectureVersion",
+          "readOnly": true
+        },
+        "itemMigrationStatus": {
+          "description": "The overall outcome of the migration attempt.",
+          "$ref": "#/definitions/ItemMigrationStatus",
+          "readOnly": true
+        },
+        "completedDateTime": {
+          "description": "The date and time when the migration attempt completed in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "MetadataSyncMigrationResult": {
+      "description": "The result of a completed metadata sync migration.",
+      "type": "object",
+      "required": [
+        "syncArchitectureVersion",
+        "itemMigrationStatus",
+        "tableStatuses"
+      ],
+      "properties": {
+        "syncArchitectureVersion": {
+          "description": "The synchronization architecture version of the endpoint after the migration.",
+          "$ref": "#/definitions/SyncArchitectureVersion",
+          "readOnly": true
+        },
+        "itemMigrationStatus": {
+          "description": "The overall outcome of the migration.",
+          "$ref": "#/definitions/ItemMigrationStatus",
+          "readOnly": true
+        },
+        "tableStatuses": {
+          "description": "The migration status of every table on the endpoint.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetadataSyncTableMigrationStatus"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "MetadataSyncTableMigrationStatus": {
+      "description": "The metadata sync migration status of a table.",
+      "type": "object",
+      "required": [
+        "schema",
+        "tableName",
+        "syncArchitectureVersion"
+      ],
+      "properties": {
+        "schema": {
+          "description": "The schema name of the table.",
+          "type": "string",
+          "readOnly": true
+        },
+        "tableName": {
+          "description": "The unqualified name of the table.",
+          "type": "string",
+          "readOnly": true
+        },
+        "syncArchitectureVersion": {
+          "description": "The synchronization architecture version that the table is currently using.",
+          "$ref": "#/definitions/SyncArchitectureVersion",
+          "readOnly": true
+        },
+        "lastSuccessfulSyncDateTime": {
+          "description": "This property is omitted if the table has never synchronized successfully. The date and time when the table last synchronized successfully in UTC, using the YYYY-MM-DDTHH:mm:ssZ format.",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "error": {
+          "description": "The error details for a stalled or failed table. This property is omitted when the table has no error.",
+          "$ref": "../common/definitions.json#/definitions/ErrorResponseDetails",
+          "readOnly": true
+        }
+      }
+    },
+    "MetadataSyncMigrationPreflightResult": {
+      "description": "The result of a metadata sync migration preflight assessment.",
+      "type": "object",
+      "required": [
+        "evaluatedTableCount",
+        "eligibleTableCount",
+        "blockers"
+      ],
+      "properties": {
+        "evaluatedTableCount": {
+          "description": "The number of tables evaluated.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true
+        },
+        "eligibleTableCount": {
+          "description": "The number of tables eligible to migrate.",
+          "type": "integer",
+          "format": "int32",
+          "readOnly": true
+        },
+        "blockers": {
+          "description": "The blocking issues found during the assessment.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetadataSyncMigrationBlocker"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "MetadataSyncMigrationBlocker": {
+      "description": "An issue that prevents a table from migrating.",
+      "type": "object",
+      "required": [
+        "schema",
+        "tableName",
+        "correctiveAction"
+      ],
+      "properties": {
+        "schema": {
+          "description": "The schema name of the affected table.",
+          "type": "string",
+          "readOnly": true
+        },
+        "tableName": {
+          "description": "The name of the affected table.",
+          "type": "string",
+          "readOnly": true
+        },
+        "correctiveAction": {
+          "description": "The corrective action the caller can take to unblock the table.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "SyncArchitectureVersion": {
+      "description": "The synchronization architecture version. Additional SyncArchitectureVersion types may be added over time.",
+      "type": "string",
+      "enum": [
+        "V1",
+        "V2"
+      ],
+      "x-ms-enum": {
+        "name": "SyncArchitectureVersion",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "V1",
+            "description": "The v1 regular-table synchronization architecture."
+          },
+          {
+            "value": "V2",
+            "description": "The v2 external-table synchronization architecture."
+          }
+        ]
+      }
+    },
+    "ItemMigrationStatus": {
+      "description": "The overall outcome of a metadata sync migration. Additional ItemMigrationStatus types may be added over time.",
+      "type": "string",
+      "enum": [
+        "Succeeded",
+        "PartiallySucceeded",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "ItemMigrationStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Succeeded",
+            "description": "The migration completed with no table failing to convert."
+          },
+          {
+            "value": "PartiallySucceeded",
+            "description": "At least one table reached the target architecture and at least one table failed to convert."
+          },
+          {
+            "value": "Failed",
+            "description": "Every table that needed conversion failed, and the endpoint remains on its prior architecture."
+          }
+        ]
+      }
+    },
+    "ItemMigrationDirection": {
+      "description": "The direction of an active metadata sync migration. Additional ItemMigrationDirection types may be added over time.",
+      "type": "string",
+      "enum": [
+        "MigratingToV2",
+        "MigratingToV1"
+      ],
+      "x-ms-enum": {
+        "name": "ItemMigrationDirection",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "MigratingToV2",
+            "description": "A migration from the v1 regular-table architecture to the v2 external-table architecture is in progress."
+          },
+          {
+            "value": "MigratingToV1",
+            "description": "A migration from the v2 external-table architecture to the v1 regular-table architecture is in progress."
           }
         ]
       }

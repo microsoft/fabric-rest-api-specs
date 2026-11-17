@@ -1932,6 +1932,12 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Publish operation request has been submitted successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/EnvironmentProperties"
+            }
+          },
           "202": {
             "description": "Request accepted, publish operation is in progress. Returns the GA contract when `beta=false` (default after March 31, 2027).",
             "headers": {
@@ -1948,12 +1954,6 @@
                 "description": "The number of seconds to wait before retrying the request.",
                 "type": "integer"
               }
-            }
-          },
-          "200": {
-            "description": "Publish operation request has been submitted successfully.",
-            "schema": {
-              "$ref": "./definitions.json#/definitions/EnvironmentProperties"
             }
           },
           "429": {
@@ -2340,6 +2340,430 @@
         "x-ms-examples": {
           "Get pool activation example": {
             "$ref": "./examples/GetPoolActivation.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/environments/{environmentId}/jobs/runCustomLivePool/instances": {
+      "post": {
+        "summary": "Runs an on-demand custom live pool job instance.",
+        "description": "Provisions and warms the environment's custom Spark live pool from its currently published Spark settings and libraries.\n\n## Permissions\n\nThe caller must have *execute* permission for the environment item.\n\n## Required Delegated Scopes\n\nEnvironment.Execute.All or Item.Execute.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_RunOnDemandCustomLivePool",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "environmentId",
+            "description": "The environment item ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Request accepted, job execution is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL to the job instance resource.\n\n**Retry-After** `integer` - The number of seconds the client should wait before polling the job status for the first time. Clients must wait at least this many seconds before the first status poll."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* MissingMinimalPermissions - The caller does not have sufficient permissions to run the job instance.\n\n* InvalidJobType - The requested job type is invalid.\n\n* TooManyRequestsForJobs - The caller is making too many run on-demand job requests.\n\n* ItemNotFound - The requested item was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Run RunCustomLivePool with no request body.": {
+            "$ref": "./examples/RunOnDemandCustomLivePoolNoBody.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/environments/{environmentId}/jobs/runCustomLivePool/schedules": {
+      "get": {
+        "summary": "Lists custom live pool schedules for the specified environment.",
+        "description": "This API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must have *read* permission for the environment item.\n\n## Required Delegated Scopes\n\nEnvironment.Read.All or Environment.ReadWrite.All or Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_ListCustomLivePoolSchedules",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "environmentId",
+            "description": "The environment item ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/EnvironmentCustomLivePoolSchedules"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List RunCustomLivePool schedules example": {
+            "$ref": "./examples/ListCustomLivePoolSchedules.json"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a custom live pool schedule for the specified environment.",
+        "description": "Creates a recurring schedule that warms the environment's custom Spark live pool.\n\n## Permissions\n\nThe caller must have *execute* and *write* permissions for the environment item.\n\n## Required Delegated Scopes\n\n(Environment.Execute.All or Item.Execute.All) and (Environment.ReadWrite.All or Item.ReadWrite.All)\n\n## Limitations\n\n- An environment can have a maximum of 20 schedules.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_CreateCustomLivePoolSchedule",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "environmentId",
+            "description": "The environment item ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "createScheduleRequest",
+            "description": "The custom live pool schedule create request.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/CreateEnvironmentCustomLivePoolScheduleRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully created the schedule.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the newly created schedule.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/EnvironmentCustomLivePoolSchedule"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item was not found.\n\n* ScheduleExceedsLimit - The number of schedules created for the item exceeds the limit.\n\n* ConflictingSchedule - The schedule conflicts with the current item state.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create RunCustomLivePool schedule example": {
+            "$ref": "./examples/CreateCustomLivePoolSchedule.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/environments/{environmentId}/jobs/runCustomLivePool/schedules/{scheduleId}": {
+      "get": {
+        "summary": "Gets the specified custom live pool schedule.",
+        "description": "## Permissions\n\nThe caller must have *read* permission for the environment item.\n\n## Required Delegated Scopes\n\nEnvironment.Read.All or Environment.ReadWrite.All or Item.Read.All or Item.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_GetCustomLivePoolSchedule",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "environmentId",
+            "description": "The environment item ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "scheduleId",
+            "description": "The environment schedule ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/EnvironmentCustomLivePoolSchedule"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item was not found.\n\n* ScheduleNotFound - The requested schedule was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get RunCustomLivePool schedule example": {
+            "$ref": "./examples/GetCustomLivePoolSchedule.json"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates the specified custom live pool schedule.",
+        "description": "Updates whether the schedule is enabled or changes its recurrence. Repeating the same request produces the same resulting state.\n\n## Permissions\n\nThe caller must have *execute* and *write* permissions for the environment item.\n\n## Required Delegated Scopes\n\n(Environment.Execute.All or Item.Execute.All) and (Environment.ReadWrite.All or Item.ReadWrite.All)\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_UpdateCustomLivePoolSchedule",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "environmentId",
+            "description": "The environment item ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "scheduleId",
+            "description": "The environment schedule ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateScheduleRequest",
+            "description": "The custom live pool schedule update request.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdateEnvironmentCustomLivePoolScheduleRequest"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/EnvironmentCustomLivePoolSchedule"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item was not found.\n\n* ScheduleNotFound - The requested schedule was not found.\n\n* ConflictingSchedule - The schedule conflicts with the current item state.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update RunCustomLivePool schedule example": {
+            "$ref": "./examples/UpdateCustomLivePoolSchedule.json"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes the specified custom live pool schedule.",
+        "description": "## Permissions\n\nThe caller must have *execute* and *write* permissions for the environment item.\n\n## Required Delegated Scopes\n\n(Environment.Execute.All or Item.Execute.All) and (Environment.ReadWrite.All or Item.ReadWrite.All)\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "BackgroundJobs"
+        ],
+        "operationId": "BackgroundJobs_DeleteCustomLivePoolSchedule",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "environmentId",
+            "description": "The environment item ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "scheduleId",
+            "description": "The environment schedule ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InsufficientPrivileges - The caller does not have sufficient permissions to access the item.\n\n* ItemNotFound - The requested item was not found.\n\n* ScheduleNotFound - The requested schedule was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete RunCustomLivePool schedule example": {
+            "$ref": "./examples/DeleteCustomLivePoolSchedule.json"
           }
         }
       }

@@ -1,0 +1,40 @@
+{
+  "title": "Create RunCustomLivePool schedule example",
+  "parameters": {
+    "workspaceId": "aaaaaaaa-1111-2222-3333-444444444444",
+    "environmentId": "bbbbbbbb-5555-6666-7777-888888888888",
+    "createScheduleRequest": {
+      "enabled": true,
+      "configuration": {
+        "type": "Cron",
+        "startDateTime": "2026-10-01T00:00:00Z",
+        "endDateTime": "2027-10-01T00:00:00Z",
+        "localTimeZoneId": "Central Standard Time",
+        "interval": 1440
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "headers": {
+        "Location": "https://api.fabric.microsoft.com/v1/workspaces/aaaaaaaa-1111-2222-3333-444444444444/environments/bbbbbbbb-5555-6666-7777-888888888888/jobs/runCustomLivePool/schedules/dddddddd-1234-5678-9abc-def000000000"
+      },
+      "body": {
+        "id": "dddddddd-1234-5678-9abc-def000000000",
+        "enabled": true,
+        "createdDateTime": "2026-09-29T21:27:45Z",
+        "configuration": {
+          "type": "Cron",
+          "startDateTime": "2026-10-01T00:00:00Z",
+          "endDateTime": "2027-10-01T00:00:00Z",
+          "localTimeZoneId": "Central Standard Time",
+          "interval": 1440
+        },
+        "owner": {
+          "id": "eeeeeeee-aaaa-bbbb-cccc-dddddddddddd",
+          "type": "User"
+        }
+      }
+    }
+  }
+}

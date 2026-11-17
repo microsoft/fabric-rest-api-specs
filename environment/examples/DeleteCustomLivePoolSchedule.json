@@ -1,0 +1,11 @@
+{
+  "title": "Delete RunCustomLivePool schedule example",
+  "parameters": {
+    "workspaceId": "aaaaaaaa-1111-2222-3333-444444444444",
+    "environmentId": "bbbbbbbb-5555-6666-7777-888888888888",
+    "scheduleId": "dddddddd-1234-5678-9abc-def000000000"
+  },
+  "responses": {
+    "200": {}
+  }
+}

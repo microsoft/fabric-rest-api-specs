@@ -130,7 +130,7 @@
             }
           },
           "202": {
-            "description": "Request accepted, share provisioning is in progress.",
+            "description": "Request accepted, share provisioning is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
             "headers": {
               "Location": {
                 "description": "The URL of the operation status, which can be used to track the operation state.",
@@ -409,7 +409,7 @@
             }
           },
           "202": {
-            "description": "Request accepted. Retrieving the definition is in progress.",
+            "description": "Request accepted. Retrieving the definition is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
             "headers": {
               "Location": {
                 "description": "The URL of the operation status, which can be used to track the operation state.",
@@ -504,7 +504,7 @@
             "description": "Request completed successfully."
           },
           "202": {
-            "description": "Request accepted. Updating the definition is in progress.",
+            "description": "Request accepted. Updating the definition is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
             "headers": {
               "Location": {
                 "description": "The URL of the operation status, which can be used to track the operation state.",
@@ -544,6 +544,1131 @@
         "x-ms-examples": {
           "Update a share public definition example": {
             "$ref": "./examples/UpdateShareDefinition.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/initializeShare?beta=true": {
+      "post": {
+        "summary": "Initializes the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nInitializes an existing share by atomically adding assets, recipients, and optional policies. The share becomes initialized when this operation or any content bulk-add operation first succeeds.\n\n## Permissions\n\nThe caller must have *write* permissions for the share and *reshare* permissions for each affected asset.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All and Item.Reshare.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_Initialize_Share_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "initializeShareRequest",
+            "description": "The request payload for initializing a share.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/InitializeShareRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/Share"
+            }
+          },
+          "202": {
+            "description": "Request accepted. The operation is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRequest - The request does not include at least one asset and one recipient.\n\n* ShareAlreadyInitialized - The share was already initialized.\n\n* InvalidRecipient - A recipient identity is invalid.\n\n* InvalidExpirationDateTime - A policy expiration date and time is not a future UTC value.\n\n* ItemNotFound - The requested share or an asset was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Initializes the specified share example": {
+            "$ref": "./examples/InitializeShare.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/assets?beta=true": {
+      "get": {
+        "summary": "Lists assets in the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\nLists the assets currently included in the specified share.\n\n## Permissions\n\nThe caller must have *read* permissions for the share.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Assets"
+        ],
+        "operationId": "Assets_List_(beta)",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ShareAssets"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidItemType - The requested item is not a share.\n\n* ItemNotFound - The requested share was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Lists assets in the specified share example": {
+            "$ref": "./examples/ListShareAssets.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/assets/bulkAdd?beta=true": {
+      "post": {
+        "summary": "Adds assets to the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nAdds one or more Fabric items from the share's workspace to the specified share.\n\n## Permissions\n\nThe caller must have *write* permissions for the share and *reshare* permissions for each affected asset.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All and Item.Reshare.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Assets"
+        ],
+        "operationId": "Assets_Bulk_Add_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "addShareAssetsRequest",
+            "description": "The request payload for adding assets to a share.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/AddShareAssetsRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ShareAssets"
+            }
+          },
+          "202": {
+            "description": "Request accepted. The operation is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ShareAssetItemNotFound - A referenced Fabric item was not found or is not accessible.\n\n* InvalidItemReference - An item reference is malformed or identifies an item outside the share's workspace.\n\n* ShareAssetAlreadyExists - A referenced item is already an asset of the share.\n\n* ItemNotFound - The requested share was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Adds assets to the specified share example": {
+            "$ref": "./examples/BulkAddShareAssets.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/assets/bulkRemove?beta=true": {
+      "post": {
+        "summary": "Removes assets from the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nRemoves one or more assets from the specified share by item reference.\n\n## Permissions\n\nThe caller must have *write* permissions for the share and *reshare* permissions for each affected asset.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All and Item.Reshare.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Assets"
+        ],
+        "operationId": "Assets_Bulk_Remove_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "removeShareAssetsRequest",
+            "description": "The request payload for removing assets from a share.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/RemoveShareAssetsRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. The operation is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ShareAssetNotFound - A referenced item is not an asset of the share.\n\n* InvalidItemReference - An item reference is malformed.\n\n* ItemNotFound - The requested share was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Removes assets from the specified share example": {
+            "$ref": "./examples/BulkRemoveShareAssets.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/recipients?beta=true": {
+      "get": {
+        "summary": "Lists recipients for the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\nLists the recipients to whom the specified share is offered, including invitation acceptance status and timestamps.\n\n## Permissions\n\nThe caller must have *read* permissions for the share.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Recipients"
+        ],
+        "operationId": "Recipients_List_(beta)",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ShareRecipients"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidItemType - The requested item is not a share.\n\n* ItemNotFound - The requested share was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Lists recipients for the specified share example": {
+            "$ref": "./examples/ListShareRecipients.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/recipients/bulkAdd?beta=true": {
+      "post": {
+        "summary": "Adds recipients to the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nAdds one or more user or service principal recipients to the specified share.\n\n## Permissions\n\nThe caller must have *write* permissions for the share and *reshare* permissions for each affected asset.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All and Item.Reshare.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Recipients"
+        ],
+        "operationId": "Recipients_Bulk_Add_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "addShareRecipientsRequest",
+            "description": "The request payload for adding recipients to a share.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/AddShareRecipientsRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ShareRecipients"
+            }
+          },
+          "202": {
+            "description": "Request accepted. The operation is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRecipient - A recipient identity is malformed.\n\n* ShareRecipientAlreadyExists - A recipient identity is already present on the share.\n\n* ItemNotFound - The requested share was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Adds recipients to the specified share example": {
+            "$ref": "./examples/BulkAddShareRecipients.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/recipients/bulkRemove?beta=true": {
+      "post": {
+        "summary": "Removes recipients from the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nWithdraws one or more recipients from the specified share by recipient identity.\n\n## Permissions\n\nThe caller must have *write* permissions for the share and *reshare* permissions for each affected asset.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All and Item.Reshare.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Recipients"
+        ],
+        "operationId": "Recipients_Bulk_Remove_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "removeShareRecipientsRequest",
+            "description": "The request payload for removing recipients from a share.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/RemoveShareRecipientsRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. The operation is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidRecipient - A recipient identity is malformed.\n\n* ShareRecipientNotFound - A recipient identity is not present on the share.\n\n* ItemNotFound - The requested share was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Removes recipients from the specified share example": {
+            "$ref": "./examples/BulkRemoveShareRecipients.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/sharePolicies?beta=true": {
+      "get": {
+        "summary": "Lists policies for the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\nLists the policies governing the specified share.\n\n## Permissions\n\nThe caller must have *read* permissions for the share.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Policies"
+        ],
+        "operationId": "Policies_List_(beta)",
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/SharePolicies"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidItemType - The requested item is not a share.\n\n* ItemNotFound - The requested share was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Lists policies for the specified share example": {
+            "$ref": "./examples/ListSharePolicies.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/sharePolicies/bulkAdd?beta=true": {
+      "post": {
+        "summary": "Adds policies to the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nAdds one or more policies to the specified share. The service assigns an identifier to each policy.\n\n## Permissions\n\nThe caller must have *write* permissions for the share.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Policies"
+        ],
+        "operationId": "Policies_Bulk_Add_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "addSharePoliciesRequest",
+            "description": "The request payload for adding policies to a share.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/AddSharePoliciesRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/SharePolicies"
+            }
+          },
+          "202": {
+            "description": "Request accepted. The operation is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidExpirationDateTime - The expiration date and time is not a future UTC value.\n\n* ShareInTerminalState - The share is expired and its expiration policy cannot be changed.\n\n* ItemNotFound - The requested share was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Adds policies to the specified share example": {
+            "$ref": "./examples/BulkAddSharePolicies.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/sharePolicies/{sharePolicyId}/update?beta=true": {
+      "post": {
+        "summary": "Updates a policy for the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nUpdates the settings of a policy on the specified share. The request is a full explicit payload for the mutable policy fields.\n\n## Permissions\n\nThe caller must have *write* permissions for the share.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Policies"
+        ],
+        "operationId": "Policies_Update_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "sharePolicyId",
+            "description": "The share policy ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "updateSharePolicyRequest",
+            "description": "The request payload for updating a share policy.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/UpdateSharePolicyRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/SharePolicy"
+            }
+          },
+          "202": {
+            "description": "Request accepted. The operation is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* InvalidExpirationDateTime - The expiration date and time is not a future UTC value.\n\n* ShareInTerminalState - The share is expired and its expiration policy cannot be changed.\n\n* SharePolicyTypeMismatch - The request type does not match the target policy type.\n\n* SharePolicyIdMismatch - The request identifier does not match the path identifier.\n\n* SharePolicyNotFound - The requested share policy was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Updates a policy for the specified share example": {
+            "$ref": "./examples/UpdateSharePolicy.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shares/{shareId}/sharePolicies/bulkRemove?beta=true": {
+      "post": {
+        "summary": "Removes policies from the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nRemoves one or more policies from the specified share by policy identifier.\n\n## Permissions\n\nThe caller must have *write* permissions for the share.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Policies"
+        ],
+        "operationId": "Policies_Bulk_Remove_(beta)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareId",
+            "description": "The share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "removeSharePoliciesRequest",
+            "description": "The request payload for removing policies from a share.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/RemoveSharePoliciesRequest"
+            },
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully."
+          },
+          "202": {
+            "description": "Request accepted. The operation is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* SharePolicyNotFound - A policy identifier does not match a policy on the share.\n\n* ItemNotFound - The requested share was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Removes policies from the specified share example": {
+            "$ref": "./examples/BulkRemoveSharePolicies.json"
+          }
+        }
+      }
+    },
+    "/tenants/{producerTenantId}/workspaces/{producerWorkspaceId}/shares/{producerShareId}/preview?beta=true": {
+      "get": {
+        "summary": "Previews the specified share.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nPreviews a share offered to the calling recipient before the recipient accepts it.\n\n## Permissions\n\nThe caller must be a recipient to whom the share is offered.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *External data sharing* admin switch for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_Preview_Share_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "producerTenantId",
+            "description": "The producer tenant ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "producerWorkspaceId",
+            "description": "The producer workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "producerShareId",
+            "description": "The producer share ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/SharePreview"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ShareNotFound - The requested share does not exist or is not offered to the caller.\n\n* RecipientAccessDenied - The caller is not a recipient of the share.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Preview a share example": {
+            "$ref": "./examples/PreviewShare.json"
           }
         }
       }

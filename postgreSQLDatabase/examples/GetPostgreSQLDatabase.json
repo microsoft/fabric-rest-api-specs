@@ -1,0 +1,21 @@
+{
+  "parameters": {
+    "workspaceId": "11111111-2222-3333-4444-555555555555",
+    "postgreSQLDatabaseId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+        "displayName": "SalesDb",
+        "description": "Sales application database.",
+        "type": "PostgreSQLDatabase",
+        "workspaceId": "11111111-2222-3333-4444-555555555555",
+        "properties": {
+          "databaseName": "salesdb_a1b2c3",
+          "serverFqdn": "salesdb-a1b2c3.postgres.fabric.microsoft.com"
+        }
+      }
+    }
+  }
+}

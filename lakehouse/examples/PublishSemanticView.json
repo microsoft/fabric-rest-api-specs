@@ -1,0 +1,35 @@
+{
+  "parameters": {
+    "workspaceId": "b1c2d3e4-f5a6-7b8c-9d0e-1f2a3b4c5d6e",
+    "lakehouseId": "a6b7c8d9-e0f1-2a3b-4c5d-6e7f8a9b0c1d",
+    "semanticViewName": "sales_overview",
+    "beta": true
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "semanticModel": {
+          "referenceType": "ById",
+          "itemId": "e7f8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+          "workspaceId": "b1c2d3e4-f5a6-7b8c-9d0e-1f2a3b4c5d6e"
+        },
+        "warnings": [
+          {
+            "code": "UnsupportedMeasureFormatSkipped",
+            "message": "The format string for measure 'Total Revenue' is not supported and was ignored.",
+            "sourcePath": "metrics/revenue.tmdl",
+            "line": 42,
+            "column": 7
+          }
+        ]
+      }
+    },
+    "202": {
+      "headers": {
+        "Location": "https://api.fabric.microsoft.com/v1/operations/427f6c34-b64e-4ee4-8ea5-b533c0e203ef",
+        "x-ms-operation-id": "427f6c34-b64e-4ee4-8ea5-b533c0e203ef",
+        "Retry-After": 30
+      }
+    }
+  }
+}

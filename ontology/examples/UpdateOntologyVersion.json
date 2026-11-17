@@ -1,0 +1,27 @@
+{
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "ontologyId": "5b218778-e7a5-4d73-8187-f10824047715",
+    "versionId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "updateItemVersionRequest": {
+      "displayName": "v1.0 - Initial release (stable)",
+      "description": "Updated description after validation."
+    },
+    "beta": true
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "displayName": "v1.0 - Initial release (stable)",
+        "description": "Updated description after validation.",
+        "createdDateTime": "2026-05-24T10:30:00Z",
+        "createdBy": {
+          "id": "12345678-abcd-ef01-2345-6789abcdef01",
+          "type": "User"
+        },
+        "creationSource": "Manual"
+      }
+    }
+  }
+}

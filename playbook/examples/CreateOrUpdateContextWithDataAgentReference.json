@@ -1,0 +1,24 @@
+{
+  "title": "Create DataAgent reference context",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "7e528b21-3d0f-4b79-9451-b7f67905e35d",
+    "path": "Contoso/Sales/_context/Sources/dataAgent.md",
+    "resource": "context",
+    "createOrUpdateContextRequest": {
+      "summary": "A Fabric data agent that answers sales questions.",
+      "reference": {
+        "sourceType": "FabricIQ",
+        "itemType": "DataAgent",
+        "identifiers": {
+          "workspaceId": "9a2f6c1e-4b7d-4e2a-8f3c-5d6e7f8a9b0c",
+          "itemId": "22222222-2222-4222-8222-222222222222"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {},
+    "201": {}
+  }
+}

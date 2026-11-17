@@ -1,0 +1,15 @@
+{
+  "title": "Run RunCustomLivePool with no request body.",
+  "parameters": {
+    "workspaceId": "aaaaaaaa-1111-2222-3333-444444444444",
+    "environmentId": "bbbbbbbb-5555-6666-7777-888888888888"
+  },
+  "responses": {
+    "202": {
+      "headers": {
+        "Location": "https://api.fabric.microsoft.com/v1/workspaces/aaaaaaaa-1111-2222-3333-444444444444/items/bbbbbbbb-5555-6666-7777-888888888888/jobs/instances/cccccccc-9999-0000-1111-222222222222",
+        "Retry-After": 60
+      }
+    }
+  }
+}

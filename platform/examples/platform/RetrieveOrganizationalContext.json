@@ -1,0 +1,49 @@
+{
+  "title": "Retrieve organizational context example",
+  "parameters": {
+    "retrieveRequest": {
+      "query": {
+        "text": "How should I onboard a new employee to the finance team?"
+      },
+      "tokenBudget": 2048
+    }
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "results": [
+          {
+            "identifier": "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9",
+            "type": "application/agent-instructions",
+            "score": 0.87,
+            "tokenCount": 214,
+            "rank": 0,
+            "lexicalMatch": true,
+            "data": {
+              "summary": "When onboarding a new finance-team hire, request access to the FY Budget workspace only after the hiring manager approves, and complete the SOX training module before granting write access to ledgers.",
+              "uri": {
+                "$type": "MicrosoftIQSkillReference",
+                "url": "https://api.fabric.microsoft.com/v1/workspaces/3f9c1e2a-6b7c-4d5e-8f90-1a2b3c4d5e6f/playbooks/7a2d4b1c-9e8f-4a3b-b2c1-d4e5f6071829/sections/Finance/Onboarding/_context/NewHires/new-hire-access.md?resource=content"
+              }
+            }
+          },
+          {
+            "identifier": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae",
+            "type": "application/agent-instructions",
+            "score": 0.62,
+            "tokenCount": 96,
+            "rank": 1,
+            "lexicalMatch": false,
+            "data": {
+              "summary": "Finance new-hire equipment requests go through the IT catalog; do not create standalone purchase orders.",
+              "uri": {
+                "$type": "MicrosoftIQSkillReference",
+                "url": "https://api.fabric.microsoft.com/v1/workspaces/3f9c1e2a-6b7c-4d5e-8f90-1a2b3c4d5e6f/playbooks/7a2d4b1c-9e8f-4a3b-b2c1-d4e5f6071829/sections/Finance/Onboarding/_context/NewHires/equipment-requests.md?resource=content"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

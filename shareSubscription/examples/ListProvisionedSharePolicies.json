@@ -1,0 +1,21 @@
+{
+  "title": "List provisioned share policies example",
+  "parameters": {
+    "workspaceId": "a1b6e0b1-8037-4d0c-896e-a46fb27ff229",
+    "shareSubscriptionId": "e3c9a7b2-5d4f-4a81-9c62-7b0e1d3f8a45",
+    "beta": true
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "value": [
+          {
+            "id": "d4e5f6a7-8b9c-0d1e-2f3a-4b5c6d7e8f90",
+            "type": "Expiration",
+            "expirationDateTime": "2027-01-15T00:00:00Z"
+          }
+        ]
+      }
+    }
+  }
+}

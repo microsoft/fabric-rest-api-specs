@@ -1,0 +1,27 @@
+{
+  "title": "List groups example",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "5b218778-e7a5-4d73-8187-f10824047715",
+    "path": "Contoso/Sales/_context",
+    "resource": "contextRoot"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "children": {
+          "value": [
+            {
+              "type": "group",
+              "path": "Contoso/Sales/_context/Pricing"
+            },
+            {
+              "type": "group",
+              "path": "Contoso/Sales/_context/Competitive"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

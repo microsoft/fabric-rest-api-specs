@@ -688,6 +688,54 @@
                 }
             }
         },
+        "CreateEnvironmentCustomLivePoolScheduleRequest": {
+            "description": "The request payload for creating a custom live pool schedule for an environment.",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "../common/job_scheduling.json#/definitions/BaseCreateScheduleRequest"
+                }
+            ]
+        },
+        "UpdateEnvironmentCustomLivePoolScheduleRequest": {
+            "description": "The request payload for updating a custom live pool schedule for an environment.",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "../common/job_scheduling.json#/definitions/BaseUpdateScheduleRequest"
+                }
+            ]
+        },
+        "EnvironmentCustomLivePoolSchedule": {
+            "description": "A custom live pool schedule for an environment.",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "../common/job_scheduling.json#/definitions/BaseItemSchedule"
+                }
+            ]
+        },
+        "EnvironmentCustomLivePoolSchedules": {
+            "description": "A list of custom live pool schedules for an environment.",
+            "type": "object",
+            "required": [
+                "value"
+            ],
+            "allOf": [
+                {
+                    "$ref": "../common/definitions.json#/definitions/PaginatedResponse"
+                }
+            ],
+            "properties": {
+                "value": {
+                    "description": "A list of custom live pool schedules for an environment.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/EnvironmentCustomLivePoolSchedule"
+                    }
+                }
+            }
+        },
         "CustomLivePoolSupport": {
             "type": "string",
             "description": "Flag controlling whether live pool support is active. Additional `CustomLivePoolSupport` values may be added over time.",

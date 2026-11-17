@@ -1,0 +1,30 @@
+{
+  "title": "List direct section role assignments example",
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "playbookId": "5b218778-e7a5-4d73-8187-f10824047715",
+    "sectionPath": "Contoso/Sales"
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "value": [
+          {
+            "principal": {
+              "id": "8e5a1b2c-1234-4d5e-9f01-2a3b4c5d6e7f",
+              "type": "User"
+            },
+            "role": "Curator"
+          },
+          {
+            "principal": {
+              "id": "a1b2c3d4-5678-49ab-8cde-0f1e2d3c4b5a",
+              "type": "Group"
+            },
+            "role": "User"
+          }
+        ]
+      }
+    }
+  }
+}

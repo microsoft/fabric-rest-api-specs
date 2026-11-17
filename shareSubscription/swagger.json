@@ -367,6 +367,238 @@
           }
         }
       }
+    },
+    "/workspaces/{workspaceId}/shareSubscriptions/{shareSubscriptionId}/synchronize?beta=true": {
+      "post": {
+        "summary": "Synchronizes the specified Share Subscription.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share Subscription item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nProvisions the producer's shared content for the specified Share Subscription into the caller's workspace as usable Fabric items, and synchronizes the subscription to the producer's current published version. Repeating the operation is safe and synchronizes added or removed content and refreshed governance rules. On success, the Share Subscription becomes active.\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\n## Permissions\n\nThe caller must have a *contributor* workspace role and *write* permissions for the Share Subscription.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *Enable Share Subscription*, *Enable Share Item*, and *Users can accept external data shares* admin switches for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_Synchronize_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-long-running-operation": true,
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareSubscriptionId",
+            "description": "The Share Subscription ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Synchronization completed successfully."
+          },
+          "202": {
+            "description": "Request accepted, Share Subscription synchronization is in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request."
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested Share Subscription was not found.\n\n* ExternalDataSharingDisabled - A required tenant setting is disabled.\n\n* ShareSubscriptionRevoked - The producer revoked the share.\n\n* ShareSubscriptionExpired - The share or access expired.\n\n* InvalidShareInvitation - The bound producer reference is invalid.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Synchronize a Share Subscription example": {
+            "$ref": "./examples/SynchronizeShareSubscription.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shareSubscriptions/{shareSubscriptionId}/assets?beta=true": {
+      "get": {
+        "summary": "Lists the provisioned assets of the specified Share Subscription.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share Subscription item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nReturns the consumer-side Fabric items provisioned in the caller's workspace for the specified Share Subscription. When the Share Subscription has not been synchronized, the collection is empty.\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must have *read* permissions for the Share Subscription.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *Enable Share Subscription*, *Enable Share Item*, and *Users can accept external data shares* admin switches for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_List_Assets_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareSubscriptionId",
+            "description": "The Share Subscription ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ProvisionedShareAssets"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested Share Subscription was not found.\n\n* InvalidToken - The supplied continuation token is malformed.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List provisioned Share Subscription assets example": {
+            "$ref": "./examples/ListProvisionedShareAssets.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/shareSubscriptions/{shareSubscriptionId}/sharePolicies?beta=true": {
+      "get": {
+        "summary": "Lists the provisioned policies of the specified Share Subscription.",
+        "description": "> [!NOTE]\n> This API is part of a Beta release and is provided for evaluation and development purposes only. It may change based on feedback and is not recommended for production use.\n**When calling this API, callers must specify `true` as the value for the query parameter `beta`.**\n\n> [!NOTE]\n> Share Subscription item is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nReturns the read-only governance policies that constrain the caller's use of the shared data for the specified Share Subscription. When the Share Subscription has not been synchronized, the collection is empty.\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nThe caller must have *read* permissions for the Share Subscription.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All\n\n## Required Tenant Settings\n\nTo use this API, enable the *Enable Share Subscription*, *Enable Share Item*, and *Users can accept external data shares* admin switches for the calling principal.\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_List_Share_Policies_(beta)",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "shareSubscriptionId",
+            "description": "The Share Subscription ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "name": "beta",
+            "in": "query",
+            "required": true,
+            "type": "boolean",
+            "description": "This required parameter must be set to `true` to access this API, which is currently in beta."
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/ProvisionedSharePolicies"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested Share Subscription was not found.\n\n* InvalidToken - The supplied continuation token is malformed.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List provisioned Share Subscription policies example": {
+            "$ref": "./examples/ListProvisionedSharePolicies.json"
+          }
+        }
+      }
     }
   },
   "responses": {},

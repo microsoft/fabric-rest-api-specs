@@ -170,7 +170,7 @@
             }
           },
           "default": {
-            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.\n\n* LockConflict - The SQL analytics endpoint is busy with another lock-holding operation.",
             "schema": {
               "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
@@ -188,6 +188,233 @@
           },
           "Refresh selective tables with user defined schemas for a specified SQL analytics endpoint in a workspace": {
             "$ref": "./examples/RefreshSelectiveTablesWithUserDefinedSchemas.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/sqlEndpoints/{itemId}/metadataSyncMigrationStatus": {
+      "get": {
+        "summary": "Gets the metadata sync migration status of the specified SQL analytics endpoint.",
+        "description": "> [!NOTE]\n> Metadata sync migration is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nReturns the current synchronization architecture version, the direction of any migration in progress, and the results of the most recent completed migration attempt.\n\n## Permissions\n\nThe caller must have *read* permissions for the SQL analytics endpoint item.\n\n## Required Delegated Scopes\n\nItem.Read.All or Item.ReadWrite.All or SQLEndpoint.Read.All or SQLEndpoint.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_GetSqlEndpointMetadataSyncMigrationStatus",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "description": "The SQL analytics endpoint ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/MetadataSyncMigrationStatus"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get metadata sync migration status example": {
+            "$ref": "./examples/GetSqlEndpointMetadataSyncMigrationStatus.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/sqlEndpoints/{itemId}/preflightMetadataSyncUpgrade": {
+      "post": {
+        "summary": "Assesses the specified SQL analytics endpoint for a metadata sync upgrade.",
+        "description": "> [!NOTE]\n> Metadata sync migration is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nRuns a readiness assessment without converting any table and returns blocking issues and table eligibility counts.\n\n## Permissions\n\nThe caller must have *write* permission on the SQL analytics endpoint item.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All or SQLEndpoint.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_PreflightSqlEndpointMetadataSyncUpgrade",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "description": "The SQL analytics endpoint ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/MetadataSyncMigrationPreflightResult"
+            }
+          },
+          "202": {
+            "description": "Request accepted, metadata sync upgrade assessment in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.\n\n* LockConflict - The SQL analytics endpoint is busy with another lock-holding operation.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Preflight metadata sync upgrade example": {
+            "$ref": "./examples/PreflightSqlEndpointMetadataSyncUpgrade.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/sqlEndpoints/{itemId}/upgradeMetadataSync": {
+      "post": {
+        "summary": "Upgrades metadata sync for the specified SQL analytics endpoint.",
+        "description": "> [!NOTE]\n> Metadata sync migration is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nThis API supports [long running operations (LRO)](/rest/api/fabric/articles/long-running-operation).\n\nMigrates the endpoint's tables from the v1 regular-table architecture to the v2 external-table architecture. Repeated invocations reattempt only tables that have not reached v2.\n\n## Permissions\n\nThe caller must have *write* permission on the SQL analytics endpoint item.\n\n## Required Delegated Scopes\n\nItem.ReadWrite.All or SQLEndpoint.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_UpgradeSqlEndpointMetadataSync",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-fabric-sdk-long-running-operation": true,
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "description": "The SQL analytics endpoint ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.",
+            "schema": {
+              "$ref": "./definitions.json#/definitions/MetadataSyncMigrationResult"
+            }
+          },
+          "202": {
+            "description": "Request accepted, metadata sync upgrade in progress.\n\n---\n**Headers:**\n\n**Location** `string` - The URL of the operation status, which can be used to track the operation state.\n\n**x-ms-operation-id** `string (uuid)` - The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.\n\n**Retry-After** `integer` - The number of seconds to wait before retrying the request.",
+            "headers": {
+              "Location": {
+                "description": "The URL of the operation status, which can be used to track the operation state.",
+                "type": "string"
+              },
+              "x-ms-operation-id": {
+                "description": "The operation ID which can be used with long running operations (LRO) APIs to track the operation state and get the result.",
+                "type": "string",
+                "format": "uuid"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The requested item was not found.\n\n* LockConflict - The SQL analytics endpoint is busy with another lock-holding operation.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Upgrade metadata sync example": {
+            "$ref": "./examples/UpgradeSqlEndpointMetadataSync.json"
           }
         }
       }

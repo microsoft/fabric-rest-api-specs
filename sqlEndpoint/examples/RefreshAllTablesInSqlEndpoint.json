@@ -12,6 +12,7 @@
             "startDateTime": "2025-08-08T10:31:22.2708973Z",
             "endDateTime": "2025-08-08T10:36:54.9651741Z",
             "status": "Success",
+            "syncArchitectureVersion": "V2",
             "lastSuccessfulSyncDateTime": "2025-08-08T10:36:54.9651741Z"
           },
           {
@@ -19,6 +20,7 @@
             "startDateTime": "2025-08-08T10:31:22.2708973Z",
             "endDateTime": "2025-08-08T10:43:02.5329616Z",
             "status": "Failure",
+            "syncArchitectureVersion": "V1",
             "error": {
               "errorCode": "AdalRetryException",
               "message": "Couldn't run query. There is a problem with the Microsoft Entra ID token. Have the warehouse owner log in again. If they're unavailable, use the takeover feature."
@@ -30,6 +32,7 @@
             "startDateTime": "2025-08-08T10:31:22.2708973Z",
             "endDateTime": "2025-08-08T10:36:59.9183509Z",
             "status": "NotRun",
+            "syncArchitectureVersion": "V1",
             "lastSuccessfulSyncDateTime": "2025-08-06T08:32:53.3890146Z"
           }
         ]

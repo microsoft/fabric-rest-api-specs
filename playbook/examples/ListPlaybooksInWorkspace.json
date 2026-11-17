@@ -1,0 +1,30 @@
+{
+  "parameters": {
+    "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229",
+    "recursive": true
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "value": [
+          {
+            "id": "7e528b21-3d0f-4b79-9451-b7f67905e35d",
+            "displayName": "Institutional Knowledge Playbook",
+            "description": "Organizes approved institutional knowledge for the research organization.",
+            "type": "Playbook",
+            "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229"
+          },
+          {
+            "id": "2d5bbf50-5ac1-4b31-aaf9-f25c83c65dc7",
+            "displayName": "Engineering Practices Playbook",
+            "description": "Organizes engineering standards and onboarding guidance.",
+            "type": "Playbook",
+            "workspaceId": "cfafbeb1-8037-4d0c-896e-a46fb27ff229"
+          }
+        ],
+        "continuationToken": "LDEsMTAwMDAwLDA%3D",
+        "continuationUri": "https://api.fabric.microsoft.com/v1/workspaces/cfafbeb1-8037-4d0c-896e-a46fb27ff229/playbooks?continuationToken=LDEsMTAwMDAwLDA%253D"
+      }
+    }
+  }
+}
