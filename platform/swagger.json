@@ -7609,7 +7609,7 @@
             }
           },
           "default": {
-            "description": "Common error codes:\n\n* ItemNotFound - Indicates that the server can't find the requested item.\n\n* PreconditionFailed -Indicates that the current resource ETag doesn't match the value specified in the If-Match header.",
+            "description": "Common error codes:\n\n* ItemNotFound - Indicates that the server can't find the requested item.\n\n* PreconditionFailed -Indicates that the current resource ETag doesn't match the value specified in the If-Match header.\n\n* DataAccessRoleChangeRestrictedByPolicy - Indicates that the tenant's Manage OneLake data access roles policy doesn't allow the caller to change data access roles on this item.",
             "schema": {
               "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
@@ -7744,7 +7744,7 @@
             }
           },
           "default": {
-            "description": "Common error codes:\n\n* ItemNotFound - Indicates that the server cannot find the requested item.\n\n* PreconditionFailed - Indicates that the current resource ETag doesn't match the value specified in the If-Match header.\n\n* Conflict - There are conflicting role assignments and the conflict policy is set to Abort.",
+            "description": "Common error codes:\n\n* ItemNotFound - Indicates that the server cannot find the requested item.\n\n* PreconditionFailed - Indicates that the current resource ETag doesn't match the value specified in the If-Match header.\n\n* Conflict - There are conflicting role assignments and the conflict policy is set to Abort.\n\n* DataAccessRoleChangeRestrictedByPolicy - Indicates that the tenant's Manage OneLake data access roles policy doesn't allow the caller to change data access roles on this item.",
             "schema": {
               "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
@@ -7899,7 +7899,7 @@
             }
           },
           "default": {
-            "description": "Common error codes:\n\n* ItemNotFound - Indicates that the server cannot find the requested item.\n\n* RoleNotFound - Indicates that the specified role was not found.",
+            "description": "Common error codes:\n\n* ItemNotFound - Indicates that the server cannot find the requested item.\n\n* RoleNotFound - Indicates that the specified role was not found.\n\n* DataAccessRoleChangeRestrictedByPolicy - Indicates that the tenant's Manage OneLake data access roles policy doesn't allow the caller to change data access roles on this item.",
             "schema": {
               "$ref": "../common/definitions.json#/definitions/ErrorResponse"
             }
@@ -7908,6 +7908,125 @@
         "x-ms-examples": {
           "Delete data access role example": {
             "$ref": "./examples/platform/DeleteDataAccessRole.json"
+          }
+        }
+      }
+    },
+    "/workspaces/{workspaceId}/items/{itemId}/principalDataAccessRecords": {
+      "get": {
+        "summary": "Gets the principal access records for a principal on an item.",
+        "description": "> [!NOTE]\n> Principal access records is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nReturns the consolidated effective access of the specified principal on a given item: the permitted and denied paths, the level of access, and the column-level (CLS) and row-level (RLS) security constraints, computed at query time across all applicable roles.\n\nThis API supports [pagination](/rest/api/fabric/articles/pagination).\n\n## Permissions\n\nA workspace *admin* or *member* can query the effective access of any principal. A workspace *viewer* or *contributor* can query only their own effective access, in which case `principalId` must match the caller's own object identifier.\n\n## Required Delegated Scopes\n\nOneLake.Read.All or OneLake.ReadWrite.All\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "tags": [
+          "OneLakeDataAccessSecurity"
+        ],
+        "operationId": "OneLakeDataAccessSecurity_GetPrincipalAccessRecords",
+        "produces": [
+          "application/json"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "continuationUri"
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workspaceId",
+            "description": "The workspace ID.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "description": "The ID of the Fabric item to evaluate access on.",
+            "type": "string",
+            "format": "uuid",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "principalId",
+            "description": "The object ID of the principal whose effective access is evaluated. A workspace viewer or contributor may only specify their own object ID. If omitted, default value is the caller's id",
+            "type": "string",
+            "format": "uuid",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rootPath",
+            "description": "Scopes results to entries under a known customer-facing root path (Right now, only `Tables` or `Files` are accepted). When omitted, results cover the entire item. Wildcards aren't supported, and unrecognized paths are rejected.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "expandTables",
+            "description": "When `true`, resolves high-level table grants into individual expanded table entries. Only valid when `rootPath` scopes to tables.",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "The requested number of entries to return per page. The default is 500 and the server-enforced maximum is 1000. Larger values are clamped to the maximum.",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "continuationToken",
+            "description": "A token for retrieving the next page of results.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "description": "An ETag value. The ETag must be specified in quotes. If provided, the call will succeed only if the resource's ETag matches the provided ETag.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "If-None-Match",
+            "description": "An ETag value. The ETag must be specified in quotes. If provided, the call will succeed only if the resource's ETag doesn't match the provided ETag.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed successfully.\n\n---\n**Headers:**\n\n**ETag** `string` - The entity tag representing the computed access state, used for change detection and concurrency control.",
+            "schema": {
+              "$ref": "./definitions/platform.json#/definitions/DataAccessRolePrincipalAccess"
+            }
+          },
+          "429": {
+            "description": "The service rate limit was exceeded. The server returns a `Retry-After` header indicating, in seconds, how long the client must wait before sending additional requests.",
+            "x-ms-error-response": true,
+            "headers": {
+              "Retry-After": {
+                "type": "integer",
+                "description": "The number of seconds to wait before retrying the request."
+              }
+            },
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Common error codes:\n\n* ItemNotFound - The server can't find the requested item.\n\n* FolderPathNotFound - The specified root path was not found.\n\n* InputPathInvalid - The specified root path was malformed or contained a wildcard.\n\n* PreconditionFailed - The current resource ETag doesn't match the value specified in the If-Match header.\n\n* InsufficientPermissions - The caller doesn't have sufficient permissions to query the requested principal's access.",
+            "schema": {
+              "$ref": "../common/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get principal access example with folders and tables": {
+            "$ref": "./examples/platform/GetPrincipalAccessRecordsWithFoldersAndTables.json"
+          },
+          "Get principal access example with expanded tables": {
+            "$ref": "./examples/platform/GetPrincipalAccessRecordsWithExpandedTables.json"
           }
         }
       }
@@ -12469,7 +12588,7 @@
     "/catalog/search": {
       "post": {
         "summary": "The Catalog Search API enables programmatic discovery of OneLake catalog entries across workspaces. It supports cross-workspace search over catalog metadata and returns results filtered to entries the calling principal is authorized to access. Search results include stable identifiers that are intended to be used with complementary Fabric APIs to retrieve additional details or perform supported actions.",
-        "description": "> [!NOTE]\n> Catalog search is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nA CatalogEntry is a discoverable metadata representation of a Microsoft Fabric entity, currently scoped to workspace items. Catalog entries are intended for metadata discovery only and do not grant access to underlying data or item content.\n\n## Permissions\n\nThe caller can only discover catalog entries for workspaces and items that the caller is authorized to access.\n\n## Required Delegated Scopes\n\nCatalog.Read.All\n\n## Limitations\n\n* `continuationToken` must not be combined with `search` or `filter`. The token already carries those values from the originating request.\n\n* `pageSize` must be between 1 and 1000.\n\n## Throttling limits\n\n| Limit Type | Value |\n|-|-|\n| [Unified Quota for Platform APIs](https://learn.microsoft.com/en-us/rest/api/fabric/articles/throttling#how-the-quota-model-works) | 500 calls/min |\n| API limit | 50 calls/min |\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
+        "description": "> [!NOTE]\n> Catalog search is currently in Preview ([learn more](/fabric/fundamentals/preview)).\n\nA CatalogEntry is a discoverable metadata representation of a Microsoft Fabric entity. Catalog entries are intended for metadata discovery only and do not grant access to underlying data or item content.\n\n## Permissions\n\nCatalog search returns only entries for which the calling principal has Read or higher control-plane permissions. For objects such as tables, this permission is checked on the parent item.\n\n## Required Delegated Scopes\n\nCatalog.Read.All\n\n## Limitations\n\n* `continuationToken` must not be combined with `search` or `filter`. The token already carries those values from the originating request.\n\n* `pageSize` must be between 1 and 1000.\n\n## Throttling limits\n\n| Limit Type | Value |\n|-|-|\n| [Unified Quota for Platform APIs](https://learn.microsoft.com/en-us/rest/api/fabric/articles/throttling#how-the-quota-model-works) | 500 calls/min |\n| API limit | 50 calls/min |\n\n## Microsoft Entra supported identities\n\nThis API supports the Microsoft [identities](/rest/api/fabric/articles/identity-support) listed in this section.\n\n| Identity | Support |\n|-|-|\n| User | Yes |\n| [Service principal](/entra/identity-platform/app-objects-and-service-principals#service-principal-object) and [Managed identities](/entra/identity/managed-identities-azure-resources/overview) | Yes |\n\n## Interface",
         "tags": [
           "Catalog"
         ],

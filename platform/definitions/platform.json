@@ -67,13 +67,12 @@
           "type": "string",
           "format": "uuid",
           "readOnly": true
-          },
+        },
         "tags": {
           "description": "List of applied tags.",
           "type": "array",
-          "items": 
-          {
-                  "$ref": "../../common/definitions.json#/definitions/WorkspaceAppliedTag"
+          "items": {
+            "$ref": "../../common/definitions.json#/definitions/WorkspaceAppliedTag"
           },
           "readOnly": true
         },
@@ -726,7 +725,7 @@
     "AssignWorkspaceToDomainRequest": {
       "type": "object",
       "description": "A domain assignment request.",
-      "required": ["domainId"],
+      "required": [ "domainId" ],
       "properties": {
         "domainId": {
           "description": "The ID of the domain the workspace should be assigned to.",
@@ -754,43 +753,43 @@
       ]
     },
     "BulkExportItemDefinitionsRequest": {
-        "description": "Bulk export item definitions request payload.",
-        "type": "object",
-        "required": ["mode"],
-        "properties": {
-            "items": {
-                "type": "array",
-                "description": "A list of item identifiers to retrieve",
-                "items": {
-                    "$ref": "#/definitions/ExportItemIdentifier"
-                }
-            },
-            "mode":{
-                "description": "The mode for bulk export item definitions operation",
-                "$ref": "#/definitions/BulkExportItemDefinitionsMode"
-            }
+      "description": "Bulk export item definitions request payload.",
+      "type": "object",
+      "required": [ "mode" ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "A list of item identifiers to retrieve",
+          "items": {
+            "$ref": "#/definitions/ExportItemIdentifier"
+          }
+        },
+        "mode": {
+          "description": "The mode for bulk export item definitions operation",
+          "$ref": "#/definitions/BulkExportItemDefinitionsMode"
         }
+      }
     },
     "BulkExportItemDefinitionsResponse": {
-        "description": "Bulk export item definitions response by definitions' parts.",
-        "properties": {
-            "itemDefinitionsIndex": {
-                "description": "A list of item definition index entries.",
-                "type": "array",
-                "items": {
-                    "$ref": "#/definitions/ItemDefinitionIndexEntry"
-                },
-                "readOnly": true
-            },
-            "definitionParts": {
-                "description": "A list of item definition parts.",
-                "type": "array",
-                "items": {
-                    "$ref": "#/definitions/ItemDefinitionPart"
-                },
-                "readOnly": true
-            }
+      "description": "Bulk export item definitions response by definitions' parts.",
+      "properties": {
+        "itemDefinitionsIndex": {
+          "description": "A list of item definition index entries.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemDefinitionIndexEntry"
+          },
+          "readOnly": true
+        },
+        "definitionParts": {
+          "description": "A list of item definition parts.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemDefinitionPart"
+          },
+          "readOnly": true
         }
+      }
     },
     "DeploymentPlanReference": {
         "description": "A reference to a deployment plan item.",
@@ -930,36 +929,36 @@
         }
     },
     "ExportItemIdentifier": {
-        "description": "The item identifier.",
-        "type": "object",
-        "required": ["id"],
-        "properties": {
-            "id": {
-                "description": "The item ID.",
-                "type": "string",
-                "readOnly": false,
-                "format": "uuid"
-            }
+      "description": "The item identifier.",
+      "type": "object",
+      "required": [ "id" ],
+      "properties": {
+        "id": {
+          "description": "The item ID.",
+          "type": "string",
+          "readOnly": false,
+          "format": "uuid"
         }
+      }
     },
     "BulkExportItemDefinitionsMode": {
-        "description": "Modes for the bulk export item definitions operation. Additional modes may be added over time.",
-        "type": "string",
-        "enum": [ "All", "Selective"],
-        "x-ms-enum": {
-            "name": "BulkExportItemDefinitionsMode",
-            "modelAsString": true,
-            "values": [
-                {
-                    "value": "All",
-                    "description": "Export all supported items. The caller is not required to specify the list of items."
-                },
-                {
-                    "value": "Selective",
-                    "description": "Export the specified items' definitions."
-                }
-            ]
-        }
+      "description": "Modes for the bulk export item definitions operation. Additional modes may be added over time.",
+      "type": "string",
+      "enum": [ "All", "Selective" ],
+      "x-ms-enum": {
+        "name": "BulkExportItemDefinitionsMode",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "All",
+            "description": "Export all supported items. The caller is not required to specify the list of items."
+          },
+          {
+            "value": "Selective",
+            "description": "Export the specified items' definitions."
+          }
+        ]
+      }
     },
     "ImportItemDefinitionsDetails" :{
         "description": "The item's definition operation details",
@@ -1000,46 +999,46 @@
         }
     },
     "ItemDefinitionOperationType": {
-        "type": "string",
-        "description": "An item definition operation type. Additional item definition operations may be added over time.",
-        "enum": ["Create", "Update"],
-        "x-ms-enum": {
-            "name": "ItemDefinitionOperationType",
-            "modelAsString": true,
-            "values": [
-                {
-                    "value": "Create",
-                    "description": "The item was created."
-                },
-                {
-                    "value": "Update",
-                    "description": "The item was updated."
-                }
-            ]
-        }
+      "type": "string",
+      "description": "An item definition operation type. Additional item definition operations may be added over time.",
+      "enum": [ "Create", "Update" ],
+      "x-ms-enum": {
+        "name": "ItemDefinitionOperationType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Create",
+            "description": "The item was created."
+          },
+          {
+            "value": "Update",
+            "description": "The item was updated."
+          }
+        ]
+      }
     },
     "ImportItemDefinitionOperationStatus": {
-        "type": "string",
-        "description": "The status of the import item definition operation. Additional import item definition statuses may be added over time.",
-        "enum": ["Succeeded", "Failed", "SucceededDespiteFailures"],
-        "x-ms-enum": {
-            "name": "ImportItemDefinitionOperationStatus",
-            "modelAsString": true,
-            "values": [
-                {
-                    "value": "Succeeded",
-                    "description": "The import item definition operation completed successfully."
-                },
-                {
-                    "value": "Failed",
-                    "description": "The import item definition operation failed."
-                },
-                {
-                    "value": "SucceededDespiteFailures",
-                    "description": "The import item definition operation completed with partial success."
-                }
-            ]
-        }
+      "type": "string",
+      "description": "The status of the import item definition operation. Additional import item definition statuses may be added over time.",
+      "enum": [ "Succeeded", "Failed", "SucceededDespiteFailures" ],
+      "x-ms-enum": {
+        "name": "ImportItemDefinitionOperationStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Succeeded",
+            "description": "The import item definition operation completed successfully."
+          },
+          {
+            "value": "Failed",
+            "description": "The import item definition operation failed."
+          },
+          {
+            "value": "SucceededDespiteFailures",
+            "description": "The import item definition operation completed with partial success."
+          }
+        ]
+      }
     },
     "CreateItemRequest": {
       "description": "Create item request payload.",
@@ -1228,6 +1227,236 @@
         }
       ]
     },
+    "DataAccessRolePrincipalAccess": {
+      "description": "A paginated list of a principal's metadata records on an item, each with the level of access and any column-level and row-level constraints. The effective access state is exposed through the response ETag for change detection and concurrency control.",
+      "required": [ "value" ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "The list of effective access entries. Each entry is a polymorphic object (`Folder` or `Table` or `ExpandedTable`) keyed by the `type` discriminator.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OneLakePrincipalAccessBaseMetadata"
+          },
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../common/definitions.json#/definitions/PaginatedResponse"
+        }
+      ]
+    },
+    "OneLakePrincipalAccessBaseMetadata": {
+      "description": "Base object describing a path that a principal has access to, with the level of access. The concrete subtype is determined by the `type` discriminator: `Folder` or `Table` or `ExpandedTable`. Additional subtypes may be added over time.",
+      "type": "object",
+      "discriminator": "type",
+      "required": [ "type", "path", "access", "effect" ],
+      "properties": {
+        "type": {
+          "description": "The kind of path entry. Additional kinds may be added over time.",
+          "type": "string",
+          "enum": [ "Folder", "Table", "ExpandedTable" ],
+          "x-ms-enum": {
+            "name": "OneLakePrincipalAccessObjectType",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "Folder",
+                "description": "A folder path entry."
+              },
+              {
+                "value": "Table",
+                "description": "A table path entry (possibly covering multiple tables), which may carry column and row constraints grouped by table path."
+              },
+              {
+                "value": "ExpandedTable",
+                "description": "An individual table path entry that may carry row or column constraints."
+              }
+            ]
+          },
+          "readOnly": true
+        },
+        "path": {
+          "description": "The relative path the principal has access to (for example `/Files/MyFolder` or `/Tables/MyTable`).",
+          "type": "string",
+          "readOnly": true
+        },
+        "access": {
+          "description": "The set of actions the principal is permitted to perform on this path (for example `Read`).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "effect": {
+          "description": "The effect given to the item. Allowed values are `Permit` and `Deny`. Additional OneLake principal access effect types may be added over time.",
+          "type": "string",
+          "enum": [ "Permit", "Deny" ],
+          "x-ms-enum": {
+            "name": "OneLakePrincipalAccessEffect",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "Permit",
+                "description": "The effect type is Permit."
+              },
+              {
+                "value": "Deny",
+                "description": "The effect type is Deny."
+              }
+            ]
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "OneLakePrincipalAccessFolderMetadata": {
+      "description": "A folder path entry that a principal has access to.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OneLakePrincipalAccessBaseMetadata"
+        }
+      ],
+      "x-ms-discriminator-value": "Folder"
+    },
+    "OneLakePrincipalAccessTableMetadata": {
+      "description": "A table path, which may scope to an individual table, a schema, or a root level.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OneLakePrincipalAccessBaseMetadata"
+        }
+      ],
+      "x-ms-discriminator-value": "Table",
+      "properties": {
+        "rows": {
+          "description": "The row constraints applied under this path for this principal, keyed by table path.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OneLakePrincipalAccessRow"
+          },
+          "readOnly": true
+        },
+        "columns": {
+          "description": "The column constraints applied under this path for this principal, grouped by table path.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OneLakePrincipalAccessTableColumns"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "OneLakePrincipalAccessExpandedTableMetadata": {
+      "description": "An individual table path entry that may carry row or column constraints.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OneLakePrincipalAccessBaseMetadata"
+        }
+      ],
+      "x-ms-discriminator-value": "ExpandedTable",
+      "properties": {
+        "rowsConstraint": {
+          "description": "The row constraints applied to this table for this principal.",
+          "type": "string",
+          "readOnly": true
+        },
+        "columnConstraints": {
+          "description": "The column constraints applied to this table for this principal.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OneLakePrincipalRolesMetadataColumn"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "OneLakePrincipalRolesMetadataColumn": {
+      "description": "A single column-level constraint entry returned in principal access metadata.",
+      "required": [ "name", "columnEffect", "columnAction" ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The case sensitive name of the column from the associated table. Use `*` to indicate all columns in the table.",
+          "type": "string",
+          "readOnly": true
+        },
+        "columnEffect": {
+          "description": "The effect given to the column. The only allowed value is *Permit*. Additional columnEffect types may be added over time.",
+          "type": "string",
+          "enum": [ "Permit" ],
+          "x-ms-enum": {
+            "name": "ColumnEffect",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "Permit",
+                "description": "The ColumnEffect type Permit"
+              }
+            ]
+          },
+          "readOnly": true
+        },
+        "columnAction": {
+          "description": "The array of actions applied to the column. This determines which actions a principal will be able to perform on the column. The allowed values are: *Read*. Additional columnAction types may be added over time.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [ "Read" ],
+            "x-ms-enum": {
+              "name": "ColumnAction",
+              "modelAsString": true,
+              "values": [
+                {
+                  "value": "Read",
+                  "description": "The ColumnAction value Read"
+                }
+              ]
+            }
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "OneLakePrincipalAccessRow": {
+      "description": "A single row-level constraint: a filter expression that applies to a specific table path.",
+      "type": "object",
+      "properties": {
+        "tablePath": {
+          "description": "Path of the table the row-level filter applies to.",
+          "type": "string",
+          "readOnly": true
+        },
+        "rowsConstraint": {
+          "description": "Row-level constraint expression (e.g., a SQL predicate).",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "OneLakePrincipalAccessTableColumns": {
+      "description": "Column-level constraints grouped by the table path they apply to.",
+      "type": "object",
+      "properties": {
+        "tablePath": {
+          "description": "Path of the table the column constraints apply to.",
+          "type": "string",
+          "readOnly": true
+        },
+        "columnConstraints": {
+          "description": "Per-column constraint entries for this table path.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OneLakePrincipalRolesMetadataColumn"
+          },
+          "readOnly": true
+        }
+      }
+    },
     "CreateOrUpdateDataAccessRolesRequest": {
       "description": "Contains definition of Roles that are used to manage data access security and ensure that only authorized users can view, edit, or delete certain data. Calling this API updates role definitions and creates, updates, or deletes roles to match the provided payload.",
       "type": "object",
@@ -1328,7 +1557,7 @@
         },
         "constraints": {
           "description": "Any constraints such as row or column level security that are applied to tables as part of this role. If not included, no constraints apply to any tables in the role. ",
-          "type": "object" ,
+          "type": "object",
           "properties": {
             "columns": {
               "description": "The array of column constraints applied to one or more tables in the data access role.",
@@ -1384,7 +1613,7 @@
     "ColumnConstraint": {
       "description": "ColumnConstraint indicates a constraint that determines the permissions and visibility a user has on columns within a table.",
       "type": "object",
-      "required": ["tablePath", "columnNames", "columnAction", "columnEffect"],
+      "required": [ "tablePath", "columnNames", "columnAction", "columnEffect" ],
       "properties": {
         "tablePath": {
           "description": "A relative file path specifying which table the column constraint applies to. This should be in the form of `/Tables/{optionalSchema}/{tableName}`. Only one value can be given here and the tableName must be a table included in the PermissionScope.",
@@ -1399,25 +1628,25 @@
         },
         "columnEffect": {
           "description": "The effect given to the columnNames. The only allowed value is *Permit*. Additional columnEffect types may be added over time.",
-            "type": "string",
-            "enum": [ "Permit" ],
-            "x-ms-enum": {
-              "name": "ColumnEffect",
-              "modelAsString": true,
-              "values": [
-                {
-                  "value": "Permit",
-                  "description": "The ColumnEffect type Permit"
-                }
-              ]
-            }
+          "type": "string",
+          "enum": [ "Permit" ],
+          "x-ms-enum": {
+            "name": "ColumnEffect",
+            "modelAsString": true,
+            "values": [
+              {
+                "value": "Permit",
+                "description": "The ColumnEffect type Permit"
+              }
+            ]
+          }
         },
         "columnAction": {
           "description": "The array of actions applied to the columnNames. This determines which actions a user will be able to perform on columns. The allowed values are: *Read*. Additional columnAction types may be added over time.",
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["Read"],
+            "enum": [ "Read" ],
             "x-ms-enum": {
               "name": "ColumnAction",
               "modelAsString": true,
@@ -1435,17 +1664,17 @@
     "RowConstraint": {
       "description": "RowConstraint indicates a constraint that determines the rows in a table that users can see. Roles defined with RowConstraints use T-SQL to define a predicate that filters data in a table. Rows that do not meet the predicate’s conditions are filtered out, leaving a subset of the original rows. RowConstraints can also be used to specify dynamic and multi-table flavors of RLS using T-SQL.",
       "type": "object",
-      "required": ["tablePath", "value"],
-        "properties": {
-          "tablePath": {
-            "description": "A relative file path specifying which table the row constraint applies to. This should be in the form of `/Tables/{optionalSchema}/{tableName}`. Only one value can be given here and the tableName must be a table included in the PermissionScope.",
-            "type": "string"
-          },
-          "value": {
-            "description": "A T-SQL expression that is used to evaluate which rows the role members can see. Only a subset of T-SQL can be used as a predicate.",
-            "type": "string"
-          }
+      "required": [ "tablePath", "value" ],
+      "properties": {
+        "tablePath": {
+          "description": "A relative file path specifying which table the row constraint applies to. This should be in the form of `/Tables/{optionalSchema}/{tableName}`. Only one value can be given here and the tableName must be a table included in the PermissionScope.",
+          "type": "string"
+        },
+        "value": {
+          "description": "A T-SQL expression that is used to evaluate which rows the role members can see. Only a subset of T-SQL can be used as a predicate.",
+          "type": "string"
         }
+      }
     },
     "Members": {
       "description": "The members object which contains the members of the role as arrays of different member types.",
@@ -2132,11 +2361,11 @@
           "type": "object"
         },
         "parameters": {
-            "description": "The parameter list for an on-demand job. These are per-run, user-defined inputs that tailor this invocation. Note: This property is not broadly supported. If the API returns an error with errorCode `FeatureNotAvailable` and errorMessage `Parameter is not allowed for this item type or this item job type`, the `parameters` property is not supported for the specified item type or item job type.",
-            "type": "array",
-            "items": {
-                "$ref": "../../common/job_scheduling.json#/definitions/Parameter"
-            }
+          "description": "The parameter list for an on-demand job. These are per-run, user-defined inputs that tailor this invocation. Note: This property is not broadly supported. If the API returns an error with errorCode `FeatureNotAvailable` and errorMessage `Parameter is not allowed for this item type or this item job type`, the `parameters` property is not supported for the specified item type or item job type.",
+          "type": "array",
+          "items": {
+            "$ref": "../../common/job_scheduling.json#/definitions/Parameter"
+          }
         }
       }
     },
@@ -2484,7 +2713,7 @@
     "Domain": {
       "type": "object",
       "description": "Represents a domain.",
-      "required": ["id", "displayName", "description"],
+      "required": [ "id", "displayName", "description" ],
       "properties": {
         "id": {
           "type": "string",
@@ -2509,7 +2738,7 @@
     "Domains": {
       "type": "object",
       "description": "A response wrapper for a list of domains.",
-      "required": ["value"],
+      "required": [ "value" ],
       "properties": {
         "value": {
           "type": "array",
@@ -2876,9 +3105,9 @@
       "required": [ "assignmentType" ],
       "properties": {
         "assignmentType": {
-            "description": "The type of subject that makes an associaste identity request.",
-            "$ref": "#/definitions/IdentityAssignmentType",
-            "readOnly": false
+          "description": "The type of subject that makes an associaste identity request.",
+          "$ref": "#/definitions/IdentityAssignmentType",
+          "readOnly": false
         }
       }
     },
@@ -3029,7 +3258,7 @@
       "description": "The status of an identity assignment to an item.",
       "type": "object",
       "required": [ "itemId", "status" ],
-       "properties": {
+      "properties": {
         "itemId": {
           "description": "The ID of the item.",
           "type": "string",

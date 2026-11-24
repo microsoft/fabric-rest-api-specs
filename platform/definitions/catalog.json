@@ -9,14 +9,9 @@
     "CatalogEntry": {
       "type": "object",
       "description": "A catalog entry object.",
-      "required": ["id", "catalogEntryType", "displayName"],
+      "required": ["catalogEntryType", "displayName"],
       "discriminator": "catalogEntryType",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "The objectId of the catalog entry.",
-          "format": "uuid"
-        },
          "displayName": {
           "type": "string",
           "description": "The catalog entry display name."
@@ -34,7 +29,7 @@
     "CatalogEntryType": {
       "type": "string",
       "description": "The catalog entry type. Additional `CatalogEntryType` types may be added over time.",
-      "enum": ["FabricItem", "Workspace"],
+      "enum": ["FabricItem", "Workspace", "Object"],
       "x-ms-enum": {
         "name": "CatalogEntryType",
         "modelAsString": true,
@@ -46,6 +41,10 @@
           {
             "value": "Workspace",
             "description": "A workspace catalog entry type."
+          },
+          {
+            "value": "Object",
+            "description": "An object catalog entry type. Currently tables inside a Fabric item; may be extended to more object kinds in the future."
           }
         ]
       }
@@ -54,9 +53,16 @@
       "description": "The catalog metadata representation of a Fabric item.",
       "type": "object",
       "required": [
+        "id",
         "type"
       ],
       "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The unique identifier of the Fabric item.",
+          "readOnly": true
+        },
         "type": {
           "description": "The Fabric item type.",
           "type": "string",
@@ -75,6 +81,115 @@
       ],
       "x-ms-discriminator-value": "FabricItem"
     },
+    "ObjectCatalogEntry": {
+      "description": "The catalog metadata representation of an object contained by a Fabric item. Tables are the initial object type; more object kinds may be added over time. A table entry is also returned when the search text matches one of its column names or descriptions. Table objects currently have parent items of type `Lakehouse`, `SemanticModel`, or `MirroredDatabase`. Object entries carry no endorsement or sensitivity label; governance metadata belongs to the owning item.",      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The object identifier. This is not a GUID.",
+          "readOnly": true
+        },
+        "type": {
+          "description": "The object kind. Currently `Table`; may be extended to more object kinds in the future.",
+          "$ref": "#/definitions/ObjectCatalogEntryType",
+          "readOnly": true
+        },
+        "hierarchy": {
+          "description": "The hierarchy of the object catalog entry, containing the item and immediate parent object.",
+          "type": "object",
+          "$ref": "#/definitions/ObjectCatalogEntryHierarchy",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/CatalogEntry"
+        }
+      ],
+      "x-ms-discriminator-value": "Object"
+    },
+    "ObjectCatalogEntryType": {
+      "type": "string",
+      "description": "The object kind reported on an object catalog entry. Additional `ObjectCatalogEntryType` types may be added over time.",
+      "enum": ["Table"],
+      "x-ms-enum": {
+        "name": "ObjectCatalogEntryType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Table",
+            "description": "A table inside a Fabric item."
+          }
+        ]
+      }
+    },
+     "ObjectCatalogEntryHierarchy": {
+      "description": "The immediate ancestors of an object catalog entry. Only applicable levels are returned.",
+      "type": "object",
+      "properties": {
+        "workspace": {
+          "description": "The workspace that contains the object.",
+          "type": "object",
+          "$ref": "#/definitions/CatalogWorkspace",
+          "readOnly": true
+        },
+        "item": {
+          "description": "The Fabric item that owns the object.",
+          "type": "object",
+          "$ref": "#/definitions/CatalogItem",
+          "readOnly": true
+        },
+        "object": {
+          "description": "The immediate parent object, for example the schema that owns a table. Returned only when an intermediate parent exists.",
+          "type": "object",
+          "$ref": "#/definitions/CatalogObject",
+          "readOnly": true
+        }
+      }
+    },
+    "CatalogItem": {
+      "description": "The Fabric item that owns a catalog object.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The ID of the item.",
+          "type": "string",
+          "format": "uuid",
+          "readOnly": true
+        },
+        "type": {
+          "description": "The owning item's type.",
+          "type": "string",
+          "$ref": "../../common/definitions.json#/definitions/ItemType",        
+          "readOnly": true
+        }
+      }
+    },
+    "CatalogObject": {
+      "description": "An object inside a Fabric item, such as the schema that contains a table.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "The display name of the object.",
+          "type": "string",
+          "readOnly": true
+        },
+        "id": {
+          "description": "The object identifier. This is not a GUID.",
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "description": "The object kind, for example `Schema`.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
     "ItemCatalogEntryHierarchy": {
       "description": "The immediate ancestors of the item in Fabric's data architecture. Only applicable levels are returned.",
       "type": "object",
@@ -90,9 +205,16 @@
       "description": "The catalog metadata representation of a Fabric workspace.",
       "type": "object",
       "required": [
+        "id",
         "type"
       ],
       "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The unique identifier of the workspace.",
+          "readOnly": true
+        },
         "type": {
           "description": "The catalog entry type. Always `Workspace` for workspace catalog entries.",
           "$ref": "#/definitions/WorkspaceCatalogEntryType"

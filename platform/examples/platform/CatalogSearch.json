@@ -2,8 +2,8 @@
     "parameters": {
         "catalogQueryRequest": {
             "search": "sales",
-            "pageSize": 3,
-            "filter": "Type eq 'Report' or Type eq 'Lakehouse' or Type eq 'Workspace'"
+            "pageSize": 4,
+            "filter": "Type eq 'Report' or Type eq 'Lakehouse' or Type eq 'Workspace' or Type eq 'Table'"
         }
     },
     "responses": {
@@ -42,6 +42,26 @@
                         "catalogEntryType": "Workspace",
                         "displayName": "Sales Analytics",
                         "description": "Workspace for the sales analytics team."
+                    },
+                    {
+                        "id": "5e8f2a1b-9c3d-4e7f-b6a5-d4c3b2a1e0f9_Zm9vYmFyYmF6cXV4MTIzNDU2Nzg5MGFiY2RlZmdoaWo",
+                        "type": "Table",
+                        "catalogEntryType": "Object",
+                        "displayName": "FactSalesRevenue",
+                        "hierarchy": {
+                            "workspace": {
+                                "id": "a2b3c4d5-e6f7-4a8b-9c0d-1e2f3a4b5c6d"
+                            },
+                            "item": {
+                                "id": "5e8f2a1b-9c3d-4e7f-b6a5-d4c3b2a1e0f9",
+                                "type": "Lakehouse"
+                            },
+                            "object": {
+                                "id": "5e8f2a1b-9c3d-4e7f-b6a5-d4c3b2a1e0f9_c2NoZW1hZGJvaGFzaHZhbHVlZXhhbXBsZTEyMzQ1Njc",
+                                "displayName": "dbo",
+                                "type": "Schema"
+                            }
+                        }
                     }
                 ],
                 "continuationToken": "eyJza2lwIjozLCJ0YWtl..."
